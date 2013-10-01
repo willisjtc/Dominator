@@ -11,7 +11,6 @@ public class Copper extends TreasureCard {
 
 	@Override
 	public int getCost() {
-		return CardConstants.COPPER_COST;
+		return CardConstants.COST_ZERO;
 	}
-
 }

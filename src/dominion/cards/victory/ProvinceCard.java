@@ -12,6 +12,6 @@ public class ProvinceCard extends VictoryCard {
 	
 	@Override
 	public int getCost() {
-		return CardConstants.PROVINCE_COST;
+		return CardConstants.COST_EIGHT;
 	}
 }

@@ -1,32 +1,23 @@
-package dominion.cards.victory;
+package dominion.cards.action;
 
 import dominion.cards.Card;
 import dominion.cards.CardBase;
 
-public abstract class VictoryCard extends Card implements VictoryBase, CardBase {
+public abstract class ActionCard extends Card implements ActionBase, CardBase {
 	
-	@Override
 	public boolean isAction() {
-		return false;
+		return true;
 	}
-
-	@Override
 	public boolean isAttack() {
 		return false;
 	}
-	
-	@Override
 	public boolean isReaction() {
 		return false;
 	}
-
-	@Override
 	public boolean isTreasure() {
 		return false;
 	}
-
-	@Override
 	public boolean isVictory() {
-		return true;
+		return false;
 	}
 }

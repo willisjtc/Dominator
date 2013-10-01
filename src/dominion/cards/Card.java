@@ -1,10 +1,10 @@
 package dominion.cards;
 
-import dominion.cards.treasure.TreasureValue;
-import dominion.cards.victory.VictoryPoints;
+import dominion.cards.treasure.TreasureBase;
+import dominion.cards.victory.VictoryBase;
 
 
-public class Card implements CardBase, VictoryPoints, TreasureValue {
+public abstract class Card implements CardBase, VictoryBase, TreasureBase {
 	private Card card;
 	
 	public int getCost() {
@@ -12,13 +12,8 @@ public class Card implements CardBase, VictoryPoints, TreasureValue {
 	}
 
 	@Override
-	public CardType getCardType() {
-		return card.getCardType();
-	}
-
-	@Override
 	public int getPoints() throws NoSuchMethodException {
-		if (!card.getCardType().equals(CardType.Victory)) {
+		if (!card.isVictory()) {
 			throw new NoSuchMethodException();
 		}
 		return card.getPoints();
@@ -26,9 +21,34 @@ public class Card implements CardBase, VictoryPoints, TreasureValue {
 
 	@Override
 	public int getValue() throws NoSuchMethodException {
-		if (!card.getCardType().equals(CardType.Victory)) {
+		if (!card.isVictory()) {
 			throw new NoSuchMethodException();
 		}
 		return card.getValue();
+	}
+
+	@Override
+	public boolean isAction() {
+		return false;
+	}
+
+	@Override
+	public boolean isAttack() {
+		return false;
+	}
+
+	@Override
+	public boolean isReaction() {
+		return false;
+	}
+
+	@Override
+	public boolean isTreasure() {
+		return false;
+	}
+
+	@Override
+	public boolean isVictory() {
+		return false;
 	}
 }

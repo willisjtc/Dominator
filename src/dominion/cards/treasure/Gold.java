@@ -11,7 +11,6 @@ public class Gold extends TreasureCard {
 
 	@Override
 	public int getCost() {
-		return CardConstants.GOLD_COST;
+		return CardConstants.COST_SIX;
 	}
-
 }

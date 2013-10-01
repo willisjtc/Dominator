@@ -11,7 +11,6 @@ public class Silver extends TreasureCard {
 
 	@Override
 	public int getCost() {
-		return CardConstants.SILVER_COST;
+		return CardConstants.COST_THREE;
 	}
-
 }

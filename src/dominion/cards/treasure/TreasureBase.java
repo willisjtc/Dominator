@@ -1,6 +1,6 @@
 package dominion.cards.treasure;
 
-public interface TreasureValue {
+public interface TreasureBase {
 
 	public int getValue() throws NoSuchMethodException;
 }

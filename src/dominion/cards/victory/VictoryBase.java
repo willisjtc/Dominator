@@ -1,5 +1,5 @@
 package dominion.cards.victory;
 
-public interface VictoryPoints {
+public interface VictoryBase {
 	public int getPoints() throws NoSuchMethodException;
 }
