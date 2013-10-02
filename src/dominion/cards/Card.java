@@ -7,9 +7,7 @@ import dominion.cards.victory.VictoryBase;
 public abstract class Card implements CardBase, VictoryBase, TreasureBase {
 	private Card card;
 	
-	public int getCost() {
-		return card.getCost();
-	}
+	public abstract int getCost();
 
 	@Override
 	public int getPoints() throws NoSuchMethodException {

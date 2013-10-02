@@ -12,7 +12,7 @@ public class EstateCard extends VictoryCard {
 
 	@Override
 	public int getCost() {
-		return CardConstants.COST_TWO;
+		return CardConstants.TWO;
 	}
 
 }
