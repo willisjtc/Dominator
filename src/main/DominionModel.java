@@ -1,67 +1,84 @@
 package main;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import dominion.cards.Card;
+import dominion.cards.action.KingdomCards;
+import dominion.cards.expansion.Expansion;
+import dominion.cards.trash.Trash;
+import dominion.cards.treasure.Treasures;
+import dominion.cards.victory.VictoryCards;
 import dominion.player.Player;
 
 public class DominionModel {
 	private File saveFile;
-	private List<Card> treasureCards;
-	private List<Card> victoryCards;
-	private List<Card> kingdomCards;
-	private Integer playerTurn;
-	private List<Integer> scores;
+	private Treasures treasureCards;
+	private VictoryCards victoryCards;
+	private KingdomCards kingdomCards;
+	private Trash trash;
+	private List<Expansion> expansions;
 	private List<Player> players;
-	private List<Card> trashCards;
+	private Integer playerTurn;
 	
-	public Integer getPlayerTurn() {
-		return playerTurn;
+	public DominionModel(List<Expansion> exps) {
+		expansions = exps;
 	}
 	
 	public void setPlayerTurn(int playerTurn) {
 		playerTurn = new Integer(playerTurn);
 	}
 
-	public List<Player> getPlayers() {
+	public Integer getPlayerTurn() {
+		return playerTurn;
+	}
+	
+	public Collection<Player> getPlayers() {
 		return players;
 	}
 
-	public List<Card> getTrashCards() {
-		return trashCards;
+	public Player getPlayer(String name) {
+		// TODO 
+		return null;
+	}
+	
+	public Player getPlayer(Integer index) {
+		// TODO
+		return null;
+	}
+	
+	public Card getVictoryCard(String name) {
+		// TODO
+		return victoryCards.getVictoryCard(name);
+	}
+	
+	public Trash getTrashCards() {
+		return trash;
+	}
+	
+	public VictoryCards getVictoryCards() {
+		return victoryCards;
 	}
 
-	public List<Card> getTreasureCards() {
+	public KingdomCards getKingdomCards() {
+		return kingdomCards;
+	}
+	
+	public Treasures getTreasures() {
 		return treasureCards;
 	}
 
-	public List<Card> getVictoryCards() {
-		return victoryCards;
-	}
-	
-	public void removeCard() {
-		
-	}
-
-	public List<Card> getKingdomCards() {
-		return kingdomCards;
-	}
-
-	public List<Integer> getScores() {
-		return scores;
-	}
-	
-	public void setFileName(String fileName) {
-		throw new NotImplementedException();
-	}
-	
 	public String getFileName() {
 		return saveFile.getName();
 	}
 	
 	public void save() {
-		
+		// TODO	
 	}
+	
+	public void setFileName(String fileName) {
+		// TODO
+	}
+	
 }
