@@ -1,6 +1,6 @@
-package dominion.cards;
+package dominion.game;
 
-public class CardConstants {
+public class DominionConstants {
 	public static final int COLONY_POINTS = 10;
 	public static final int PROVINCE_POINTS = 6;
 	public static final int DUCHY_POINTS = 3;

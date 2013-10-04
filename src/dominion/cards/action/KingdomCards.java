@@ -1,7 +1,7 @@
 package dominion.cards.action;
 
-import static dominion.cards.CardConstants.ELEVEN;
-import static dominion.cards.CardConstants.TEN;
+import static dominion.game.DominionConstants.ELEVEN;
+import static dominion.game.DominionConstants.TEN;
 import dominion.cards.Card;
 
 public class KingdomCards {

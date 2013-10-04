@@ -1,8 +1,9 @@
-package dominion.player;
+package dominion.game;
 
 import java.util.List;
 
 import dominion.cards.Card;
+import dominion.cards.CardUtils;
 
 public class Player {
 	private String name;
@@ -17,7 +18,7 @@ public class Player {
 	
 	public void draw() {
 		if (deck.size() == 0) {
-			Card.shuffle(deck, discard);
+			CardUtils.shuffle(deck, discard);
 		}
 		hand.add(deck.get(0));
 		deck.remove(0);

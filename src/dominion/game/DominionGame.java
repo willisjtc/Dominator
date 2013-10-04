@@ -1,4 +1,4 @@
-package main;
+package dominion.game;
 
 import java.io.File;
 import java.util.Collection;
@@ -10,21 +10,17 @@ import dominion.cards.expansion.Expansion;
 import dominion.cards.trash.Trash;
 import dominion.cards.treasure.Treasures;
 import dominion.cards.victory.VictoryCards;
-import dominion.player.Player;
 
-public class DominionModel {
+public class DominionGame {
 	private File saveFile;
 	private Treasures treasureCards;
 	private VictoryCards victoryCards;
 	private KingdomCards kingdomCards;
 	private Trash trash;
-	private List<Expansion> expansions;
 	private List<Player> players;
 	private Integer playerTurn;
 	
-	public DominionModel(List<Expansion> exps) {
-		expansions = exps;
-	}
+	public DominionGame(List<Expansion> exps) { }
 	
 	public void setPlayerTurn(int playerTurn) {
 		playerTurn = new Integer(playerTurn);

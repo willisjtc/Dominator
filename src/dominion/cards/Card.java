@@ -1,9 +1,6 @@
 package dominion.cards;
 
-import java.util.List;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import dominion.cards.treasure.TreasureBase; 
+import dominion.cards.treasure.TreasureBase;
 import dominion.cards.victory.VictoryBase;
 
 public abstract class Card implements CardBase, VictoryBase, TreasureBase {
@@ -51,9 +48,4 @@ public abstract class Card implements CardBase, VictoryBase, TreasureBase {
 	public boolean isVictory() {
 		return false;
 	}
-
-	public static List<Card> shuffle(List<Card> deck, List<Card> discard) {
-		throw new NotImplementedException();
-	}
-
 }
