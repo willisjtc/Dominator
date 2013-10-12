@@ -1,4 +1,4 @@
 Dominator
 =========
 
-A dominion ai
+A dominion client and AI
