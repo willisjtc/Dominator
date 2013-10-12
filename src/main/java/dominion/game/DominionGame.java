@@ -10,8 +10,10 @@ import dominion.cards.expansion.Expansion;
 import dominion.cards.trash.Trash;
 import dominion.cards.treasure.Treasures;
 import dominion.cards.victory.VictoryCards;
+import dominion.game.user.Player;
 
 public class DominionGame {
+	private Integer id;
 	private File saveFile;
 	private Treasures treasureCards;
 	private VictoryCards victoryCards;

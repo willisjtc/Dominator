@@ -1,4 +1,4 @@
-package dominion.database;
+package dominion.database.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 public class BasicDAO implements AutoCloseable {
 
-	private Connection con;
+	protected Connection con;
 	
 	public BasicDAO() {
 		try {
-			con = DriverManager.getConnection("jdbc:hsqldb:file:dominion", "SA", "");
+			con = DriverManager.getConnection("jdbc:hsqldb:file:dominion_production", "SA", "");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

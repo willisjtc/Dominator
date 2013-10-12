@@ -1,23 +1,22 @@
-package dominion.game;
+package dominion.game.user;
 
-import java.util.List;
-
-import dominion.cards.Card;
 import dominion.cards.CardUtils;
+import dominion.cards.Deck;
+import dominion.cards.Discard;
+import dominion.cards.Hand;
 
-public class Player {
-	private String name;
+public class PlayerGameState {
+	private Integer id;
 	private Integer score;
-	private List<Card> deck;
-	private List<Card> hand;
-	private List<Card> discard;
+	private Deck deck;
+	private Hand hand;
+	private Discard discard;
 	
-	public List<Card> getHand() {
+	public Hand getHand() {
 		return hand;
 	}
-	
 	public void draw() {
-		if (deck.size() == 0) {
+		if (deck.getSize() == 0) {
 			CardUtils.shuffle(deck, discard);
 		}
 		hand.add(deck.get(0));
@@ -30,14 +29,6 @@ public class Player {
 			deck.remove(0);
 		}
 	}
-
-	public String getName() {
-		return name;
-	}
-	public void setName(String n) {
-		name = n;
-	}
-
 	public Integer getScore() {
 		return score;
 	}

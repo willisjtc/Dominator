@@ -1,5 +1,7 @@
 package dominion.application;
 
+import java.lang.reflect.Field;
+
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +11,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import dominion.database.BasicDAO;
+import dominion.database.dao.PlayerDAO;
+import dominion.game.user.Player;
 
 public class Dominion extends Application {
 	@Override
@@ -25,9 +28,21 @@ public class Dominion extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		BasicDAO basicDao = new BasicDAO();
-		String name = basicDao.getName();
-		System.out.println("name: " + name);
+		PlayerDAO playerDao = new PlayerDAO();
+		Player player = playerDao.getPlayerById(1);
+		Object playerRef = player;
+		Field[] fields = playerRef.getClass().getFields();
+		
+		for (int i = 0; i < fields.length; i++) {
+			System.out.println("field: " + fields[i]);
+		}
+		for (int i = 0; i < playerRef.getClass().getMethods().length; i++) {
+			System.out.println("method: " + playerRef.getClass().getMethods()[i]);
+		}
+		System.out.println("player: " + player.getName() + " " + player.getUsername() + " " + player.getPassword());
+//		BasicDAO basicDao = new BasicDAO();
+//		String name = basicDao.getName();
+//		System.out.println("name: " + name);
 	}
 	
 	@FXML public void signInReleased(MouseEvent evt) {
