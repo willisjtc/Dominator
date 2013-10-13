@@ -12,50 +12,58 @@
   <children>
     <BorderPane prefHeight="375.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
       <center>
-        <GridPane onKeyReleased="#enter" id="login-area" alignment="CENTER" gridLinesVisible="false" hgap="5.0" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="-1.0" style="" vgap="5.0" BorderPane.alignment="CENTER">
-          <children>
-            <Text id="welcome-text" scaleX="1.0" scaleY="1.0450372337032785" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0" />
-            <Label text="User name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <HBox disable="false" fillHeight="false" maxWidth="65.0" minWidth="64.0" prefHeight="30.0" prefWidth="10.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+        <SplitPane dividerPositions="0.33444816053511706" focusTraversable="true" prefHeight="160.0" prefWidth="600.0">
+          <items>
+            <AnchorPane maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
               <children>
-                <Button fx:id="sign_in" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseReleased="#signInReleased" prefHeight="30.0" prefWidth="141.0" text="Sign In" textAlignment="CENTER" textOverrun="CLIP">
-                  <HBox.margin>
-                    <Insets />
-                  </HBox.margin>
-                </Button>
+                <ListView focusTraversable="false" orientation="VERTICAL" prefHeight="348.0" prefWidth="-1.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                <Label id="profiles-label" alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" prefWidth="0.0" text="Profiles" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <font>
+                    <Font name="System Bold" size="13.0" />
+                  </font>
+                </Label>
               </children>
-            </HBox>
-          </children>
-          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="90.0" />
-          </columnConstraints>
-          <padding>
-            <Insets bottom="50.0" left="25.0" right="25.0" top="50.0" />
-          </padding>
-          <rowConstraints>
-            <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="50.0" prefHeight="45.0" valignment="CENTER" vgrow="NEVER" />
-            <RowConstraints fillHeight="false" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" valignment="CENTER" vgrow="NEVER" />
-            <RowConstraints fillHeight="false" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" vgrow="NEVER" />
-            <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
-          </rowConstraints>
-          <BorderPane.margin>
-            <Insets bottom="50.0" left="20.0" right="20.0" top="50.0" />
-          </BorderPane.margin>
-        </GridPane>
+            </AnchorPane>
+            <BorderPane prefHeight="373.0" prefWidth="487.0">
+              <center>
+                <GridPane id="login-area" alignment="CENTER" gridLinesVisible="false" hgap="5.0" maxWidth="1.7976931348623157E308" onKeyReleased="#enter" prefHeight="-1.0" prefWidth="-1.0" style="" vgap="5.0">
+                  <children>
+                    <Text id="welcome-text" scaleX="1.0" scaleY="1.0450372337032785" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0" />
+                    <Label text="User name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <PasswordField prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <HBox disable="false" fillHeight="false" maxWidth="65.0" minWidth="64.0" prefHeight="30.0" prefWidth="10.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                      <children>
+                        <Button id="sign_in" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseReleased="#signInReleased" prefHeight="30.0" prefWidth="141.0" text="Sign In" textAlignment="CENTER" textOverrun="CLIP">
+                          <HBox.margin>
+                            <Insets />
+                          </HBox.margin>
+                        </Button>
+                      </children>
+                    </HBox>
+                  </children>
+                  <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0" minWidth="10.0" prefWidth="90.0" />
+                  </columnConstraints>
+                  <padding>
+                    <Insets bottom="50.0" left="25.0" right="25.0" top="50.0" />
+                  </padding>
+                  <rowConstraints>
+                    <RowConstraints fillHeight="false" maxHeight="10.0" minHeight="50.0" prefHeight="45.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" valignment="CENTER" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" vgrow="NEVER" />
+                    <RowConstraints fillHeight="false" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+                  </rowConstraints>
+                </GridPane>
+              </center>
+            </BorderPane>
+          </items>
+        </SplitPane>
       </center>
-      <left>
-        <VBox alignment="CENTER" disable="false" focusTraversable="false" maxHeight="1.7976931348623157E308" prefHeight="375.0" prefWidth="135.0" visible="true" BorderPane.alignment="CENTER">
-          <children>
-            <ListView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="375.0" prefWidth="134.0" VBox.vgrow="ALWAYS" />
-          </children>
-        </VBox>
-      </left>
     </BorderPane>
-    <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25.0" prefWidth="602.0">
+    <MenuBar disable="false" focusTraversable="false" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="602.0" useSystemMenuBar="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <menus>
         <Menu mnemonicParsing="false" style="" text="File">
           <items>

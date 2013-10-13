@@ -1,5 +1,9 @@
-.root {
+#login-area {
      -fx-background-image: url("background.jpg");
+}
+
+#profiles-label {
+	-fx-background-image: url("background.jpg");
 }
 
 #login.label {
