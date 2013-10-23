@@ -1,3 +1,7 @@
+#BorderPane {
+	-fx-background-image: url("background.jpg");
+}
+
 #login-area {
      -fx-background-image: url("background.jpg");
 }

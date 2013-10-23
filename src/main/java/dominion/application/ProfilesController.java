@@ -6,13 +6,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import dominion.application.profile.ProfileViewDTO;
 import dominion.database.dao.UserDAO;
@@ -22,6 +28,8 @@ public class ProfilesController extends AnchorPane {
 
 	private LoginManager loginManager;
 	@FXML private ListView<ProfileViewDTO> profiles;
+	@FXML private Button addProfile;
+	@FXML private Button removeProfile;
 	
 	public ProfilesController() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profiles.fxml"));
@@ -37,20 +45,19 @@ public class ProfilesController extends AnchorPane {
 		// load profiles
 		this.setFocused(true);
 		initProfileList();
-		this.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent evt) {
-				System.out.println("hello");
-				evt.consume();
-			}
-		});
-		this.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent evt) {
-				System.out.println("hello");
-				evt.consume();
-			}
-		});
 	}
+	
+	@FXML private void add(ActionEvent evt) {
 
+	}
+	
+	@FXML private void delete(ActionEvent evt) {
+		if (loginManager.getProfileSelected() != null) {
+	        ProfileDeleteDialog deleteDialog = new ProfileDeleteDialog();
+	        deleteDialog.show();
+		}
+	}
+	
 	public void setLoginManager(LoginManager loginManager) {
 		this.loginManager = loginManager;
 	}
@@ -76,6 +83,13 @@ public class ProfilesController extends AnchorPane {
 		
 		profiles.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProfileViewDTO>() {
 			public void changed(ObservableValue<? extends ProfileViewDTO> oValue, ProfileViewDTO oldVal, ProfileViewDTO newVal) {
+				loginManager.setProfileSelected(newVal);
+			}
+		});
+		
+		profiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent evt) {
+				profiles.requestFocus();
 			}
 		});
 	}
@@ -86,6 +100,62 @@ public class ProfilesController extends AnchorPane {
 			super.updateItem(item, empty);
 			if (!empty) {
 				this.setText(item.getName());
+			}
+		}
+	}
+
+	
+	// change this to extend stage
+	private class ProfileDeleteDialog {
+		
+		private Stage deleteStage;
+		
+		public ProfileDeleteDialog() {
+			deleteStage = new Stage();
+			
+			BorderPane deletePane = new ProfilesController.ProfileDeleteDialog.DeletePane(deleteStage);
+			Scene deleteScene = new Scene(deletePane);
+			deleteScene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
+			deleteStage.setScene(deleteScene);
+			deleteStage.sizeToScene();
+			deleteStage.centerOnScreen();
+		}
+		
+		public void show() {
+			deleteStage.showAndWait();
+		}
+		
+		private class DeletePane extends BorderPane {
+			
+			@FXML private Label deleteText;
+			@FXML private Button delete;
+			@FXML private Button cancel;
+			
+			public DeletePane(final Stage parent) {
+				
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("delete_dialog.fxml"));
+				fxmlLoader.setRoot(this);
+				fxmlLoader.setController(this);
+				
+				try {
+					fxmlLoader.load();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				deleteText.setText("Delete user " + loginManager.getProfileSelected().getName() + "?");
+				
+				delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent evt) {
+						System.out.println("delete user: " + loginManager.getProfileSelected().getName());
+					}
+				});
+				
+				cancel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent evt) {
+						parent.close();
+					}
+				});
 			}
 		}
 	}

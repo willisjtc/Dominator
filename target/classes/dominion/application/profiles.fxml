@@ -8,42 +8,27 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-
-<fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml"
-	maxWidth="400.0" minHeight="0.0" minWidth="0.0" prefHeight="-1.0"
-	prefWidth="-1.0">
-	<children>
-		<AnchorPane minWidth="30.0" prefHeight="30.0" prefWidth="372.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-			AnchorPane.topAnchor="0.0">
-			<children>
-				<Label id="profiles-label" alignment="CENTER" contentDisplay="CENTER"
-					minHeight="30.0" minWidth="30.0" prefHeight="30.0" prefWidth="30.0"
-					text="Profiles" textAlignment="CENTER" wrapText="false"
-					AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="57.0"
-					AnchorPane.topAnchor="0.0">
-					<font>
-						<Font name="System Bold" size="13.0" />
-					</font>
-				</Label>
-				<HBox minWidth="56.14501953125" prefHeight="30.0" prefWidth="56.14501953125"
-					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-					<children>
-						<Button id="remove_profile" contentDisplay="CENTER"
-							maxWidth="-1.0" mnemonicParsing="false" prefHeight="30.0"
-							prefWidth="-1.0" text="-" textAlignment="CENTER" />
-						<Button id="add_profile" cancelButton="false"
-							contentDisplay="CENTER" defaultButton="false" mnemonicParsing="false"
-							prefHeight="30.0" text="+" textAlignment="CENTER" visible="true"
-							HBox.hgrow="ALWAYS">
-						</Button>
-					</children>
-				</HBox>
-			</children>
-		</AnchorPane>
-		<ListView fx:id="profiles" focusTraversable="false" maxWidth="400.0"
-			orientation="VERTICAL" prefHeight="-1.0" prefWidth="-1.0" visible="true"
-			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-	</children>
+<fx:root type="javafx.scene.layout.AnchorPane" maxWidth="400.0" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <AnchorPane minWidth="30.0" prefHeight="30.0" prefWidth="372.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label id="profiles-label" alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" minWidth="30.0" prefHeight="44.0" prefWidth="386.0" text="Profiles" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <font>
+            <Font name="System Bold" size="13.0" />
+          </font>
+        </Label>
+      </children>
+    </AnchorPane>
+    <ListView fx:id="profiles" focusTraversable="false" maxWidth="400.0" orientation="VERTICAL" prefHeight="337.0" prefWidth="386.0" visible="true" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0" />
+    <HBox alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="49.0" prefWidth="393.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <children>
+        <Button id="add_profile" fx:id="addProfile" cancelButton="false" contentDisplay="CENTER" defaultButton="false" mnemonicParsing="false" onAction="#add" prefHeight="49.0" prefWidth="197.0001220703125" text="Add" textAlignment="CENTER" textOverrun="CLIP" visible="true" HBox.hgrow="ALWAYS">
+          <HBox.margin>
+            <Insets fx:id="x1" />
+          </HBox.margin>
+        </Button>
+        <Button id="remove_profile" fx:id="removeProfile" contentDisplay="CENTER" maxWidth="-1.0" mnemonicParsing="false" onAction="#delete" prefHeight="49.0" prefWidth="196.5" text="Delete" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS" HBox.margin="$x1" />
+      </children>
+    </HBox>
+  </children>
 </fx:root>
