@@ -5,7 +5,7 @@ import dominion.cards.Deck;
 import dominion.cards.Discard;
 import dominion.cards.Hand;
 
-public class PlayerGameState {
+public class UserGameState {
 	private Integer id;
 	private Integer score;
 	private Deck deck;

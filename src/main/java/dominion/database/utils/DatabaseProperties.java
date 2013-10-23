@@ -9,7 +9,6 @@ public class DatabaseProperties {
 	private static Map<String, String> properties = initMap();
 	
 	public static String getProperty(String property) {
-		System.out.println("getProperty(String" + property + ")");
 		return properties.get(property);
 	}
 	

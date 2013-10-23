@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml"
+	prefHeight="373.0" prefWidth="487.0">
+	<center>
+		<GridPane id="login-area" alignment="CENTER"
+			gridLinesVisible="false" hgap="5.0" onKeyReleased="#enter" padding="$x1"
+			style="" vgap="5.0" BorderPane.alignment="CENTER">
+			<children>
+				<Text id="welcome-text" scaleX="1.0" scaleY="1.0450372337032785"
+					strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome"
+					GridPane.columnIndex="0" GridPane.columnSpan="2147483647"
+					GridPane.rowIndex="0" />
+				<Label text="User name:" GridPane.columnIndex="0"
+					GridPane.rowIndex="1" />
+				<Label text="Password:" GridPane.columnIndex="0"
+					GridPane.rowIndex="2" />
+				<TextField prefWidth="200.0" GridPane.columnIndex="1"
+					GridPane.rowIndex="1" />
+				<PasswordField prefWidth="200.0" GridPane.columnIndex="1"
+					GridPane.rowIndex="2" />
+				<HBox disable="false" fillHeight="false" maxWidth="65.0"
+					minWidth="64.0" prefHeight="30.0" prefWidth="10.0"
+					GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
+					GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS"
+					GridPane.rowIndex="3" GridPane.rowSpan="2147483647"
+					GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+					<children>
+						<Button id="sign_in" alignment="CENTER" contentDisplay="CENTER"
+							mnemonicParsing="false" onMouseReleased="#signInReleased"
+							prefHeight="30.0" prefWidth="141.0" text="Sign In" textAlignment="CENTER"
+							textOverrun="CLIP">
+							<HBox.margin>
+								<Insets fx:id="x1" />
+							</HBox.margin>
+						</Button>
+					</children>
+				</HBox>
+			</children>
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" maxWidth="125.0"
+					minWidth="10.0" prefWidth="90.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints fillHeight="false" maxHeight="10.0"
+					minHeight="50.0" prefHeight="45.0" valignment="CENTER" vgrow="NEVER" />
+				<RowConstraints fillHeight="false" maxHeight="26.0"
+					minHeight="26.0" prefHeight="26.0" valignment="CENTER" vgrow="NEVER" />
+				<RowConstraints fillHeight="false" maxHeight="26.0"
+					minHeight="26.0" prefHeight="26.0" vgrow="NEVER" />
+				<RowConstraints fillHeight="false" maxHeight="30.0"
+					minHeight="30.0" prefHeight="30.0" vgrow="NEVER" />
+			</rowConstraints>
+		</GridPane>
+	</center>
+</fx:root>

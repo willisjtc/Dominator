@@ -10,7 +10,7 @@ import dominion.cards.expansion.Expansion;
 import dominion.cards.trash.Trash;
 import dominion.cards.treasure.Treasures;
 import dominion.cards.victory.VictoryCards;
-import dominion.game.user.Player;
+import dominion.game.user.User;
 
 public class DominionGame {
 	private Integer id;
@@ -19,7 +19,7 @@ public class DominionGame {
 	private VictoryCards victoryCards;
 	private KingdomCards kingdomCards;
 	private Trash trash;
-	private List<Player> players;
+	private List<User> players;
 	private Integer playerTurn;
 	
 	public DominionGame(List<Expansion> exps) { }
@@ -32,16 +32,16 @@ public class DominionGame {
 		return playerTurn;
 	}
 	
-	public Collection<Player> getPlayers() {
+	public Collection<User> getPlayers() {
 		return players;
 	}
 
-	public Player getPlayer(String name) {
+	public User getPlayer(String name) {
 		// TODO 
 		return null;
 	}
 	
-	public Player getPlayer(Integer index) {
+	public User getPlayer(Integer index) {
 		// TODO
 		return null;
 	}

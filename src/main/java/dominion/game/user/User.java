@@ -1,12 +1,12 @@
 package dominion.game.user;
 
 
-public class Player {
+public class User {
 	private Integer id;
 	private String name;
 	private String username;
 	private String password;
-	private PlayerGameState playerState;
+	private UserGameState playerState;
 	
 
 	public Integer getId() {
@@ -33,10 +33,10 @@ public class Player {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public PlayerGameState getPlayerState() {
+	public UserGameState getPlayerState() {
 		return playerState;
 	}
-	public void setPlayerState(PlayerGameState playerState) {
+	public void setPlayerState(UserGameState playerState) {
 		this.playerState = playerState;
 	}
 }
