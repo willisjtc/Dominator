@@ -1,13 +1,13 @@
 #BorderPane {
-	-fx-background-image: url("background.jpg");
+    -fx-background-color: #F5F5F5;
 }
 
 #login-area {
-     -fx-background-image: url("background.jpg");
+     -fx-background-color: #F5F5F5;
 }
 
 #profiles-label {
-	-fx-background-image: url("background.jpg");
+	-fx-background-color: #F5F5F5;
 }
 
 #login.label {
