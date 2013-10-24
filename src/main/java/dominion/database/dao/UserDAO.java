@@ -15,7 +15,6 @@ public class UserDAO extends BasicDAO {
 	public User getUserById(int id) {
 		User player = new User();
 		String sql = DatabaseProperties.getProperty("dominion.getAllUsers");
-		System.out.println(sql);
 		try (PreparedStatement ps = con.prepareStatement(sql)){
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -44,5 +43,18 @@ public class UserDAO extends BasicDAO {
 			e.printStackTrace();
 		}
 		return users;
+	}
+
+	public void addUser(String username, String password) {
+		String sql = DatabaseProperties.getProperty("dominion.addUser");
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			int index = 0;
+			ps.setString(++index, username);
+			ps.setString(++index, password);
+			
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

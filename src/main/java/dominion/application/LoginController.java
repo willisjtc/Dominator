@@ -9,7 +9,8 @@ import javafx.scene.layout.BorderPane;
 
 public class LoginController extends BorderPane {
 
-	private LoginManager loginManager;
+	private UserSelector userSelector;
+	private UserManager userManager;
 	
 	public LoginController() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login_controller.fxml"));
@@ -34,7 +35,11 @@ public class LoginController extends BorderPane {
 		}		
 	}
 	
-	public void setLoginManager(LoginManager loginManager) {
-		this.loginManager = loginManager;
+	public void setUserSelector(UserSelector loginManager) {
+		this.userSelector = loginManager;
+	}
+	
+	public void setUserManager(UserManager userManager) {
+		
 	}
 }

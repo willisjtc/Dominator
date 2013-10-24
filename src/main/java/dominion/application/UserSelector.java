@@ -2,11 +2,11 @@ package dominion.application;
 
 import dominion.application.profile.ProfileViewDTO;
 
-public class LoginManager {
+public class UserSelector {
 	
 	private ProfileViewDTO profileSelected;
 	
-	public LoginManager() {
+	public UserSelector() {
 		profileSelected = null;
 	}
 

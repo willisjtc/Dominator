@@ -1,6 +1,8 @@
 package dominion.application;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -22,12 +25,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import dominion.application.profile.ProfileViewDTO;
-import dominion.database.dao.UserDAO;
 import dominion.game.user.User;
 
-public class ProfilesController extends AnchorPane {
+public class ProfilesController extends AnchorPane implements DObserver {
 
-	private LoginManager loginManager;
+	private UserSelector userSelector;
+	private UserManager userManager;
+	
 	@FXML
 	private ListView<ProfileViewDTO> profiles;
 	@FXML
@@ -49,70 +53,140 @@ public class ProfilesController extends AnchorPane {
 
 		// load profiles
 		this.setFocused(true);
+		userManager = new UserManager();
 		initProfileList();
+		
+		
 	}
 
 	@FXML
 	private void add(ActionEvent evt) {
-
+		UserAddDialog addDialog = new UserAddDialog();
+		addDialog.show();
 	}
 
 	@FXML
 	private void delete(ActionEvent evt) throws InterruptedException {
-		if (loginManager.getProfileSelected() != null) {
-			ProfileDeleteDialog deleteDialog = new ProfileDeleteDialog();
+		if (userSelector.getProfileSelected() != null) {
+			UserDeleteDialog deleteDialog = new UserDeleteDialog();
 			deleteDialog.show();
 		}
 	}
 
-	public void setLoginManager(LoginManager loginManager) {
-		this.loginManager = loginManager;
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
+	}
+	
+	public void setUserSelector(UserSelector loginManager) {
+		this.userSelector = loginManager;
 	}
 
+	public void update() {
+		refreshProfileList();
+	}
+	
 	private void initProfileList() {
-		try (UserDAO userDao = new UserDAO()) {
-			Collection<User> users = userDao.getAllUsers();
-			ObservableList<ProfileViewDTO> profileData = FXCollections
-					.observableArrayList();
-			for (User user : users) {
-				profileData.add(new ProfileViewDTO(user));
-			}
-			profiles.setItems(profileData);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		refreshProfileList();
 		profiles.setCellFactory(new Callback<ListView<ProfileViewDTO>, ListCell<ProfileViewDTO>>() {
 			@Override
 			public ListCell<ProfileViewDTO> call(ListView<ProfileViewDTO> list) {
 				return new ProfileViewCell();
 			}
 		});
-
 		profiles.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<ProfileViewDTO>() {
 					public void changed(
 							ObservableValue<? extends ProfileViewDTO> oValue,
 							ProfileViewDTO oldVal, ProfileViewDTO newVal) {
-						loginManager.setProfileSelected(newVal);
+						userSelector.setProfileSelected(newVal);
 					}
 				});
-
 		profiles.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent evt) {
 				profiles.requestFocus();
 			}
 		});
 	}
+	
+	public void refreshProfileList() {
+		Collection<User> users = userManager.getAllUsers();
+		ObservableList<ProfileViewDTO> profileData = FXCollections
+				.observableArrayList();
+		for (User user : users) {
+			profileData.add(new ProfileViewDTO(user));
+		}
+		profiles.setItems(profileData);
+	}
 
-	private class ProfileDeleteDialog {
+	private class UserAddDialog {
+		private Stage addStage;
+		
+		public UserAddDialog() {
+			addStage = new Stage();
+			
+			BorderPane addPane = new ProfilesController.UserAddDialog.AddPane(addStage);
+			Scene addScene = new Scene(addPane);
+			addScene.getStylesheets().add(
+					getClass().getResource("login.css").toExternalForm());
+			addStage.setScene(addScene);
+			addStage.sizeToScene();
+			addStage.centerOnScreen();
+			addStage.initModality(Modality.APPLICATION_MODAL);
+			addStage.setResizable(false);
+		}
+		
+		private class AddPane extends BorderPane {
+			@FXML private TextField username;
+			@FXML private TextField password;
+			@FXML private TextField confirmPassword;
+			@FXML private Button add;
+			@FXML private Button cancel;
+			
+			public AddPane(final Stage parent) {
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("add_dialog.fxml"));
+				fxmlLoader.setRoot(this);
+				fxmlLoader.setController(this);
+				
+				try {
+					fxmlLoader.load();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				add.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent evt) {
+						if (username.getText() != null && !username.getText().equals("") &&
+							password.getText() != null && !password.getText().equals("") &&
+							confirmPassword.getText() != null && !confirmPassword.getText().equals("") &&
+							password.getText().equals(confirmPassword.getText())) {
+							userManager.addUser(username.getText(), password.getText());
+							parent.close();
+							refreshProfileList();
+						}
+					}
+				});
+				
+				cancel.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent evt) {
+						parent.close();
+					}
+				});
+			}
+		}
+		
+		public void show() {
+			addStage.showAndWait();
+		}
+	}
+	
+	private class UserDeleteDialog {
 
 		private Stage deleteStage;
 
-		public ProfileDeleteDialog() {
+		public UserDeleteDialog() {
 			deleteStage = new Stage();
 
-			BorderPane deletePane = new ProfilesController.ProfileDeleteDialog.DeletePane(
+			BorderPane deletePane = new ProfilesController.UserDeleteDialog.DeletePane(
 					deleteStage);
 			Scene deleteScene = new Scene(deletePane);
 			deleteScene.getStylesheets().add(
@@ -121,6 +195,7 @@ public class ProfilesController extends AnchorPane {
 			deleteStage.sizeToScene();
 			deleteStage.centerOnScreen();
 			deleteStage.initModality(Modality.APPLICATION_MODAL);
+			deleteStage.setResizable(false);
 		}
 
 		public void show() {
@@ -150,12 +225,12 @@ public class ProfilesController extends AnchorPane {
 				}
 
 				deleteText.setText("Delete user "
-						+ loginManager.getProfileSelected().getName() + "?");
+						+ userSelector.getProfileSelected().getName() + "?");
 
 				delete.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					public void handle(MouseEvent evt) {
 						System.out.println("delete user: "
-								+ loginManager.getProfileSelected().getName());
+								+ userSelector.getProfileSelected().getName());
 					}
 				});
 
