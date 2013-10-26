@@ -4,3 +4,17 @@ dominion.script
 dominion_production.log
 dominion_production.properties
 dominion_production.script
+hs_err_pid437.log
+hs_err_pid4442.log
+hs_err_pid473.log
+hs_err_pid842.log
+target/classes/com/vladium/emma/ctl/ctl_usage.res
+target/classes/com/vladium/emma/exceptions.properties
+target/classes/com/vladium/emma/instr/instr_usage.res
+target/classes/com/vladium/emma/merge/merge_usage.res
+target/classes/com/vladium/emma/report/report_usage.res
+target/classes/com/vladium/emma/rt/RTExitHook.closure
+target/classes/com/vladium/emma/run/run_usage.res
+target/classes/com/vladium/util/exceptions.properties
+target/classes/emma_ant.properties
+target/classes/emma_default.properties
