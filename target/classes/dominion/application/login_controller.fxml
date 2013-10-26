@@ -20,9 +20,9 @@
 					GridPane.rowIndex="1" />
 				<Label text="Password:" GridPane.columnIndex="0"
 					GridPane.rowIndex="2" />
-				<TextField prefWidth="200.0" GridPane.columnIndex="1"
+				<TextField fx:id="username" prefWidth="200.0" GridPane.columnIndex="1"
 					GridPane.rowIndex="1" />
-				<PasswordField prefWidth="200.0" GridPane.columnIndex="1"
+				<PasswordField fx:id="password" prefWidth="200.0" GridPane.columnIndex="1"
 					GridPane.rowIndex="2" />
 				<HBox disable="false" fillHeight="false" maxWidth="65.0"
 					minWidth="64.0" prefHeight="30.0" prefWidth="10.0"

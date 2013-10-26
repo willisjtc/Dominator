@@ -1,4 +1,4 @@
-package dominion.application.profile;
+package dominion.application.user.views;
 
 import javafx.scene.image.Image;
 import dominion.game.user.User;

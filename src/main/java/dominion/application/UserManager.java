@@ -15,6 +15,20 @@ public class UserManager {
 		}
 	}
 	
+	public User getUserById(int id) {
+		return null;
+	}
+	
+	public User getUserByUsername(String username) {
+		User user = null;
+		try (UserDAO userDao = new UserDAO()) {
+			user = userDao.getUserByUsername(username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
 	public Collection<User> getAllUsers() {
 		Collection<User> users = null;
 		try (UserDAO userDao = new UserDAO()) {

@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import dominion.application.controller.ViewManager;
 
 public class MenubarController extends MenuBar{
 	@FXML private MenuBar menubar;
 	@FXML private Menu file;
+	@FXML private MenuItem logout;
 	@FXML private MenuItem close;
 	@FXML private Menu edit;
 	@FXML private MenuItem delete;
@@ -17,7 +19,7 @@ public class MenubarController extends MenuBar{
 	@FXML private Menu view;
 	@FXML private Menu help;
 	
-	public String test = "test";
+	private ViewManager viewManager;
 	
 	public MenubarController() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menubar.fxml"));
@@ -31,9 +33,12 @@ public class MenubarController extends MenuBar{
 		}
 	}
 	
+	@FXML private void onLogout(ActionEvent evt) {
+		viewManager.logout();
+	}
+	
 	@FXML private void onClose(ActionEvent evt) {
-		System.out.println("onClose");
-		System.out.println(test);
+		viewManager.exitApplication();
 	}
 	
 	@FXML private void onDelete(ActionEvent evt) {
@@ -42,5 +47,9 @@ public class MenubarController extends MenuBar{
 	
 	@FXML private void selectServer(ActionEvent evt) {
 		System.out.println("selectServer");
+	}
+
+	public void setViewManager(ViewManager viewManager) {
+		this.viewManager = viewManager;
 	}
 }

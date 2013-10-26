@@ -1,6 +1,6 @@
 package dominion.application;
 
-import dominion.application.profile.ProfileViewDTO;
+import dominion.application.user.views.ProfileViewDTO;
 
 public class UserSelector {
 	

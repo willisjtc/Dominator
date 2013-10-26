@@ -30,7 +30,6 @@ public class UserDAO extends BasicDAO {
 	public Collection<User> getAllUsers() {
 		List<User> users = new ArrayList<User>();
 		String sql = DatabaseProperties.getProperty("dominion.getAllUsers");
-		System.out.println(sql);
 		try (PreparedStatement ps = con.prepareStatement(sql)){
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -43,6 +42,22 @@ public class UserDAO extends BasicDAO {
 			e.printStackTrace();
 		}
 		return users;
+	}
+	
+	public User getUserByUsername(String username) {
+		User user = new User();
+		String sql = DatabaseProperties.getProperty("dominion.getUserByUsername");
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			int index = 0;
+			ps.setString(++index, username);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				DatabaseObjectMapper.fillObjectFromResultSet(user, rs, user.getClass());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 	public void addUser(String username, String password) {

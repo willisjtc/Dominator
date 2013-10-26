@@ -1,8 +1,6 @@
 package dominion.application;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,19 +20,25 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import dominion.application.profile.ProfileViewDTO;
+import dominion.application.controller.ViewManager;
+import dominion.application.user.views.ProfileViewDTO;
 import dominion.game.user.User;
 
 public class ProfilesController extends AnchorPane implements DObserver {
 
 	private UserSelector userSelector;
 	private UserManager userManager;
+	private ViewManager viewManager;
 	
 	@FXML
 	private ListView<ProfileViewDTO> profiles;
+	@FXML
+	private HBox buttonHBox;
 	@FXML
 	private Button addProfile;
 	@FXML
@@ -54,9 +59,8 @@ public class ProfilesController extends AnchorPane implements DObserver {
 		// load profiles
 		this.setFocused(true);
 		userManager = new UserManager();
+		userSelector = new UserSelector();
 		initProfileList();
-		
-		
 	}
 
 	@FXML
@@ -72,19 +76,36 @@ public class ProfilesController extends AnchorPane implements DObserver {
 			deleteDialog.show();
 		}
 	}
+	
+	public void addDeleteOption() {
+		removeProfile = new Button("Delete");
+		removeProfile.setMaxWidth(Double.MAX_VALUE);
+		removeProfile.setMaxHeight(Double.MAX_VALUE);
+		removeProfile.setPrefSize(1000, 1000);
+		addProfile.setPrefSize(1000, 1000);
+		HBox.setHgrow(removeProfile, Priority.ALWAYS);
+		HBox.setHgrow(addProfile, Priority.ALWAYS);
+		HBox.setHgrow(removeProfile, Priority.ALWAYS);
+		HBox.setHgrow(addProfile, Priority.ALWAYS);
+		buttonHBox.getChildren().add(removeProfile);
+	}
 
 	public void setUserManager(UserManager userManager) {
 		this.userManager = userManager;
 	}
 	
-	public void setUserSelector(UserSelector loginManager) {
-		this.userSelector = loginManager;
+	public void setUserSelector(UserSelector userSelector) {
+		this.userSelector = userSelector;
 	}
 
 	public void update() {
 		refreshProfileList();
 	}
 	
+	public void setViewManager(ViewManager viewManager) {
+		this.viewManager = viewManager;
+	}
+
 	private void initProfileList() {
 		refreshProfileList();
 		profiles.setCellFactory(new Callback<ListView<ProfileViewDTO>, ListCell<ProfileViewDTO>>() {
@@ -251,6 +272,5 @@ public class ProfilesController extends AnchorPane implements DObserver {
 				this.setText(item.getName());
 			}
 		}
-	}
-
+	}	
 }
