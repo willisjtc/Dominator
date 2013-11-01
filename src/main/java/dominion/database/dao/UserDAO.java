@@ -12,6 +12,30 @@ import dominion.game.user.User;
 
 public class UserDAO extends BasicDAO {
 
+	public void addUser(String username, String password) {
+		String sql = DatabaseProperties.getProperty("dominion.addUser");
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			int index = 0;
+			ps.setString(++index, username);
+			ps.setString(++index, password);
+			
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeUser(String username) {
+		String sql = DatabaseProperties.getProperty("dominion.removeUserByUsername");
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			int index = 0;
+			ps.setString(++index, username);
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public User getUserById(int id) {
 		User player = new User();
 		String sql = DatabaseProperties.getProperty("dominion.getAllUsers");
@@ -58,18 +82,5 @@ public class UserDAO extends BasicDAO {
 			e.printStackTrace();
 		}
 		return user;
-	}
-
-	public void addUser(String username, String password) {
-		String sql = DatabaseProperties.getProperty("dominion.addUser");
-		try (PreparedStatement ps = con.prepareStatement(sql)) {
-			int index = 0;
-			ps.setString(++index, username);
-			ps.setString(++index, password);
-			
-			ps.execute();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

@@ -1,4 +1,4 @@
-package dominion.application;
+package dominion.application.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,11 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import dominion.application.controller.ViewManager;
+import dominion.application.manager.IViewManager;
 
 public class MenubarController extends MenuBar{
 	@FXML private MenuBar menubar;
 	@FXML private Menu file;
+	@FXML private Menu newMenu;
+	@FXML private MenuItem user;
 	@FXML private MenuItem logout;
 	@FXML private MenuItem close;
 	@FXML private Menu edit;
@@ -19,7 +21,7 @@ public class MenubarController extends MenuBar{
 	@FXML private Menu view;
 	@FXML private Menu help;
 	
-	private ViewManager viewManager;
+	private IViewManager viewManager;
 	
 	public MenubarController() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("menubar.fxml"));
@@ -31,6 +33,12 @@ public class MenubarController extends MenuBar{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		this.setUseSystemMenuBar(true);
+	}
+	
+	@FXML private void onUser(ActionEvent evt) {
+		new AddUserDialog().show();
+		viewManager.requestFocus();
 	}
 	
 	@FXML private void onLogout(ActionEvent evt) {
@@ -49,7 +57,7 @@ public class MenubarController extends MenuBar{
 		System.out.println("selectServer");
 	}
 
-	public void setViewManager(ViewManager viewManager) {
+	public void setViewManager(IViewManager viewManager) {
 		this.viewManager = viewManager;
 	}
 }

@@ -31,7 +31,7 @@
 					GridPane.rowIndex="3" GridPane.rowSpan="2147483647"
 					GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
 					<children>
-						<Button id="sign_in" alignment="CENTER" contentDisplay="CENTER"
+						<Button id="sign_in" fx:id="sigInButton" alignment="CENTER" contentDisplay="CENTER"
 							mnemonicParsing="false" onMouseReleased="#signInReleased"
 							prefHeight="30.0" prefWidth="141.0" text="Sign In" textAlignment="CENTER"
 							textOverrun="CLIP">

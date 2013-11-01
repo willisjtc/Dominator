@@ -9,11 +9,16 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root type="javafx.scene.control.MenuBar" xmlns:fx="http://javafx.com/fxml">
+<fx:root type="javafx.scene.control.MenuBar" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <menus>
     <Menu mnemonicParsing="false" style="" text="File" fx:id="file">
       <items>
-      <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout" fx:id="logout" />
+        <Menu mnemonicParsing="false" text="New" fx:id="newMenu">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#onUser" text="User" fx:id="user" />
+          </items>
+        </Menu>
+        <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout" fx:id="logout" />
         <MenuItem mnemonicParsing="false" onAction="#onClose" text="Close" fx:id="close" />
       </items>
     </Menu>
