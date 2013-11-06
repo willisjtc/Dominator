@@ -6,38 +6,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<?import dominion.application.controller.ProfilesController?>
-
-<fx:root type="javafx.scene.control.SplitPane" dividerPositions="0.3294314381270903" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
-  <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-      <children>
-        <Accordion id="accordian" fx:id="accordion" minWidth="194.0" prefHeight="398.0" prefWidth="194.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <expandedPane>
-            <TitledPane fx:id="userManagement" animated="false" text="User Management">
-              <content>
-                <AnchorPane fx:id="userManagementPane" id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                	<children>
-                		<ProfilesController fx:id="profilesController" />
-                	</children>
-              </content>
-            </TitledPane>
-          </expandedPane>
-          <panes>
-            <fx:reference source="userManagement" />
-            <TitledPane id="x1" fx:id="gameSetup" animated="false" text="Game Setup">
-              <content>
-                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                    <ListView prefHeight="350.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  </children>
-                </AnchorPane>
-              </content>
-            </TitledPane>
-          </panes>
-        </Accordion>
-      </children>
-    </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-  </items>
+<fx:root type="javafx.scene.layout.AnchorPane" minWidth="600.0" minHeight="400.0" prefHeight="1000.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <SplitPane fx:id="splitPane" dividerPositions="0.336676217765043" style="-fx-background-color: #F5F5F5;" focusTraversable="true" prefHeight="400.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <AnchorPane fx:id="leftPane" minHeight="0.0" minWidth="0.0" maxWidth="300" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <ListView fx:id="dashboardList" prefHeight="398.0" prefWidth="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+        <AnchorPane fx:id="rightPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+      </items>
+    </SplitPane>
+  </children>
 </fx:root>

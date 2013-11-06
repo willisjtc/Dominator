@@ -53,7 +53,7 @@ public class LoginController extends BorderPane {
 
 	@FXML
 	private void enter(KeyEvent evt) {
-		System.out.println(evt.getCharacter());
+		System.out.println(evt.getCode());
 		if (evt.getCode().equals(KeyCode.ENTER)
 			&& (this.isFocused() || username.isFocused()
 				|| password.isFocused() || signInButton.isFocused())) {

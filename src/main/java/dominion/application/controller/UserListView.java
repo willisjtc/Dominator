@@ -21,6 +21,7 @@ public class UserListView {
 	private ListView<User> userList;
 	private IViewManager viewManager;
 
+	
 	public UserListView(final IViewManager viewManager) {
 		userList = new ListView<User>();
 		this.viewManager = viewManager;

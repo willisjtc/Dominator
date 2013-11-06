@@ -31,6 +31,7 @@ public class MainController extends BorderPane implements IViewManager {
 			throw new RuntimeException();
 		}
 		
+		dashboardController = new DashboardController(this);
 		menubarController.setViewManager(this);
 		loginController.setViewManager(this);
 		currentController = loginController;
@@ -38,11 +39,8 @@ public class MainController extends BorderPane implements IViewManager {
 	
 	@Override
 	public void authenticated() {
-		dashboardController = new DashboardController();
-		dashboardController.setViewManager(this);
 		this.getChildren().remove(splitPane);
 		this.setCenter(dashboardController);
-		this.requestLayout();
 	}
 
 	@Override
