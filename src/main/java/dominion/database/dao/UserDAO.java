@@ -1,10 +1,15 @@
 package dominion.database.dao;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
 
 import dominion.database.utils.DatabaseObjectMapper;
 import dominion.database.utils.DatabaseProperties;
@@ -82,5 +87,15 @@ public class UserDAO extends BasicDAO {
 			e.printStackTrace();
 		}
 		return user;
+	}
+
+	public void saveUserProfile(Image image, String username, String password, String description) {
+		String sql = DatabaseProperties.getProperty("dominion.saveUserProfile");
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			int index = 0;
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

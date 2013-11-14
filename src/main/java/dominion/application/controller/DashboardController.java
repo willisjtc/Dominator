@@ -12,9 +12,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import dominion.application.manager.IViewManager;
-import dominion.application.manager.UserManager;
 import dominion.application.model.DashboardOptions;
-import dominion.game.user.User;
 
 public class DashboardController extends AnchorPane implements IViewManager {
 
@@ -60,7 +58,7 @@ public class DashboardController extends AnchorPane implements IViewManager {
 			}
 		});
 		dashboardList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DashboardOptions>() {
-			public void changed(ObservableValue<? extends DashboardOptions> oValue,
+			public void changed(ObservableValue<? extends DashboardOptions> obsValue,
 								DashboardOptions oldVal, DashboardOptions newVal) {
 				if (newVal.equals(DashboardOptions.PROFILE_MANAGEMENT)) {
 					splitPane.getItems().set(1, profileController);

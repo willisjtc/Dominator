@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import dominion.application.manager.IViewManager;
+import dominion.database.dao.InitializationDAO;
 
 
 public class MainController extends BorderPane implements IViewManager {
@@ -35,6 +36,15 @@ public class MainController extends BorderPane implements IViewManager {
 		menubarController.setViewManager(this);
 		loginController.setViewManager(this);
 		currentController = loginController;
+		
+		this.authenticated();
+		
+		try (InitializationDAO initDao = new InitializationDAO()) {
+			initDao.run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Override

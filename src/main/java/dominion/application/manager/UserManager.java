@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javafx.scene.image.Image;
 import dominion.application.IObservable;
 import dominion.application.IObserver;
 import dominion.database.dao.UserDAO;
@@ -73,19 +74,40 @@ public enum UserManager implements IObservable {
 	public void setLoggedInUser(User loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
-
+	
+	public void saveUserProfile(Image image, String username, String password, String description) {
+		try (UserDAO userDao = new UserDAO()) {
+			userDao.saveUserProfile(image, username, password, description);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveProfileImage() {
+		
+	}
+	
+	public void saveUsername() {
+		
+	}
+	
+	public void savePassword() {
+		
+	}
+	
+	public void saveDescription() {
+		
+	}
 	
 	@Override
 	public void registerObserver(IObserver obs) {
 		observers.add(obs);
 	}
-
 	
 	@Override
 	public void removeObserver(IObserver obs) {
 		observers.remove(obs);
 	}
-
 	
 	@Override
 	public void notifyObservers() {

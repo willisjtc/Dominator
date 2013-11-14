@@ -1,27 +1,39 @@
 package dominion.cards;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.image.Image;
 import dominion.cards.treasure.TreasureBase;
 import dominion.cards.victory.VictoryBase;
 
 public abstract class Card implements CardBase, VictoryBase, TreasureBase {
-	private Card card;
+	
+	private final SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
+	protected Image cardImage;
+	
+	public boolean getSelected() {
+        return selected.get();
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected.set(selected);
+	}	
 	
 	public abstract int getCost();
 
 	@Override
 	public int getPoints() throws NoSuchMethodException {
-		if (!card.isVictory()) {
+		if (!this.isVictory()) {
 			throw new NoSuchMethodException();
 		}
-		return card.getPoints();
+		return this.getPoints();
 	}
 
 	@Override
 	public int getValue() throws NoSuchMethodException {
-		if (!card.isVictory()) {
+		if (!this.isVictory()) {
 			throw new NoSuchMethodException();
 		}
-		return card.getValue();
+		return this.getValue();
 	}
 
 	@Override
@@ -48,4 +60,19 @@ public abstract class Card implements CardBase, VictoryBase, TreasureBase {
 	public boolean isVictory() {
 		return false;
 	}
+
+	
+	public Image getCardImage() {
+		return cardImage;
+	}
+
+	
+	public void setCardImage(Image cardImage) {
+		this.cardImage = cardImage;
+	}
+
+	public SimpleBooleanProperty selectedProperty() {
+        return selected;
+	}
+
 }

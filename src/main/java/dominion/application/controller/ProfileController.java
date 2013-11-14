@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import dominion.application.manager.UserManager;
 
 public class ProfileController extends AnchorPane {
 
@@ -38,6 +39,8 @@ public class ProfileController extends AnchorPane {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	public void changePhotoClicked(MouseEvent evt) {
@@ -79,6 +82,7 @@ public class ProfileController extends AnchorPane {
 	
 	public void saveClicked(MouseEvent evt) {
 		System.out.println("mouse clicked");
+		UserManager.instance.saveUserProfile(profileImageView.getImage(), usernameField.getText(), passwordField.getText(), descriptionArea.getText());
 	}
 	
 	public void saveEntered(KeyEvent evt) {

@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
     <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="-1.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
@@ -30,7 +30,7 @@
                     </Label>
                     <HBox fx:id="hboxOne" prefHeight="-1.0" prefWidth="-1.0" spacing="20.0" VBox.vgrow="NEVER">
                       <children>
-                        <ComboBox fx:id="comboBoxOne">
+                        <ComboBox fx:id="comboBoxOne" promptText="">
                           <items>
                             <FXCollections fx:factory="observableArrayList">
                               <String fx:value="Item 1" />
@@ -92,18 +92,23 @@
               <children>
                 <TabPane prefHeight="364.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <tabs>
+                    <Tab text="Overview">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      </content>
+                    </Tab>
                     <Tab fx:id="baseTab" text="Base">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <HBox prefHeight="328.0" prefWidth="600.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                            <HBox prefHeight="328.0" prefWidth="600.0" spacing="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                               <children>
-                                <ListView prefHeight="328.0" prefWidth="251.0" />
-                                <ImageView fitHeight="225.0" fitWidth="299.99999088120177" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
-                                  <HBox.margin>
-                                    <Insets />
-                                  </HBox.margin>
-                                </ImageView>
+                                <ListView fx:id="cards" prefHeight="328.0" prefWidth="251.0" />
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                  <children>
+                                    <ImageView fx:id="cardImageView" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="1.0" scaleY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                  </children>
+                                </AnchorPane>
                               </children>
                             </HBox>
                           </children>
