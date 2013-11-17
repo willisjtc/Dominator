@@ -60,12 +60,10 @@ public abstract class Card implements CardBase, VictoryBase, TreasureBase {
 	public boolean isVictory() {
 		return false;
 	}
-
 	
 	public Image getCardImage() {
 		return cardImage;
 	}
-
 	
 	public void setCardImage(Image cardImage) {
 		this.cardImage = cardImage;
