@@ -1,8 +1,9 @@
 package dominion.application.controller;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,11 +11,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.ToggleGroup;
@@ -27,7 +33,7 @@ import javafx.util.StringConverter;
 import dominion.application.model.PlayerOptions;
 import dominion.cards.Card;
 import dominion.cards.CardFactory;
-import dominion.cards.expansion.Expansion;
+import dominion.cards.CardUtils;
 
 public class SingleGameSetupController extends AnchorPane {
 
@@ -54,13 +60,26 @@ public class SingleGameSetupController extends AnchorPane {
 	@FXML private RadioButton randomRadioButton;
 	@FXML private RadioButton customRadioButton;
 	
-	@FXML private ListView<Expansion> expansionList;
 	@FXML private ListView<Card> customCardList;
 	@FXML private ListView<Card> randomCardList;
 	@FXML private ImageView overviewImageDisplay;
 	
 	@FXML private ListView<Card> baseCardList;
 	@FXML private ImageView baseCardImageView;
+	
+	@FXML private ImageView miniImage1;
+	@FXML private ImageView miniImage2;
+	@FXML private ImageView miniImage3;
+	@FXML private ImageView miniImage4;
+	@FXML private ImageView miniImage5;
+	@FXML private ImageView miniImage6;
+	@FXML private ImageView miniImage7;
+	@FXML private ImageView miniImage8;
+	@FXML private ImageView miniImage9;
+	@FXML private ImageView miniImage10;
+	
+	private List<ImageView> miniImages;
+	private ObservableList<Card> obsCustomCardList;
 	
 	private final IntegerProperty cardsChosenCount = new SimpleIntegerProperty(0);
 	private final ToggleGroup radioToggleGroup = new ToggleGroup();
@@ -77,10 +96,10 @@ public class SingleGameSetupController extends AnchorPane {
 		}
 		
 		initRadioButtons();
-		initExpansionListView();
 		initBaseListView();
 		initCustomCardListView();
 		initRandomCardListView();
+		initMiniCardImages();
 	}
 	
 	private void initRadioButtons() {
@@ -94,61 +113,6 @@ public class SingleGameSetupController extends AnchorPane {
 		});
 		randomRadioButton.setSelected(true);
 		customRadioButton.setToggleGroup(radioToggleGroup);
-	}
-	
-	private void initExpansionListView() {
-		ObservableList<Expansion> observableExpansionList = FXCollections.observableArrayList();
-		observableExpansionList.addAll(Expansion.values());
-		expansionList.setItems(observableExpansionList);
-		
-		ChangeListener<Boolean> listener = new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable,
-					Boolean oldValue, Boolean newValue) {
-				
-			}
-		};
-		for (Expansion expansion : Expansion.values()) {
-			expansion.selectedProperty().addListener(listener);
-			expansion.setSelected(true);
-		}
-		
-		Callback<Expansion, ObservableValue<Boolean>> checkBoxCallback = new Callback<Expansion, ObservableValue<Boolean>>() {
-			@Override
-			public BooleanProperty call(Expansion expansion) {
-				return expansion.selectedProperty();
-			}
-		};
-		
-		StringConverter<Expansion> expansionToStringConverter = new StringConverter<Expansion>() {
-			@Override
-			public Expansion fromString(String expansion) {
-				try {
-					return Expansion.valueOf(expansion);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-
-			@Override
-			public String toString(Expansion expansion) {
-				return expansion.toString();
-			}
-			
-		};
-		
-		Callback<ListView<Expansion>, ListCell<Expansion>> listViewCallback = CheckBoxListCell.forListView(checkBoxCallback, expansionToStringConverter);
-		expansionList.setCellFactory(listViewCallback);
-		
-		
-		expansionList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Expansion>() {
-			@Override
-			public void changed(ObservableValue<? extends Expansion> observable,
-					Expansion oldValue, Expansion newValue) {
-				overviewImageDisplay.setImage(newValue.getExpansionImage());
-			}
-		});
 	}
 	
 	private void initBaseListView() {
@@ -169,19 +133,34 @@ public class SingleGameSetupController extends AnchorPane {
 		                }
 		            });
 		        } else {
-		    		ObservableList<Card> observableChosenCardsList = FXCollections.observableArrayList();
 		        	for (Card card : baseCardList.getItems()) {
-		        		if (card.selectedProperty().get()) {
-		        			observableChosenCardsList.add(card);
+		        		if (card.selectedProperty().get() && !obsCustomCardList.contains(card)) {
+		        			obsCustomCardList.add(card);
+		        		} else if (!card.selectedProperty().get()){
+		        			obsCustomCardList.remove(card);
 		        		}
 		        	}
-		        	customCardList.setItems(observableChosenCardsList);
+		        	resetMiniImages();		        	
 		        }
 			}
 		};
 		for (Card card : observableBaseCardList) {
 			card.selectedProperty().addListener(listener);
 		}
+		
+		///////////////
+		// BUGGED - does not handle when checkbox has focus
+		///////////////
+//		baseCardList.addEventHandler(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+//			@Override
+//			public void handle(KeyEvent event) {
+//				if (baseCardList.getSelectionModel().getSelectedItem().selectedProperty().getValue() == true) {
+//					baseCardList.getSelectionModel().getSelectedItem().setSelected(false);
+//				} else {
+//					baseCardList.getSelectionModel().getSelectedItem().setSelected(true);
+//				}
+//			}
+//		});
 		
 		Callback<Card, ObservableValue<Boolean>> checkBoxCallback = new Callback<Card, ObservableValue<Boolean>>() {
 			@Override
@@ -211,7 +190,6 @@ public class SingleGameSetupController extends AnchorPane {
 		Callback<ListView<Card>, ListCell<Card>> listViewCallback = CheckBoxListCell.forListView(checkBoxCallback, cardToStringConverter);
 		baseCardList.setCellFactory(listViewCallback);
 		
-		
 		baseCardList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
 			@Override
 			public void changed(ObservableValue<? extends Card> observable,
@@ -220,16 +198,21 @@ public class SingleGameSetupController extends AnchorPane {
 			}
 		});
 	}
-	
+ 	
 	private void initCustomCardListView() {
+		obsCustomCardList = FXCollections.observableArrayList();
+		customCardList.setItems(obsCustomCardList);
 		customCardList.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable,
 					Boolean oldValue, Boolean newValue) {
-				System.out.println("oldValue: " + oldValue);
-				System.out.println("newValue: " + newValue);
-			}
+				MultipleSelectionModel<Card> selectedCard = customCardList.selectionModelProperty().get();
+				if (selectedCard == null || selectedCard.getSelectedItem() == null) {
+					overviewImageDisplay.setImage(null);
+					return;
+				}
+				overviewImageDisplay.setImage(selectedCard.getSelectedItem().getCardImage());
+			} 
 			
 		});
 		customCardList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
@@ -246,6 +229,7 @@ public class SingleGameSetupController extends AnchorPane {
 	}
 
 	private void initRandomCardListView() {
+		randomizeRandomList();
 		randomCardList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
 			@Override
 			public void changed(ObservableValue<? extends Card> observable,
@@ -257,5 +241,85 @@ public class SingleGameSetupController extends AnchorPane {
 				}
 			}
 		});
+		randomCardList.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable,
+					Boolean oldValue, Boolean newValue) {
+				MultipleSelectionModel<Card> selectedCard = randomCardList.selectionModelProperty().get();
+				if (selectedCard == null || selectedCard.getSelectedItem() == null) {
+					overviewImageDisplay.setImage(null);
+					return;
+				}
+				overviewImageDisplay.setImage(selectedCard.getSelectedItem().getCardImage());
+			}
+		});
+		
+		final ContextMenu randomListContextMenu = new ContextMenu();
+		MenuItem randomizeMenuItem = new MenuItem("Randomize");
+		randomizeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				randomizeRandomList();
+			}
+		});
+		randomListContextMenu.getItems().add(randomizeMenuItem);
+		
+		MenuItem replaceCardMenuItem = new MenuItem("Replace");
+		replaceCardMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				replaceRandomCard();
+			}
+		});
+		randomListContextMenu.getItems().add(replaceCardMenuItem);
+		randomCardList.setContextMenu(randomListContextMenu);
+	}
+	
+	private void initMiniCardImages() {
+		miniImages = new LinkedList<ImageView>();
+		miniImages.add(miniImage1);
+		miniImages.add(miniImage2);
+		miniImages.add(miniImage3);
+		miniImages.add(miniImage4);
+		miniImages.add(miniImage5);
+		miniImages.add(miniImage6);
+		miniImages.add(miniImage7);
+		miniImages.add(miniImage8);
+		miniImages.add(miniImage9);
+		miniImages.add(miniImage10);
+	}
+	
+	private void randomizeRandomList() {
+		ObservableList<Card> observableCardList = FXCollections.observableArrayList();
+		observableCardList.addAll(CardUtils.getRandomCardSet());
+		int index = randomCardList.getSelectionModel().getSelectedIndex();
+		randomCardList.setItems(observableCardList);
+		if (index != -1) {
+			randomCardList.getSelectionModel().select(index);
+		}
+	}
+	
+	private void replaceRandomCard() {
+		int index = randomCardList.getSelectionModel().getSelectedIndex();
+		Card randomCard = CardUtils.getRandomCard(randomCardList.getItems().toArray(new Card[0]));
+		randomCardList.getItems().set(index, randomCard);
+		randomCardList.getSelectionModel().select(index);
+	}	
+
+	private void resetMiniImages() {
+		
+		for (ImageView miniImageView : miniImages) {
+			miniImageView.setImage(null);
+		}
+		for (Card card : obsCustomCardList) {
+			if (card.selectedProperty().get()) {
+				for (ImageView miniImageView : miniImages) {
+					if (miniImageView.getImage() == null) {
+						miniImageView.setImage(card.getCardImage());
+						break;
+					}
+				}
+			}
+		}
 	}
 }
