@@ -23,6 +23,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.ImageView;
@@ -34,21 +35,27 @@ import dominion.application.model.PlayerOptions;
 import dominion.cards.Card;
 import dominion.cards.CardFactory;
 import dominion.cards.CardUtils;
+import dominion.game.ai.DominionAI;
 
 public class SingleGameSetupController extends AnchorPane {
 
+	@FXML private Tab mainOverviewTab;
+	
 	@FXML private Tab playersTab;
 	@FXML private HBox hboxOne;
 	@FXML private ComboBox<PlayerOptions> comboBoxOne;
+	@FXML private ComboBox<DominionAI> aiComboBoxOne;
 	@FXML private HBox hboxTwo;
 	@FXML private ComboBox<PlayerOptions> comboBoxTwo;
+	@FXML private ComboBox<DominionAI> aiComboBoxTwo;
 	@FXML private HBox hboxThree;
 	@FXML private ComboBox<PlayerOptions> comboBoxThree;
+	@FXML private ComboBox<DominionAI> aiComboBoxThree;
 	@FXML private HBox hboxFour;
 	@FXML private ComboBox<PlayerOptions> comboBoxFour;
+	@FXML private ComboBox<DominionAI> aiComboBoxFour;
 	
 	@FXML private Tab cardsTab;
-	@FXML private Tab miscellaneousTab;
 	
 	@FXML private Tab baseTab;
 	@FXML private Tab intrigueTab;
@@ -67,6 +74,17 @@ public class SingleGameSetupController extends AnchorPane {
 	@FXML private ListView<Card> baseCardList;
 	@FXML private ImageView baseCardImageView;
 	
+	@FXML private ImageView overviewImage1;
+	@FXML private ImageView overviewImage2;
+	@FXML private ImageView overviewImage3;
+	@FXML private ImageView overviewImage4;
+	@FXML private ImageView overviewImage5;
+	@FXML private ImageView overviewImage6;
+	@FXML private ImageView overviewImage7;
+	@FXML private ImageView overviewImage8;
+	@FXML private ImageView overviewImage9;
+	@FXML private ImageView overviewImage10;
+	
 	@FXML private ImageView miniImage1;
 	@FXML private ImageView miniImage2;
 	@FXML private ImageView miniImage3;
@@ -79,6 +97,7 @@ public class SingleGameSetupController extends AnchorPane {
 	@FXML private ImageView miniImage10;
 	
 	private List<ImageView> miniImages;
+	private List<ImageView> overviewImages;
 	private ObservableList<Card> obsCustomCardList;
 	
 	private final IntegerProperty cardsChosenCount = new SimpleIntegerProperty(0);
@@ -95,13 +114,75 @@ public class SingleGameSetupController extends AnchorPane {
 			e.printStackTrace();
 		}
 		
-		initRadioButtons();
+		
+		
 		initBaseListView();
 		initCustomCardListView();
 		initRandomCardListView();
+		initOverviewImages();
+		initRadioButtons();
 		initMiniCardImages();
+		initPlayersTab();
 	}
-	
+	private void initPlayersTab() {
+		ObservableList<PlayerOptions> playerOptions = FXCollections.observableArrayList();
+		playerOptions.addAll(PlayerOptions.values());
+		comboBoxOne.setItems(playerOptions);
+		comboBoxTwo.setItems(playerOptions);
+		comboBoxThree.setItems(playerOptions);
+		comboBoxFour.setItems(playerOptions);
+		
+		comboBoxOne.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (comboBoxOne.getSelectionModel().getSelectedItem().equals(PlayerOptions.COMPUTER)) {
+					aiComboBoxOne.setVisible(true);
+				} else {
+					aiComboBoxOne.setVisible(false);
+				}
+			}
+		});
+		comboBoxTwo.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (comboBoxTwo.getSelectionModel().getSelectedItem().equals(PlayerOptions.COMPUTER)) {
+					aiComboBoxTwo.setVisible(true);
+				} else {
+					aiComboBoxTwo.setVisible(false);
+				}
+			}
+		});
+		comboBoxThree.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (comboBoxThree.getSelectionModel().getSelectedItem().equals(PlayerOptions.COMPUTER)) {
+					aiComboBoxThree.setVisible(true);
+				} else {
+					aiComboBoxThree.setVisible(false);
+				}
+			}
+		});
+		comboBoxFour.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				if (comboBoxFour.getSelectionModel().getSelectedItem().equals(PlayerOptions.COMPUTER)) {
+					aiComboBoxFour.setVisible(true);
+				} else {
+					aiComboBoxFour.setVisible(false);
+				}
+			}
+		});
+		
+		comboBoxOne.getSelectionModel().selectFirst();
+		comboBoxTwo.getSelectionModel().selectFirst();
+		comboBoxThree.getSelectionModel().selectFirst();
+		comboBoxFour.getSelectionModel().selectFirst();
+		
+		aiComboBoxOne.setVisible(false);
+		aiComboBoxTwo.setVisible(false);
+		aiComboBoxThree.setVisible(false);
+		aiComboBoxFour.setVisible(false);
+	}
 	private void initRadioButtons() {
 		randomRadioButton.setToggleGroup(radioToggleGroup);
 		randomRadioButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -111,10 +192,18 @@ public class SingleGameSetupController extends AnchorPane {
 				
 			}
 		});
-		randomRadioButton.setSelected(true);
 		customRadioButton.setToggleGroup(radioToggleGroup);
-	}
-	
+		
+		radioToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observable,
+					Toggle oldValue, Toggle newValue) {
+				System.out.println("Toggle occurred");
+				resetOverviewImages();
+			}
+		});
+		randomRadioButton.setSelected(true);
+	}	
 	private void initBaseListView() {
 		ObservableList<Card> observableBaseCardList = FXCollections.observableArrayList();
 		observableBaseCardList.addAll(CardFactory.getBaseKingdomCards());
@@ -140,7 +229,8 @@ public class SingleGameSetupController extends AnchorPane {
 		        			obsCustomCardList.remove(card);
 		        		}
 		        	}
-		        	resetMiniImages();		        	
+		        	resetMiniImages();
+		        	resetOverviewImages();
 		        }
 			}
 		};
@@ -198,7 +288,6 @@ public class SingleGameSetupController extends AnchorPane {
 			}
 		});
 	}
- 	
 	private void initCustomCardListView() {
 		obsCustomCardList = FXCollections.observableArrayList();
 		customCardList.setItems(obsCustomCardList);
@@ -275,6 +364,19 @@ public class SingleGameSetupController extends AnchorPane {
 		randomCardList.setContextMenu(randomListContextMenu);
 	}
 	
+	private void initOverviewImages() {
+		overviewImages = new LinkedList<ImageView>();
+		overviewImages.add(overviewImage1);
+		overviewImages.add(overviewImage2);
+		overviewImages.add(overviewImage3);
+		overviewImages.add(overviewImage4);
+		overviewImages.add(overviewImage5);
+		overviewImages.add(overviewImage6);
+		overviewImages.add(overviewImage7);
+		overviewImages.add(overviewImage8);
+		overviewImages.add(overviewImage9);
+		overviewImages.add(overviewImage10);
+	}
 	private void initMiniCardImages() {
 		miniImages = new LinkedList<ImageView>();
 		miniImages.add(miniImage1);
@@ -305,7 +407,6 @@ public class SingleGameSetupController extends AnchorPane {
 		randomCardList.getItems().set(index, randomCard);
 		randomCardList.getSelectionModel().select(index);
 	}	
-
 	private void resetMiniImages() {
 		
 		for (ImageView miniImageView : miniImages) {
@@ -316,6 +417,32 @@ public class SingleGameSetupController extends AnchorPane {
 				for (ImageView miniImageView : miniImages) {
 					if (miniImageView.getImage() == null) {
 						miniImageView.setImage(card.getCardImage());
+						break;
+					}
+				}
+			}
+		}
+	}
+	private void resetOverviewImages() {
+		System.out.println("resetOverviewImages");
+		for (ImageView overviewImageView : overviewImages) {
+			overviewImageView.setImage(null);
+		}
+		if (randomRadioButton.isSelected()) {
+			for (Card card : randomCardList.getItems()) {
+				System.out.println("card: " + card.toString());
+				for (ImageView overviewImageView : overviewImages) {
+					if (overviewImageView.getImage() == null) {
+						overviewImageView.setImage(card.getCardImage());
+						break;
+					}
+				}
+			}
+		} else {
+			for (Card card : customCardList.getItems()) {
+				for (ImageView overviewImageView : overviewImages) {
+					if (overviewImageView.getImage() == null) {
+						overviewImageView.setImage(card.getCardImage());
 						break;
 					}
 				}

@@ -67,6 +67,8 @@ public class DashboardController extends AnchorPane implements IViewManager {
 				}
 			}
 		});
+		
+		dashboardList.getSelectionModel().selectFirst();
 	}
 	
 	private static class DashboardOptionCell extends ListCell<DashboardOptions> {

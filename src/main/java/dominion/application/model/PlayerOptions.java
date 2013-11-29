@@ -1,7 +1,8 @@
 package dominion.application.model;
 
 public enum PlayerOptions {
-	ME (1, "Me"),
+	NONE (0, "None"),
+	HUMAN (1, "Human"),
 	COMPUTER (2, "Computer");
 	
 	int id;
@@ -17,6 +18,10 @@ public enum PlayerOptions {
 	}
 	
 	public String getDisplayName() {
+		return displayName;
+	}
+	
+	public String toString() {
 		return displayName;
 	}
 }
