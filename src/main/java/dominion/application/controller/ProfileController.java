@@ -39,8 +39,6 @@ public class ProfileController extends AnchorPane {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	public void changePhotoClicked(MouseEvent evt) {

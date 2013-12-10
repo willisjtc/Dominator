@@ -1,6 +1,6 @@
 package dominion.application.model;
 
-public enum PlayerOptions {
+public enum PlayerType {
 	NONE (0, "None"),
 	HUMAN (1, "Human"),
 	COMPUTER (2, "Computer");
@@ -8,7 +8,7 @@ public enum PlayerOptions {
 	int id;
 	String displayName;
 	
-	PlayerOptions(int id, String displayName) {
+	PlayerType(int id, String displayName) {
 		this.id = id;
 		this.displayName = displayName;  
 	}

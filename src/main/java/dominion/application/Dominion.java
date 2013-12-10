@@ -17,7 +17,6 @@ public class Dominion extends Application {
 			mainController = new MainController();
 			
 			Scene scene = new Scene(mainController);
-			scene.getStylesheets().add(Dominion.class.getResource("login.css").toExternalForm());
 			primaryStage.setTitle("Dominion Client");
 			primaryStage.setScene(scene);
 	        primaryStage.show();
