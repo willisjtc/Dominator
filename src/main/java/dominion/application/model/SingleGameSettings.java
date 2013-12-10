@@ -4,9 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
 import dominion.application.IObservable;
 import dominion.application.IObserver;
 import dominion.cards.Card;
@@ -25,10 +22,19 @@ public class SingleGameSettings implements IObservable {
 		players = new LinkedList<PlayerType>();
 		customCards = new LinkedList<Card>();
 		randomCards = new LinkedList<Card>();
+		
+		setChosen = CardSet.RANDOM;
 	}
 	
 	public Collection<Card> getCustomCards() {
 		return customCards;
+	}
+	
+	public void setRandomCards(Card[] cards) {
+		for (Card card : cards) {
+			randomCards.add(card);
+		}
+		notifyObservers();
 	}
 	
 	public Collection<Card> getRandomCards() {
@@ -43,6 +49,13 @@ public class SingleGameSettings implements IObservable {
 		return randomCards.size();
 	}
 	
+	public Collection<Card> getSelectedCards() {
+		if (setChosen.equals(CardSet.RANDOM)) {
+			return randomCards;
+		}
+		return customCards;
+	}
+	
 	public boolean addPlayer(PlayerType playerType) {
 		return players.add(playerType);
 	}
@@ -52,8 +65,8 @@ public class SingleGameSettings implements IObservable {
 	}
 	
 	public void setCardSet(CardSet cardSet) {
-		System.out.println("cardset: " + cardSet);
-			setChosen = cardSet;
+		setChosen = cardSet;
+		notifyObservers();
 	}
 	
 	public void cardAdded(Card[] cards) {

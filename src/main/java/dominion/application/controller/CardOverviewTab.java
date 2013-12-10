@@ -62,6 +62,7 @@ public class CardOverviewTab extends Tab implements IObserver{
 		gameSettings = settings;
 		gameSettings.registerObserver(this);
 		randomRadioButton.setSelected(true);
+		gameSettings.setRandomCards(randomCardList.getItems().toArray(new Card[0]));
 	}
 	
 	private void initRadioButtons() {
@@ -123,6 +124,7 @@ public class CardOverviewTab extends Tab implements IObserver{
 	
 	private void initRandomCardListView() {
 		randomizeRandomList();
+		
 		randomCardList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
 			@Override
 			public void changed(ObservableValue<? extends Card> observable,

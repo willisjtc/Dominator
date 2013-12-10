@@ -10,122 +10,16 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<?import dominion.application.controller.BaseTab ?>
+<?import dominion.application.controller.MainOverviewTab ?>
 <?import dominion.application.controller.CardOverviewTab ?>
+<?import dominion.application.controller.BaseTab ?>
+
 
 <fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-1.0" minWidth="-1.0" prefHeight="600.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
     <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="-1.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
-        <Tab fx:id="mainOverviewTab" text="Overview">
-          <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-              <children>
-                <VBox prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                  <children>
-                    <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-                      <children>
-                        <VBox id="playersVBox" prefHeight="-1.0" prefWidth="-1.0" spacing="40.0" HBox.hgrow="ALWAYS">
-                          <children>
-                            <Label text="Players">
-                              <font>
-                                <Font size="18.0" fx:id="x3" />
-                              </font>
-                              <VBox.margin>
-                                <Insets />
-                              </VBox.margin>
-                            </Label>
-                          </children>
-                        </VBox>
-                        <VBox prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-                        <GridPane prefHeight="488.0" HBox.hgrow="SOMETIMES">
-                          <children>
-                            <HBox id="overivewImage1" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="tinyImage1" fx:id="overviewImage1" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                              <GridPane.margin>
-                                <Insets />
-                              </GridPane.margin>
-                            </HBox>
-                            <HBox id="overviewImage2" prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage2" fx:id="overviewImage2" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage3" fx:id="overviewImage3" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" translateX="0.0" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage4" fx:id="overviewImage4" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage5" fx:id="overviewImage5" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage6" fx:id="overviewImage6" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage7" fx:id="overviewImage7" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage8" fx:id="overviewImage8" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage9" fx:id="overviewImage9" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                            <HBox prefHeight="-1.0" prefWidth="-1.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="4" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                              <children>
-                                <ImageView id="miniImage10" fx:id="overviewImage10" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" scaleX="0.2" scaleY="0.2" scaleZ="0.2" HBox.hgrow="NEVER" />
-                              </children>
-                            </HBox>
-                          </children>
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                        </GridPane>
-                      </children>
-                    </HBox>
-                    <HBox alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="NEVER">
-                      <children>
-                        <Button mnemonicParsing="false" text="Play" HBox.hgrow="NEVER">
-                          <HBox.margin>
-                            <Insets right="17.0" top="15.0" />
-                          </HBox.margin>
-                        </Button>
-                      </children>
-                    </HBox>
-                  </children>
-                  <padding>
-                    <Insets />
-                  </padding>
-                </VBox>
-              </children>
-            </AnchorPane>
-          </content>
-        </Tab>
+        <MainOverviewTab fx:id="mainOverviewTab" />
         <Tab fx:id="playersTab" text="Players">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -157,7 +51,7 @@
                 <TabPane prefHeight="364.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <tabs>
                     <CardOverviewTab fx:id="cardOverviewTab" />
-                    <BaseTab fx:id="baseTab" />
+                    <BaseTab fx:id="baseCardsTab" />
                     <Tab fx:id="intrigueTab" text="Intrigue">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
