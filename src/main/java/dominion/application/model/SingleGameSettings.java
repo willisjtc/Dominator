@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import dominion.application.IObservable;
 import dominion.application.IObserver;
 import dominion.cards.Card;
 
-public class SingleGameSettings implements IObservable {
-
+public enum SingleGameSettings implements IObservable {
+	INSTANCE;
+	
 	private List<IObserver> observers;
 	private List<PlayerType> players;
 	private List<Card> customCards;
@@ -17,13 +20,17 @@ public class SingleGameSettings implements IObservable {
 	
 	private CardSet setChosen;
 	
-	public SingleGameSettings() {
+	private SingleGameSettings() {
 		observers = new LinkedList<IObserver>();
 		players = new LinkedList<PlayerType>();
 		customCards = new LinkedList<Card>();
 		randomCards = new LinkedList<Card>();
 		
 		setChosen = CardSet.RANDOM;
+	}
+	
+	public void setCustomCards() {
+		
 	}
 	
 	public Collection<Card> getCustomCards() {
@@ -69,7 +76,7 @@ public class SingleGameSettings implements IObservable {
 		notifyObservers();
 	}
 	
-	public void cardAdded(Card[] cards) {
+	public void cardToggled(Card[] cards) {
 		for (Card card : cards) {
 			if (card.selectedProperty().get() && !customCards.contains(card)) {
 				customCards.add(card);
@@ -78,6 +85,11 @@ public class SingleGameSettings implements IObservable {
 			}
 		}
 		notifyObservers();
+	}
+	
+	@PostConstruct
+	public void init() {
+		System.out.println("single game settings init()");
 	}
 	
 	@Override

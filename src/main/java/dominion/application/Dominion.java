@@ -1,19 +1,23 @@
 package dominion.application;
 
-import dominion.application.controller.MainController;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import dominion.application.controller.ConfigurationFactory;
+import dominion.application.controller.MainController;
+
 public class Dominion extends Application {
 	
-	Parent root;
-	MainController mainController;
+	private MainController mainController;
 	
 	@Override
 	public void start(Stage primaryStage) {
+		
 		try {
+			
 			mainController = new MainController();
 			
 			Scene scene = new Scene(mainController);

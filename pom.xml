@@ -13,10 +13,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.2.6.Final</version>
-		</dependency>
+	        <groupId>org.springframework</groupId>
+	        <artifactId>spring-context</artifactId>
+	        <version>3.2.5.RELEASE</version>
+    	</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
@@ -28,6 +28,11 @@
 			<version>2.0</version>
 			<scope>system</scope>
 			<systemPath>/Library/Java/JavaVirtualMachines/jdk1.7.0_40.jdk/Contents/Home/jre/lib/jfxrt.jar</systemPath>
+		</dependency>
+    	<dependency>
+		  <groupId>com.google.inject</groupId>
+		  <artifactId>guice</artifactId>
+		  <version>3.0</version>
 		</dependency>
 	</dependencies>
 	

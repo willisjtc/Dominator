@@ -1,8 +1,12 @@
 package dominion.application.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -11,7 +15,7 @@ import dominion.application.manager.IViewManager;
 import dominion.database.dao.InitializationDAO;
 
 
-public class MainController extends BorderPane implements IViewManager {
+public class MainController extends BorderPane implements IViewManager, Initializable {
 	
 	@FXML private MenubarController menubarController;
 	@FXML private LoginController loginController;
@@ -20,6 +24,8 @@ public class MainController extends BorderPane implements IViewManager {
 	private DashboardController dashboardController;
 	
 	private Pane currentController;
+	
+	private String name;
 	
 	public MainController() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
@@ -46,6 +52,8 @@ public class MainController extends BorderPane implements IViewManager {
 		}
 		
 	}
+	
+	
 	
 	@Override
 	public void authenticated() {
@@ -78,5 +86,12 @@ public class MainController extends BorderPane implements IViewManager {
 	
 	public void requestFocus() {
 		currentController.requestFocus();
+	}
+
+
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("initialize(" + location + ", " + resources + ")");
 	}
 }

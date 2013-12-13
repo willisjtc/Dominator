@@ -11,7 +11,7 @@
 <?import dominion.application.controller.MenubarController ?>
 <?import dominion.application.controller.LoginController?>
 
-<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml" prefWidth="1110.0" prefHeight="600.0">
+<fx:root type="dominion.application.controller.MainController" xmlns:fx="http://javafx.com/fxml" prefWidth="1110.0" prefHeight="600.0">
   <center>
     <SplitPane fx:id="splitPane" dividerPositions="0.36789297658862874" focusTraversable="true" prefHeight="160.0" prefWidth="300.0">
       <items>

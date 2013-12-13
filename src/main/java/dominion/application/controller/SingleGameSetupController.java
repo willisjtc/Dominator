@@ -4,6 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
+import dominion.application.GameSettingsModule;
 import dominion.application.model.SingleGameSettings;
 
 public class SingleGameSetupController extends AnchorPane {
@@ -20,7 +26,7 @@ public class SingleGameSetupController extends AnchorPane {
 	@FXML private Tab alchemyTab;
 	@FXML private Tab darkAgesTab;
 
-	private SingleGameSettings gameSettings; 
+	@Inject private SingleGameSettings gameSettings; 
 	
 
 	public SingleGameSetupController() {
@@ -34,10 +40,7 @@ public class SingleGameSetupController extends AnchorPane {
 			e.printStackTrace();
 		}
 		
-		gameSettings = new SingleGameSettings();
-		
-		mainOverviewTab.setGameSettings(gameSettings);
-		cardOverviewTab.setGameSettings(gameSettings);
-		baseCardsTab.setGameSettings(gameSettings);
+		Injector injector = Guice.createInjector(new GameSettingsModule());
+		injector.injectMembers(this);		
 	}
 }

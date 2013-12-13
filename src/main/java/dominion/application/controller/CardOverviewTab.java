@@ -18,6 +18,12 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
+import dominion.application.GameSettingsModule;
 import dominion.application.IObserver;
 import dominion.application.model.CardSet;
 import dominion.application.model.SingleGameSettings;
@@ -36,7 +42,7 @@ public class CardOverviewTab extends Tab implements IObserver{
 	
 	@FXML private ImageView overviewImageDisplay;
 	
-	private SingleGameSettings gameSettings;
+	@Inject private SingleGameSettings gameSettings;
 	private final ToggleGroup radioToggleGroup = new ToggleGroup();
 	
 	public CardOverviewTab() {
@@ -50,19 +56,17 @@ public class CardOverviewTab extends Tab implements IObserver{
 			e.printStackTrace();
 		}
 		
+		Injector injector = Guice.createInjector(new GameSettingsModule());
+		injector.injectMembers(this);
+		
+		
 		this.setText("Overview");
 		this.setContent(content);
+		this.gameSettings.registerObserver(this);
 		
 		initRadioButtons();
 		initCustomCardListView();
 		initRandomCardListView();
-	}
-	
-	public void setGameSettings(SingleGameSettings settings) {
-		gameSettings = settings;
-		gameSettings.registerObserver(this);
-		randomRadioButton.setSelected(true);
-		gameSettings.setRandomCards(randomCardList.getItems().toArray(new Card[0]));
 	}
 	
 	private void initRadioButtons() {
@@ -92,6 +96,8 @@ public class CardOverviewTab extends Tab implements IObserver{
 					Toggle oldValue, Toggle newValue) {
 			}
 		});
+		
+		randomRadioButton.setSelected(true);
 	}
 	
 	private void initCustomCardListView() {
@@ -124,6 +130,7 @@ public class CardOverviewTab extends Tab implements IObserver{
 	
 	private void initRandomCardListView() {
 		randomizeRandomList();
+		gameSettings.setRandomCards(randomCardList.getItems().toArray(new Card[0]));
 		
 		randomCardList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Card>() {
 			@Override
