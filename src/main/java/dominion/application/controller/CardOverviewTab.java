@@ -18,12 +18,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import dominion.application.GameSettingsModule;
 import dominion.application.IObserver;
 import dominion.application.model.CardSet;
 import dominion.application.model.SingleGameSettings;
@@ -42,10 +36,19 @@ public class CardOverviewTab extends Tab implements IObserver{
 	
 	@FXML private ImageView overviewImageDisplay;
 	
-	@Inject private SingleGameSettings gameSettings;
+	private SingleGameSettings gameSettings;
 	private final ToggleGroup radioToggleGroup = new ToggleGroup();
 	
-	public CardOverviewTab() {
+	public CardOverviewTab() { }
+	
+	public void initializeController(SingleGameSettings gameSettings) {
+		this.gameSettings = gameSettings;
+		this.gameSettings.registerObserver(this);
+		
+		initView();
+	}
+	
+	private void initView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("card_overview_tab.fxml"));
 		fxmlLoader.setRoot(content);
 		fxmlLoader.setController(this);
@@ -56,13 +59,8 @@ public class CardOverviewTab extends Tab implements IObserver{
 			e.printStackTrace();
 		}
 		
-		Injector injector = Guice.createInjector(new GameSettingsModule());
-		injector.injectMembers(this);
-		
-		
 		this.setText("Overview");
 		this.setContent(content);
-		this.gameSettings.registerObserver(this);
 		
 		initRadioButtons();
 		initCustomCardListView();
@@ -109,7 +107,6 @@ public class CardOverviewTab extends Tab implements IObserver{
 					Boolean oldValue, Boolean newValue) {
 				MultipleSelectionModel<Card> selectedCard = customCardList.selectionModelProperty().get();
 				if (selectedCard == null || selectedCard.getSelectedItem() == null) {
-					overviewImageDisplay.setImage(null);
 					return;
 				}
 				overviewImageDisplay.setImage(selectedCard.getSelectedItem().getCardImage());
@@ -119,10 +116,9 @@ public class CardOverviewTab extends Tab implements IObserver{
 			@Override
 			public void changed(ObservableValue<? extends Card> observable,
 					Card oldValue, Card newValue) {
+				System.out.println("Changed");
 				if (newValue != null) {
 					overviewImageDisplay.setImage(newValue.getCardImage());
-				} else {
-					overviewImageDisplay.setImage(null);
 				}
 			}
 		});
@@ -149,6 +145,7 @@ public class CardOverviewTab extends Tab implements IObserver{
 					Boolean oldValue, Boolean newValue) {
 				MultipleSelectionModel<Card> selectedCard = randomCardList.selectionModelProperty().get();
 				if (selectedCard == null || selectedCard.getSelectedItem() == null) {
+					System.out.println("Random image null");
 					overviewImageDisplay.setImage(null);
 					return;
 				}

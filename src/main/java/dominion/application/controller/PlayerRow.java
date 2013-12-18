@@ -2,22 +2,22 @@ package dominion.application.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import dominion.application.model.PlayerType;
+import dominion.application.model.SingleGameSettings;
 import dominion.game.ai.IDominionAI;
 
-public class PlayerRow extends AnchorPane {
+public class PlayerRow extends PlayerEditableRow {
 
-	@FXML private GridPane gridPane;
-	@FXML private ComboBox<IDominionAI> aiComboBox;
-	@FXML private Label playerDescription;
-	@FXML private Button removeButton;
+	@FXML protected ComboBox<IDominionAI> aiComboBox;
 	
-	public PlayerRow(PlayerType playerOption) {
+	public PlayerRow(PlayerType playerOption, SingleGameSettings gameSettings) {
+		super(playerOption, gameSettings);
+	}
+	
+	@Override
+	protected void initView() {
+		System.out.println("player row init view");
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_row.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
@@ -29,12 +29,14 @@ public class PlayerRow extends AnchorPane {
 		}
 		
 		
-		if (playerOption.equals(PlayerType.HUMAN)) {
+		if (playerType.equals(PlayerType.HUMAN)) {
 			aiComboBox.setVisible(false);
 			playerDescription.setText("Human");
 		} else {
 			playerDescription.setText("Computer");
 		}
+		
+		aiComboBox.disableProperty().set(true);
 	}
 	
 	@FXML public void onMouseClicked() {

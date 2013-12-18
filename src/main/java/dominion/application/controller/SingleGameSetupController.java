@@ -4,18 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import dominion.application.GameSettingsModule;
 import dominion.application.model.SingleGameSettings;
 
 public class SingleGameSetupController extends AnchorPane {
 
 	@FXML private MainOverviewTab mainOverviewTab;
-	@FXML private Tab playersTab;
+	@FXML private PlayersTab playersTab;
 	@FXML private BaseTab baseCardsTab;
 	@FXML private Tab cardsTab;
 	@FXML private CardOverviewTab cardOverviewTab;
@@ -26,9 +20,8 @@ public class SingleGameSetupController extends AnchorPane {
 	@FXML private Tab alchemyTab;
 	@FXML private Tab darkAgesTab;
 
-	@Inject private SingleGameSettings gameSettings; 
+	private SingleGameSettings gameSettings; 
 	
-
 	public SingleGameSetupController() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("single_game_setup_controller.fxml"));
 		fxmlLoader.setRoot(this);
@@ -40,7 +33,10 @@ public class SingleGameSetupController extends AnchorPane {
 			e.printStackTrace();
 		}
 		
-		Injector injector = Guice.createInjector(new GameSettingsModule());
-		injector.injectMembers(this);		
+		this.gameSettings = SingleGameSettings.INSTANCE;
+		this.mainOverviewTab.initializeController(this.gameSettings);
+		this.playersTab.initializeController(this.gameSettings);
+		this.cardOverviewTab.initializeController(this.gameSettings);
+		this.baseCardsTab.initializeController(this.gameSettings);
 	}
 }

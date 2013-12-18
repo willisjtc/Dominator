@@ -1,31 +1,21 @@
 package dominion.application.controller;
 
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import dominion.application.GameSettingsModule;
 import dominion.application.IObserver;
 import dominion.application.model.SingleGameSettings;
 import dominion.cards.Card;
-import dominion.cards.CardFactory;
 
-public class MainOverviewTab extends Tab implements IObserver, Initializable{
+public class MainOverviewTab extends Tab implements IObserver {
 
-	@FXML private AnchorPane content;
+	@FXML public AnchorPane content;
 	@FXML private VBox playersVBox;
 	
 	@FXML private ImageView overviewImage1;
@@ -39,11 +29,20 @@ public class MainOverviewTab extends Tab implements IObserver, Initializable{
 	@FXML private ImageView overviewImage9;
 	@FXML private ImageView overviewImage10;
 	
-	@Inject private SingleGameSettings gameSettings;
+	private SingleGameSettings gameSettings;
 	
 	private List<ImageView> overviewImages;
 	
-	public MainOverviewTab() {
+	public MainOverviewTab() { }
+	
+	public void initializeController(SingleGameSettings gameSettings) {
+		this.gameSettings = gameSettings;
+		this.gameSettings.registerObserver(this);
+		
+		initView();
+	}
+	
+	private void initView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main_overview_tab.fxml"));
 		fxmlLoader.setRoot(content);
 		fxmlLoader.setController(this);
@@ -54,18 +53,13 @@ public class MainOverviewTab extends Tab implements IObserver, Initializable{
 			e.printStackTrace();
 		}
 		
-		Injector injector = Guice.createInjector(new GameSettingsModule());
-		injector.injectMembers(this);
-		
 		this.setText("Overview Game");
 		this.setContent(content);
-		this.gameSettings.registerObserver(this);
 		
 		initOverviewImages();
 	}
 	
 	private void resetOverviewImages() {
-		System.out.println("reset overview images");
 		for (ImageView overviewImageView : overviewImages) {
 			overviewImageView.setImage(null);
 		}
@@ -78,8 +72,6 @@ public class MainOverviewTab extends Tab implements IObserver, Initializable{
 				}
 			}
 		}
-		
-		overviewImage1.setImage(CardFactory.adventurer.getCardImage());
 	}
 	
 	private void initOverviewImages() {
@@ -99,10 +91,5 @@ public class MainOverviewTab extends Tab implements IObserver, Initializable{
 	@Override
 	public void update() {
 		resetOverviewImages();
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 	}
 }

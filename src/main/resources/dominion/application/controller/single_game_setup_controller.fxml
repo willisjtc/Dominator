@@ -11,6 +11,7 @@
 <?import javafx.scene.text.*?>
 
 <?import dominion.application.controller.MainOverviewTab ?>
+<?import dominion.application.controller.PlayersTab ?>
 <?import dominion.application.controller.CardOverviewTab ?>
 <?import dominion.application.controller.BaseTab ?>
 
@@ -20,30 +21,7 @@
     <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="-1.0" prefWidth="-1.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
         <MainOverviewTab fx:id="mainOverviewTab" />
-        <Tab fx:id="playersTab" text="Players">
-          <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-              <children>
-                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <children>
-                    <VBox fx:id="playersVBox" prefHeight="-1.0" prefWidth="-1.0" spacing="40.0" HBox.hgrow="NEVER">
-                      <children>
-                        <Label font="$x3" text="Players">
-                          <VBox.margin>
-                            <Insets />
-                          </VBox.margin>
-                        </Label>
-                      </children>
-                    </VBox>
-                  </children>
-                  <padding>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                  </padding>
-                </HBox>
-              </children>
-            </AnchorPane>
-          </content>
-        </Tab>
+        <PlayersTab fx:id="playersTab" />
         <Tab fx:id="cardsTab" text="Cards">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

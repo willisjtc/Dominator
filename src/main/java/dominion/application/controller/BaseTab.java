@@ -19,12 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import dominion.application.GameSettingsModule;
 import dominion.application.IObserver;
 import dominion.application.model.SingleGameSettings;
 import dominion.cards.Card;
@@ -46,12 +40,14 @@ public class BaseTab extends Tab implements IObserver {
 	@FXML private ImageView customCardImage9;
 	@FXML private ImageView customCardImage10;
 	
-	@Inject private SingleGameSettings gameSettings;
+	private SingleGameSettings gameSettings;
 	
 	private List<ImageView> miniImages;
 	
 	
-	public BaseTab() {
+	public BaseTab() {	}
+	
+	public void initializeController(SingleGameSettings gameSettings) {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("base_tab.fxml"));
 		fxmlLoader.setRoot(content);
 		fxmlLoader.setController(this);
@@ -62,12 +58,15 @@ public class BaseTab extends Tab implements IObserver {
 			e.printStackTrace();
 		}
 		
-		Injector injector = Guice.createInjector(new GameSettingsModule());
-		injector.injectMembers(this);
+		this.gameSettings = gameSettings;
+		this.gameSettings.registerObserver(this);
 		
+		initView();
+	}
+	
+	private void initView() {
 		this.setText("Base");
 		this.setContent(content);
-		this.gameSettings.registerObserver(this);
 		
 		initBaseListView();
 		initMiniCardImages();

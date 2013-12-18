@@ -29,11 +29,6 @@
 			<scope>system</scope>
 			<systemPath>/Library/Java/JavaVirtualMachines/jdk1.7.0_40.jdk/Contents/Home/jre/lib/jfxrt.jar</systemPath>
 		</dependency>
-    	<dependency>
-		  <groupId>com.google.inject</groupId>
-		  <artifactId>guice</artifactId>
-		  <version>3.0</version>
-		</dependency>
 	</dependencies>
 	
 	<build>
