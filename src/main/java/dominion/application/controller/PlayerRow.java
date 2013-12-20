@@ -4,15 +4,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import dominion.application.model.PlayerType;
-import dominion.application.model.SingleGameSettings;
 import dominion.game.ai.IDominionAI;
 
 public class PlayerRow extends PlayerEditableRow {
 
 	@FXML protected ComboBox<IDominionAI> aiComboBox;
 	
-	public PlayerRow(PlayerType playerOption, SingleGameSettings gameSettings) {
-		super(playerOption, gameSettings);
+	public PlayerRow(PlayerType playerOption) {
+		super(playerOption, null);
 	}
 	
 	@Override

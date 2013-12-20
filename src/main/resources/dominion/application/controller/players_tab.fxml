@@ -24,7 +24,8 @@
                 <Insets />
               </VBox.margin>
             </Label>
-            <PlayersTable fx:id="playerTable" />
+            <VBox fx:id="playerTable" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            </VBox>
           </children>
         </VBox>
       </children>

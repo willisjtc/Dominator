@@ -37,8 +37,6 @@ public class PlayersTable extends AnchorPane implements IObserver {
 			e.printStackTrace();
 		}
 		
-		playerTable.getChildren().add(new PlayerEditableRow(PlayerType.COMPUTER, gameSettings));
-		playerTable.getChildren().add(new Button("Test Button"));
 		
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 

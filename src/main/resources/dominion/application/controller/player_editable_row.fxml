@@ -24,7 +24,7 @@
               </items>
             </ComboBox>
             <Label fx:id="playerDescription" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Button fx:id="removeButton" alignment="CENTER_LEFT" mnemonicParsing="false" onMouseClicked="#onMouseClicked" text="Remove" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="NEVER" />
+            <Button fx:id="removeButton" alignment="CENTER_LEFT" mnemonicParsing="false" onMouseClicked="#onRemove" text="Remove" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="NEVER" />
           </children>
           <columnConstraints>
             <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="-1.0" />

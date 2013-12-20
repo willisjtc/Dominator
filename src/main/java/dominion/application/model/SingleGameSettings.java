@@ -3,6 +3,7 @@ package dominion.application.model;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.PostConstruct;
 
@@ -64,11 +65,18 @@ public enum SingleGameSettings implements IObservable {
 	}
 	
 	public boolean addPlayer(PlayerType playerType) {
+		notifyObservers();
 		return players.add(playerType);
 	}
 	
+	public Collection<PlayerType> getPlayerTypes() {
+		return players;
+	}
+
 	public boolean removePlayer(PlayerType playerType) {
-		return players.remove(playerType);
+                boolean result = players.remove(playerType);
+                notifyObservers();
+		return result;
 	}
 	
 	public void setCardSet(CardSet cardSet) {
@@ -104,7 +112,7 @@ public enum SingleGameSettings implements IObservable {
 
 	@Override
 	public void notifyObservers() {
-		for (IObserver observer : observers) {
+		for (IObserver observer : new CopyOnWriteArrayList<IObserver>(observers)) {
 			observer.update();
 		}
 	}
