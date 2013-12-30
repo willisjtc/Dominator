@@ -2,7 +2,7 @@ package dominion.cards;
 
 import java.util.List;
 
-import dominion.cards.action.KingdomCards;
+import dominion.cards.action.KingdomCard;
 import dominion.cards.expansion.Expansion;
 import dominion.cards.treasure.Treasures;
 import dominion.cards.victory.VictoryCards;
@@ -14,7 +14,7 @@ public class CardManager {
 		return null;
 	}
 	
-	public static KingdomCards getKingdomCards(List<Expansion> expansions) {
+	public static KingdomCard getKingdomCards(List<Expansion> expansions) {
 		// TODO
 		return null;
 	}

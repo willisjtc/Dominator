@@ -8,8 +8,6 @@ public class User {
 	private String username;
 	private String password;
 	private Image image;
-	private UserGameState playerState;
-	
 
 	public Integer getId() {
 		return id;
@@ -34,11 +32,5 @@ public class User {
 	}
 	public void setImage(Image image) {
 		this.image = image;
-	}
-	public UserGameState getPlayerState() {
-		return playerState;
-	}
-	public void setPlayerState(UserGameState playerState) {
-		this.playerState = playerState;
 	}
 }

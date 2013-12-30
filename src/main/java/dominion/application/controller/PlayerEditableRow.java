@@ -9,8 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import dominion.application.IObserver;
-import dominion.application.model.PlayerType;
-import dominion.game.RemoveRowHandler;
+import dominion.application.model.PlayerType;   
+import dominion.application.RemoveRowHandler;
 import dominion.game.ai.IDominionAI;
 
 public class PlayerEditableRow extends AnchorPane implements IObserver {
@@ -34,7 +34,6 @@ public class PlayerEditableRow extends AnchorPane implements IObserver {
 	}
 	
 	protected void initView() {
-		System.out.println("loading editable row");
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_editable_row.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);

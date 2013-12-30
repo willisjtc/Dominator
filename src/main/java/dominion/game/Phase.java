@@ -8,6 +8,9 @@ package dominion.game;
  *
  * @author jonathan
  */
-public interface RemoveRowHandler {
-    public void removeRow();
+public enum Phase {
+    ACTION,
+    BUY,
+    CLEANUP,
+    DRAW;
 }

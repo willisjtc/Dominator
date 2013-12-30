@@ -2,21 +2,16 @@ package dominion.application.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ComboBox;
 import dominion.application.model.PlayerType;
-import dominion.game.ai.IDominionAI;
 
 public class PlayerRow extends PlayerEditableRow {
 
-	@FXML protected ComboBox<IDominionAI> aiComboBox;
-	
 	public PlayerRow(PlayerType playerOption) {
 		super(playerOption, null);
 	}
 	
 	@Override
 	protected void initView() {
-		System.out.println("player row init view");
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_row.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
@@ -39,6 +34,5 @@ public class PlayerRow extends PlayerEditableRow {
 	}
 	
 	@FXML public void onMouseClicked() {
-		System.out.println("removing row");
 	}
 }

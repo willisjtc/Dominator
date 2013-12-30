@@ -12,6 +12,9 @@ public class DominionConstants {
 	public static final int DUCHY_CARD_COUNT = 12;
 	public static final int ESTATE_CARD_COUNT = 24;
 	public static final int CURSE_CARD_COUNT = 30;
+        
+        public static final int LARGE_GAME_VICTORY_CARD_COUNT = 12;
+        public static final int SMALL_GAME_VICTORY_CARD_COUNT = 8;
 	
 	public static final int PLATINUM_WORTH = 5;
 	public static final int GOLD_WORTH = 3;

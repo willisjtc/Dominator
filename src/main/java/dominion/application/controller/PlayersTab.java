@@ -8,7 +8,8 @@ import javafx.scene.layout.VBox;
 import dominion.application.IObserver;
 import dominion.application.model.PlayerType;
 import dominion.application.model.SingleGameSettings;
-import dominion.game.RemoveRowHandler;
+import dominion.application.RemoveRowHandler;
+import javafx.scene.control.Button;
 
 public class PlayersTab extends Tab implements IObserver {
 
@@ -16,6 +17,11 @@ public class PlayersTab extends Tab implements IObserver {
     private AnchorPane content;
     @FXML
     private VBox playerTable;
+    @FXML
+    private Button addHuman;
+    @FXML 
+    private Button addComputer;
+    
     private SingleGameSettings gameSettings;
 
     public PlayersTab() {
@@ -24,11 +30,6 @@ public class PlayersTab extends Tab implements IObserver {
     public void initializeController(SingleGameSettings gameSettings) {
         this.gameSettings = gameSettings;
         this.gameSettings.registerObserver(this);
-
-        this.gameSettings.addPlayer(PlayerType.HUMAN);
-        this.gameSettings.addPlayer(PlayerType.COMPUTER);
-        this.gameSettings.addPlayer(PlayerType.COMPUTER);
-        this.gameSettings.addPlayer(PlayerType.COMPUTER);
 
         initView();
     }
@@ -43,9 +44,24 @@ public class PlayersTab extends Tab implements IObserver {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         this.setText("Players");
         this.setContent(content);
+        
+        this.gameSettings.addPlayer(PlayerType.HUMAN);
+        this.gameSettings.addPlayer(PlayerType.COMPUTER);
+        this.gameSettings.addPlayer(PlayerType.COMPUTER);
+        this.gameSettings.addPlayer(PlayerType.COMPUTER);
+    }
+    
+    @FXML
+    public void addHumanPlayer() {
+        gameSettings.addPlayer(PlayerType.HUMAN);
+    }
+    
+    @FXML
+    public void addComputerPlayer() {
+        gameSettings.addPlayer(PlayerType.COMPUTER);
     }
 
     @Override
@@ -57,8 +73,13 @@ public class PlayersTab extends Tab implements IObserver {
         if (playerTable != null) {
             playerTable.getChildren().clear();
         }
+        
+        int computerCount = 0;
         for (final PlayerType playerType : gameSettings.getPlayerTypes()) {
-            if (playerTable != null) {
+            if (playerType.equals(PlayerType.COMPUTER)) {
+                computerCount++;
+            }
+            if (playerTable != null) {               
                 playerTable.getChildren().add(new PlayerEditableRow(playerType, new RemoveRowHandler() {
                     @Override
                     public void removeRow() {
@@ -66,6 +87,17 @@ public class PlayersTab extends Tab implements IObserver {
                     }
                 }));
             }
+        }
+        if (gameSettings.getPlayerTypes().contains(PlayerType.HUMAN)) {
+            addHuman.disableProperty().set(true);
+        } else {
+            addHuman.disableProperty().set(false);
+        }
+        
+        if (gameSettings.getPlayerTypes().size() == 4 && (computerCount == 3 || computerCount == 4)) {
+            addComputer.disableProperty().set(true);
+        } else {
+            addComputer.disableProperty().set(false);
         }
     }
 }
