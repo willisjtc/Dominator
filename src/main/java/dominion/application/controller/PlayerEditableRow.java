@@ -29,7 +29,7 @@ public class PlayerEditableRow extends AnchorPane implements IObserver {
 		initializeController();
 	}
 	
-	protected void initializeController() {
+	protected final void initializeController() {
 		initView();
 	}
 	

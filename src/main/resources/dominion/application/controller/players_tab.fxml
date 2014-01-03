@@ -14,7 +14,7 @@
   <children>
     <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-        <VBox fx:id="playersVBox" prefHeight="-1.0" prefWidth="-1.0" spacing="10.0" HBox.hgrow="SOMETIMES">
+        <VBox fx:id="playersVBox" prefHeight="-1.0" prefWidth="-1.0" spacing="30.0" HBox.hgrow="SOMETIMES">
           <children>
             <Label text="Players">
               <font>
@@ -26,13 +26,13 @@
             </Label>
             <VBox maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" spacing="20.0">
               <children>
-                <VBox fx:id="playerTable" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="" />
                 <HBox alignment="BOTTOM_LEFT" prefHeight="-1.0" prefWidth="-1.0" spacing="20.0" VBox.vgrow="NEVER">
                   <children>
                     <Button id="addHumanPlayer" fx:id="addHuman" mnemonicParsing="false" onMouseClicked="#addHumanPlayer" text="Add Human" />
                     <Button fx:id="addComputer" mnemonicParsing="false" onMouseClicked="#addComputerPlayer" text="Add Computer" />
                   </children>
                 </HBox>
+                <VBox fx:id="playerTable" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="" />
               </children>
             </VBox>
           </children>

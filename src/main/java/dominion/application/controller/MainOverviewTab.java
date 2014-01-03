@@ -14,9 +14,7 @@ import dominion.application.model.PlayerType;
 import dominion.application.model.SingleGameSettings;
 import dominion.cards.Card;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class MainOverviewTab extends Tab implements IObserver {
 

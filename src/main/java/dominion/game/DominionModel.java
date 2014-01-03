@@ -82,6 +82,7 @@ public class DominionModel implements IObservable {
                 player.addToDeck(CardFactory.estate);
             }
             player.shuffleDeck();
+            player.draw(5);
         }
     }
 

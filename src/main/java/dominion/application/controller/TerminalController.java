@@ -30,6 +30,8 @@ public class TerminalController extends AnchorPane implements IObserver {
     private KingdomCardController kingdomCardController;
     @FXML
     private SupplyPileController supplyPileController;
+    @FXML
+    private PlayersCardsController playersCardsController;
     
     private DominionModel dominionModel;
     
@@ -54,6 +56,7 @@ public class TerminalController extends AnchorPane implements IObserver {
         
         kingdomCardController.initController(dominionModel);
         supplyPileController.initController(dominionModel);
+        playersCardsController.initController(dominionModel);
     }
     
     private void beginGame() {
