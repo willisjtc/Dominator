@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import dominion.application.controller.*?>
+<?import dominion.application.controller.DiscardPileController ?>
+<?import dominion.application.controller.KingdomCardController ?>
+<?import dominion.application.controller.PlayersCardsController ?>
+<?import dominion.application.controller.PlayersTurnView ?>
+<?import dominion.application.controller.SupplyPileController ?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
@@ -8,9 +13,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-<?import dominion.application.controller.KingdomCardController ?>
-<?import dominion.application.controller.SupplyPileController ?>
-<?import dominion.application.controller.PlayersCardsController ?>
+<?scenebuilder-classpath-element ../../../../../../target/Dominion-0.0.1-SNAPSHOT.jar?>
 
 <fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
@@ -35,11 +38,26 @@
               </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <SupplyPileController fx:id="supplyPileController" />
+            <VBox>
+              <children>
+                <SupplyPileController fx:id="supplyPileController" VBox.vgrow="ALWAYS" />
+                <PlayersTurnView fx:id="playersTurnView" VBox.vgrow="ALWAYS" />
+              </children>
+            </VBox>
           </children>
         </HBox>
         <Separator orientation="HORIZONTAL" prefWidth="200.0" />
-        <PlayersCardsController fx:id="playersCardsController" />
+        <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="NEVER">
+          <children>
+            <PlayersCardsController fx:id="playersCardsController" maxHeight="-1.0" HBox.hgrow="ALWAYS">
+              <HBox.margin>
+                <Insets fx:id="x1" />
+              </HBox.margin>
+            </PlayersCardsController>
+            <Separator maxHeight="-1.0" maxWidth="-1.0" orientation="VERTICAL" prefHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+            <DiscardPileController fx:id="discardPileController" maxHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+          </children>
+        </HBox>
       </children>
     </VBox>
   </children>

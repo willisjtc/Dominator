@@ -71,7 +71,6 @@ public class LoginController extends BorderPane {
 				&& password.getText().equals(password.getText())) {
 			this.username.setText("");
 			this.password.setText("");
-			UserManager.instance.setLoggedInUser(user);
 			viewManager.authenticated();
 		}
 	}

@@ -4,13 +4,15 @@
  */
 package dominion.game;
 
-import dominion.application.model.PlayerType;
-import dominion.cards.Card;
-import dominion.cards.CardUtils;
-import dominion.game.user.User;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import dominion.application.model.PlayerType;
+import dominion.application.model.SimplePlayerInfo;
+import dominion.cards.Card;
+import dominion.cards.CardUtils;
+import dominion.game.user.User;
 
 /**
  *
@@ -24,12 +26,22 @@ public class Player {
     private List<Card> hand;
     private List<Card> discardPile;
     
-    public Player(PlayerType playerType) {
-        this.playerType = playerType;
+    public Player(SimplePlayerInfo playerInfo) {
+        this.user = playerInfo.getUser();
         
-        deck = new LinkedList<>();
-        hand = new LinkedList<>();
-        discardPile = new LinkedList<>();
+        this.playerType = playerInfo.getPlayerType();
+        
+        this.deck = new LinkedList<>();
+        this.hand = new LinkedList<>();
+        this.discardPile = new LinkedList<>();
+    }
+    
+    /**
+     * 
+     * @return the username associated with this player
+     */
+    public String getPlayerName() {
+        return user.getUsername();
     }
     
     /**

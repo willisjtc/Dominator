@@ -11,16 +11,20 @@ import dominion.application.IObserver;
 import dominion.cards.Card;
 import java.util.Arrays;
 
-public enum SingleGameSettings implements IObservable {
+public enum GameSettings implements IObservable {
 
     INSTANCE;
     private List<IObserver> observers;
-    private List<PlayerType> players;
+    private List<SimplePlayerInfo> players;
     private List<Card> customCards;
     private List<Card> randomCards;
     private CardSet setChosen;
+    
+    private final static int MAX_PLAYERS = 4;
 
-    private SingleGameSettings() {
+    // TODO: handle simple player info types
+    
+    private GameSettings() {
         observers = new LinkedList<>();
         players = new LinkedList<>();
         customCards = new LinkedList<>();
@@ -62,18 +66,44 @@ public enum SingleGameSettings implements IObservable {
         return customCards;
     }
 
-    public boolean addPlayer(PlayerType playerType) {
-        boolean result = players.add(playerType);
+    public boolean addPlayer(SimplePlayerInfo playerInfo) {
+        boolean result = false;
+        if (playerInfo.getPlayerType().equals(PlayerType.HUMAN) && (players.size() >= MAX_PLAYERS || getNumHumanPlayers() > 0)) {
+            return result;
+        }
+        if (playerInfo.getPlayerType().equals(PlayerType.COMPUTER) && players.size() >= MAX_PLAYERS) {
+            return result;
+        }
+        result = players.add(playerInfo);
         notifyObservers();
         return result;
     }
-
-    public Collection<PlayerType> getPlayerTypes() {
+    
+    private int getNumHumanPlayers() {
+        int numHumans = 0;
+        for (SimplePlayerInfo playerInfo : players) {
+            if (playerInfo.getPlayerType().equals(PlayerType.HUMAN)) {
+                numHumans++;
+            }
+        }
+        return numHumans;
+    }
+    
+    public boolean humanPlayerExists() {
+        for (SimplePlayerInfo playerInfo : players) {
+            if (playerInfo.getPlayerType().equals(PlayerType.HUMAN)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public Collection<SimplePlayerInfo> getPlayerInfos() {
         return players;
     }
 
-    public boolean removePlayer(PlayerType playerType) {
-        boolean result = players.remove(playerType);
+    public boolean removePlayer(SimplePlayerInfo playerInfo) {
+        boolean result = players.remove(playerInfo);
         notifyObservers();
         return result;
     }

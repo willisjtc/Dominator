@@ -3,23 +3,21 @@ package dominion.application.controller;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import dominion.application.IObserver;
-import dominion.application.model.PlayerType;
-import dominion.application.model.SingleGameSettings;
+import dominion.application.model.GameSettings;
 
 public class PlayersTable extends AnchorPane implements IObserver {
 
 	@FXML private VBox playerTable;
 	
-	private SingleGameSettings gameSettings;
+	private GameSettings gameSettings;
 	
 	public PlayersTable() {	}
 	
-	public void initializeController(SingleGameSettings gameSettings) {
+	public void initializeController(GameSettings gameSettings) {
 		this.gameSettings = gameSettings;
 		this.gameSettings.registerObserver(this);
 		

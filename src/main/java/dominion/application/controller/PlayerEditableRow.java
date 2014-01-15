@@ -9,8 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import dominion.application.IObserver;
-import dominion.application.model.PlayerType;   
 import dominion.application.RemoveRowHandler;
+import dominion.application.model.PlayerType;
+import dominion.application.model.SimplePlayerInfo;
 import dominion.game.ai.IDominionAI;
 
 public class PlayerEditableRow extends AnchorPane implements IObserver {
@@ -19,12 +20,14 @@ public class PlayerEditableRow extends AnchorPane implements IObserver {
 	@FXML protected Label playerDescription;
 	@FXML private Button removeButton;
 	
-	protected PlayerType playerType;
-        private RemoveRowHandler removeRowHandler;
+	protected SimplePlayerInfo playerInfo;
+    private RemoveRowHandler removeRowHandler;
 	
-	public PlayerEditableRow(PlayerType playerType, RemoveRowHandler removeRowHandler) {
-		this.playerType = playerType;
-                this.removeRowHandler = removeRowHandler;
+    // TODO: handle simple player info types
+    
+	public PlayerEditableRow(SimplePlayerInfo playerInfo, RemoveRowHandler removeRowHandler) {
+		this.playerInfo = playerInfo;
+		this.removeRowHandler = removeRowHandler;
             
 		initializeController();
 	}
@@ -45,7 +48,7 @@ public class PlayerEditableRow extends AnchorPane implements IObserver {
 		}
 		
 		
-		if (playerType.equals(PlayerType.HUMAN)) {
+		if (playerInfo.getPlayerType().equals(PlayerType.HUMAN)) {
 			aiComboBox.setVisible(false);
 			playerDescription.setText("Human");
 		} else {

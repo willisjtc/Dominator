@@ -1,5 +1,9 @@
 package dominion.application;
 
 public interface IObserver {
-	public void update();
+
+    /**
+     *  Updated whenever the referencing model calls notifyObservers
+     */
+    public void update();
 }

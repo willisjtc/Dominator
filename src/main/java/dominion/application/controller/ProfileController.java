@@ -19,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import dominion.application.manager.UserManager;
+import dominion.game.user.User;
 
 public class ProfileController extends AnchorPane {
 
@@ -39,7 +40,17 @@ public class ProfileController extends AnchorPane {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+                
+                initView();
 	}
+        
+        private void initView() {
+            UserManager userManager = UserManager.instance;
+            User user = userManager.getCurrentUser();
+            usernameField.setText(user.getUsername());
+            passwordField.setText(user.getPassword());
+            confirmPasswordField.setText(user.getPassword());
+        }
 	
 	public void changePhotoClicked(MouseEvent evt) {
 			FileChooser fileChooser = new FileChooser();

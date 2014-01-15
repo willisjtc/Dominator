@@ -4,9 +4,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import dominion.application.model.SingleGameSettings;
+import dominion.application.model.GameSettings;
 
-public class SingleGameSetupController extends AnchorPane {
+public class GameSetupController extends AnchorPane {
 
 	@FXML private MainOverviewTab mainOverviewTab;
 	@FXML private PlayersTab playersTab;
@@ -20,10 +20,10 @@ public class SingleGameSetupController extends AnchorPane {
 	@FXML private Tab alchemyTab;
 	@FXML private Tab darkAgesTab;
 
-	private SingleGameSettings gameSettings; 
+	private GameSettings gameSettings; 
 	
-	public SingleGameSetupController() {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("single_game_setup_controller.fxml"));
+	public GameSetupController() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game_setup_controller.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
 		
@@ -33,7 +33,7 @@ public class SingleGameSetupController extends AnchorPane {
 			e.printStackTrace();
 		}
 		
-		this.gameSettings = SingleGameSettings.INSTANCE;
+		this.gameSettings = GameSettings.INSTANCE;
 		this.mainOverviewTab.initializeController(this.gameSettings);
 		this.playersTab.initializeController(this.gameSettings);
 		this.cardOverviewTab.initializeController(this.gameSettings);

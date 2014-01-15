@@ -53,10 +53,9 @@ public class PlayersCardsController extends AnchorPane implements IObserver {
     }
     
     private void displayCards() {
+        playersCardsContainer.getChildren().clear();
         for (Card card : model.getPlayer(0).getHand()) {
             ImageView imageView = new ImageView(card.getCardImage());
-//            javafx.geometry.Rectangle2D viewportRect = new javafx.geometry.Rectangle2D(10, 10, 10, 10);
-//            imageView.setViewport(viewportRect);
             imageView.setPreserveRatio(true);
             imageView.setFitHeight(70);
             playersCardsContainer.getChildren().add(imageView);

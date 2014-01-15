@@ -22,7 +22,7 @@ public class DashboardController extends AnchorPane implements IViewManager {
 	@FXML private ListView<DashboardOptions> dashboardList;
 	
 	private ProfileController profileController;
-	private SingleGameSetupController singleGameSetupController;
+	private GameSetupController gameSetupController;
 	private IViewManager viewManager;
 	
 	public DashboardController(IViewManager viewManager) {
@@ -37,7 +37,7 @@ public class DashboardController extends AnchorPane implements IViewManager {
 		}
 		
 		profileController = new ProfileController();
-		singleGameSetupController = new SingleGameSetupController();
+		gameSetupController = new GameSetupController();
 		this.viewManager = viewManager;
 		
 		initListView();
@@ -63,7 +63,7 @@ public class DashboardController extends AnchorPane implements IViewManager {
 				if (newVal.equals(DashboardOptions.PROFILE_MANAGEMENT)) {
 					splitPane.getItems().set(1, profileController);
 				} else if (newVal.equals(DashboardOptions.SINGLE_PLAYER)) {
-					splitPane.getItems().set(1, singleGameSetupController);
+					splitPane.getItems().set(1, gameSetupController);
 				}
 			}
 		});

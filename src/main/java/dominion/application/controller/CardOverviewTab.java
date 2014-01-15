@@ -20,7 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import dominion.application.IObserver;
 import dominion.application.model.CardSet;
-import dominion.application.model.SingleGameSettings;
+import dominion.application.model.GameSettings;
 import dominion.cards.Card;
 import dominion.cards.CardUtils;
 
@@ -38,13 +38,13 @@ public class CardOverviewTab extends Tab implements IObserver {
     private ListView<Card> randomCardList;
     @FXML
     private ImageView overviewImageDisplay;
-    private SingleGameSettings gameSettings;
+    private GameSettings gameSettings;
     private final ToggleGroup radioToggleGroup = new ToggleGroup();
 
     public CardOverviewTab() {
     }
 
-    public void initializeController(SingleGameSettings gameSettings) {
+    public void initializeController(GameSettings gameSettings) {
         this.gameSettings = gameSettings;
         this.gameSettings.registerObserver(this);
 

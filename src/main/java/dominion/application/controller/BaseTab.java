@@ -20,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import dominion.application.IObserver;
-import dominion.application.model.SingleGameSettings;
+import dominion.application.model.GameSettings;
 import dominion.cards.Card;
 import dominion.cards.CardFactory;
 
@@ -40,14 +40,14 @@ public class BaseTab extends Tab implements IObserver {
 	@FXML private ImageView customCardImage9;
 	@FXML private ImageView customCardImage10;
 	
-	private SingleGameSettings gameSettings;
+	private GameSettings gameSettings;
 	
 	private List<ImageView> miniImages;
 	
 	
 	public BaseTab() {	}
 	
-	public void initializeController(SingleGameSettings gameSettings) {
+	public void initializeController(GameSettings gameSettings) {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("base_tab.fxml"));
 		fxmlLoader.setRoot(content);
 		fxmlLoader.setController(this);

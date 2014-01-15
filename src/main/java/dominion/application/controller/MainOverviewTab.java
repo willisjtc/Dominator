@@ -5,16 +5,16 @@ import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import dominion.application.IObserver;
-import dominion.application.model.PlayerType;
-import dominion.application.model.SingleGameSettings;
-import dominion.cards.Card;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import dominion.application.IObserver;
+import dominion.application.model.SimplePlayerInfo;
+import dominion.application.model.GameSettings;
+import dominion.cards.Card;
 
 public class MainOverviewTab extends Tab implements IObserver {
 
@@ -42,13 +42,13 @@ public class MainOverviewTab extends Tab implements IObserver {
     private ImageView overviewImage9;
     @FXML
     private ImageView overviewImage10;
-    private SingleGameSettings gameSettings;
+    private GameSettings gameSettings;
     private List<ImageView> overviewImages;
 
     public MainOverviewTab() {
     }
 
-    public void initializeController(SingleGameSettings gameSettings) {
+    public void initializeController(GameSettings gameSettings) {
         this.gameSettings = gameSettings;
         this.gameSettings.registerObserver(this);
 
@@ -122,9 +122,9 @@ public class MainOverviewTab extends Tab implements IObserver {
             playerTable.getChildren().clear();
         }
 
-        for (final PlayerType playerType : gameSettings.getPlayerTypes()) {
+        for (final SimplePlayerInfo playerInfo : gameSettings.getPlayerInfos()) {
             if (playerTable != null) {
-                playerTable.getChildren().add(new PlayerRow(playerType));
+                playerTable.getChildren().add(new PlayerRow(playerInfo));
             }
         }
     }

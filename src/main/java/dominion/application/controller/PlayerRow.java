@@ -3,11 +3,12 @@ package dominion.application.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import dominion.application.model.PlayerType;
+import dominion.application.model.SimplePlayerInfo;
 
 public class PlayerRow extends PlayerEditableRow {
 
-	public PlayerRow(PlayerType playerOption) {
-		super(playerOption, null);
+	public PlayerRow(SimplePlayerInfo playerInfo) {
+		super(playerInfo, null);
 	}
 	
 	@Override
@@ -23,7 +24,7 @@ public class PlayerRow extends PlayerEditableRow {
 		}
 		
 		
-		if (playerType.equals(PlayerType.HUMAN)) {
+		if (playerInfo.getPlayerType().equals(PlayerType.HUMAN)) {
 			aiComboBox.setVisible(false);
 			playerDescription.setText("Human");
 		} else {

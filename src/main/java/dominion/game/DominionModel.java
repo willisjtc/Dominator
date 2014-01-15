@@ -1,23 +1,23 @@
 package dominion.game;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 import dominion.application.IObservable;
 import dominion.application.IObserver;
-import dominion.application.model.PlayerType;
-import dominion.application.model.SingleGameSettings;
-import java.util.Collection;
-import java.util.List;
-
+import dominion.application.model.SimplePlayerInfo;
+import dominion.application.model.GameSettings;
 import dominion.cards.Card;
 import dominion.cards.CardFactory;
 import dominion.cards.action.KingdomCard;
 import dominion.cards.treasure.Treasures;
 import dominion.cards.victory.VictoryCards;
-import java.util.LinkedList;
-import java.util.Random;
 
 public class DominionModel implements IObservable {
 
-    private List<IObserver> observers;
+    private final List<IObserver> observers;
     private Treasures treasureCards;
     private VictoryCards victoryCards;
     private List<KingdomCard> kingdomCards;
@@ -38,14 +38,15 @@ public class DominionModel implements IObservable {
      * @param gameSettings - The settings object contains all of the necessary
      * information to create and start a game.
      */
-    public DominionModel(SingleGameSettings gameSettings) {
+    public DominionModel(GameSettings gameSettings) {
         
         observers = new LinkedList<>();
+        playerTurn = -1;
         gameStarted = false;
 
-        initSupplyPile(gameSettings.getSelectedCards(), gameSettings.getPlayerTypes().size());
-        initKingdomCards(gameSettings.getSelectedCards(), gameSettings.getPlayerTypes().size());
-        initPlayers(gameSettings.getPlayerTypes());
+        initSupplyPile(gameSettings.getSelectedCards(), gameSettings.getPlayerInfos().size());
+        initKingdomCards(gameSettings.getSelectedCards(), gameSettings.getPlayerInfos().size());
+        initPlayers(gameSettings.getPlayerInfos());
     }
     
     /**
@@ -144,12 +145,12 @@ public class DominionModel implements IObservable {
    
     /**
      * Creates the human and computer player types.
-     * @param playerTypes - The types of players (HUMAN, COMPUTER)
+     * @param playerInfos - The types of players (HUMAN, COMPUTER)
      */
-    private void initPlayers(Collection<PlayerType> playerTypes) {
+    private void initPlayers(Collection<SimplePlayerInfo> playerInfos) {
         players = new  LinkedList<>();
-        for (PlayerType playerType : playerTypes) {
-            players.add(new Player(playerType));
+        for (SimplePlayerInfo playerInfo : playerInfos) {
+            players.add(new Player(playerInfo));
         }
     }
 
@@ -158,7 +159,6 @@ public class DominionModel implements IObservable {
      * @param playerTurn - The index of the player in the list.
      */
     private  void setPlayerTurn(int playerTurn) {
-        System.out.println("setting player turn");
         this.playerTurn = playerTurn;
     }
 
@@ -230,7 +230,7 @@ public class DominionModel implements IObservable {
     /**
      * Check to see if a kingdom card is in the game.
      * 
-     * @param kingdomCard - card to see if it is in the game.
+     * @param card - card to see if it is in the game.
      * @return true if the kingdom card is in the game, false otherwise.
      */
     public boolean kingdomCardInGame(Card card) {
