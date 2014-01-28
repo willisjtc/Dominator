@@ -76,6 +76,7 @@ public class TerminalController extends AnchorPane implements IObserver {
         playersCardsController.initController(dominionModel);
         discardPileController.initController(dominionModel);    
         
+        gameOutput.setFocusTraversable(false);
         gameInput.setFocusTraversable(true);
         gameInput.requestFocus();
     }
