@@ -129,20 +129,4 @@ public enum UserManager {
             e.printStackTrace();
         }
     }
-
-    public void saveProfileImage() {
-
-    }
-
-    public void saveUsername() {
-
-    }
-
-    public void savePassword() {
-
-    }
-
-    public void saveDescription() {
-
-    }
 }

@@ -12,8 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import dominion.application.IObserver;
-import dominion.application.model.SimplePlayerInfo;
 import dominion.application.model.GameSettings;
+import dominion.application.model.SimplePlayerInfo;
 import dominion.cards.Card;
 
 public class MainOverviewTab extends Tab implements IObserver {

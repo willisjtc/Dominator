@@ -23,52 +23,61 @@ import dominion.game.user.User;
 
 public class ProfileController extends AnchorPane {
 
-	@FXML private ImageView profileImageView;
-	@FXML private Button changePhotoButton;
-	@FXML private TextArea descriptionArea;
-	@FXML private TextField usernameField;
-	@FXML private PasswordField passwordField;
-	@FXML private PasswordField confirmPasswordField;
-	
+	@FXML
+	private ImageView profileImageView;
+	@FXML
+	private Button changePhotoButton;
+	@FXML
+	private TextArea descriptionArea;
+	@FXML
+	private TextField usernameField;
+	@FXML
+	private PasswordField passwordField;
+	@FXML
+	private PasswordField confirmPasswordField;
+
 	public ProfileController() {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("profile_controller.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+				"profile_controller.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
-		
+
 		try {
 			fxmlLoader.load();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-                
-                initView();
+
+		initView();
 	}
-        
-        private void initView() {
-            UserManager userManager = UserManager.instance;
-            User user = userManager.getCurrentUser();
-            usernameField.setText(user.getUsername());
-            passwordField.setText(user.getPassword());
-            confirmPasswordField.setText(user.getPassword());
-        }
-	
+
+	private void initView() {
+		UserManager userManager = UserManager.instance;
+		User user = userManager.getCurrentUser();
+		usernameField.setText(user.getUsername());
+		passwordField.setText(user.getPassword());
+		confirmPasswordField.setText(user.getPassword());
+		descriptionArea.setText(user.getDescription());
+	}
+
 	public void changePhotoClicked(MouseEvent evt) {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Open Resource File");
-			File userImageFile = fileChooser.showOpenDialog(new Stage());
-			Image userImage = null;
-			try {
-				if (userImageFile != null) { 
-					userImage = new Image(new FileInputStream(userImageFile));
-//					userManager.setUserImage(profileView.getUsername(), userImage);
-					profileImageView.setImage(userImage);
-				}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		File userImageFile = fileChooser.showOpenDialog(new Stage());
+		Image userImage = null;
+		try {
+			if (userImageFile != null) {
+				userImage = new Image(new FileInputStream(userImageFile));
+				// userManager.setUserImage(profileView.getUsername(),
+				// userImage);
+				profileImageView.setImage(userImage);
 			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 	}
-	
+
 	public void changePhotoEntered(KeyEvent evt) {
 		if (!evt.getCode().equals(KeyCode.ENTER)) {
 			return;
@@ -80,7 +89,8 @@ public class ProfileController extends AnchorPane {
 		try {
 			if (userImageFile != null) {
 				userImage = new Image(new FileInputStream(userImageFile));
-//				userManager.setUserImage(profileView.getUsername(), userImage);
+				// userManager.setUserImage(profileView.getUsername(),
+				// userImage);
 				profileImageView.setImage(userImage);
 			}
 		} catch (FileNotFoundException e) {
@@ -88,15 +98,18 @@ public class ProfileController extends AnchorPane {
 		}
 
 	}
-	
+
 	public void saveClicked(MouseEvent evt) {
-		System.out.println("mouse clicked");
-		UserManager.instance.saveUserProfile(profileImageView.getImage(), usernameField.getText(), passwordField.getText(), descriptionArea.getText());
+		UserManager.instance.saveUserProfile(profileImageView.getImage(),
+				usernameField.getText(), passwordField.getText(),
+				descriptionArea.getText());
 	}
-	
+
 	public void saveEntered(KeyEvent evt) {
 		if (evt.getCode().equals(KeyCode.ENTER)) {
-			// call user manager and save
+			UserManager.instance.saveUserProfile(profileImageView.getImage(),
+					usernameField.getText(), passwordField.getText(),
+					descriptionArea.getText());
 		}
 	}
 }

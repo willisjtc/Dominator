@@ -27,6 +27,56 @@ public class CardFactory {
 			return chapel;
 		case "council room":
 			return councilRoom;
+		case "feast":
+			return feast;
+		case "festival":
+			return festival;
+		case "laboratory":
+			return laboratory;
+		case "library":
+			return library;
+		case "market":
+			return market;
+		case "militia":
+			return militia;
+		case "mine":
+			return mine;
+		case "moat":
+			return moat;
+		case "moneylender":
+			return moneylender;
+		case "remodel":
+			return remodel;
+		case "smithy":
+			return smithy;
+		case "spy":
+			return spy;
+		case "thief":
+			return thief;
+		case "throne room":
+			return throneRoom;
+		case "village":
+			return village;
+		case "witch":
+			return witch;
+		case "woodcutter":
+			return woodcutter;
+		case "workshop":
+			return workshop;
+		case "copper":
+			return copper;
+		case "silver":
+			return silver;
+		case "gold":
+			return gold;
+		case "estate":
+			return estate;
+		case "duchy":
+			return duchy;
+		case "province":
+			return province;
+		case "gardens":
+			return gardens;
 		default: throw new Exception();
 		}
 		

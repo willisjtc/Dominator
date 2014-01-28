@@ -77,23 +77,23 @@ public class KingdomCardController extends AnchorPane implements IObserver {
         FontMetrics fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(Font.getDefault());
         double minLength = 0;
         for (KingdomCard card : model.getKingdomCards()) {
-            double cardNameLength = fontMetrics.computeStringWidth(card.getKingdomCard().toString());
+            double cardNameLength = fontMetrics.computeStringWidth(card.toString());
             if (cardNameLength > minLength) {
                 minLength = cardNameLength;
             }
         }
         
         KingdomCard[] kingdomCards = model.getKingdomCards().toArray(new KingdomCard[0]);
-        kingdomCard1.setText(kingdomCards[0].getKingdomCard().toString() + ": ");
-        kingdomCard2.setText(kingdomCards[1].getKingdomCard().toString() + ": ");
-        kingdomCard3.setText(kingdomCards[2].getKingdomCard().toString() + ": ");
-        kingdomCard4.setText(kingdomCards[3].getKingdomCard().toString() + ": ");
-        kingdomCard5.setText(kingdomCards[4].getKingdomCard().toString() + ": ");
-        kingdomCard6.setText(kingdomCards[5].getKingdomCard().toString() + ": ");
-        kingdomCard7.setText(kingdomCards[6].getKingdomCard().toString() + ": ");
-        kingdomCard8.setText(kingdomCards[7].getKingdomCard().toString() + ": ");
-        kingdomCard9.setText(kingdomCards[8].getKingdomCard().toString() + ": ");
-        kingdomCard10.setText(kingdomCards[9].getKingdomCard().toString() + ": ");
+        kingdomCard1.setText(kingdomCards[0].toString() + ": ");
+        kingdomCard2.setText(kingdomCards[1].toString() + ": ");
+        kingdomCard3.setText(kingdomCards[2].toString() + ": ");
+        kingdomCard4.setText(kingdomCards[3].toString() + ": ");
+        kingdomCard5.setText(kingdomCards[4].toString() + ": ");
+        kingdomCard6.setText(kingdomCards[5].toString() + ": ");
+        kingdomCard7.setText(kingdomCards[6].toString() + ": ");
+        kingdomCard8.setText(kingdomCards[7].toString() + ": ");
+        kingdomCard9.setText(kingdomCards[8].toString() + ": ");
+        kingdomCard10.setText(kingdomCards[9].toString() + ": ");
         
         kingdomCardCount1.setText("" + kingdomCards[0].getCardCount());
         kingdomCardCount2.setText("" + kingdomCards[1].getCardCount());

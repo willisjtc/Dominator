@@ -1,19 +1,23 @@
 package dominion.database.dao;
 
-import java.io.ByteArrayOutputStream;
+import java.awt.Toolkit;
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+
+import javax.imageio.ImageIO;
 
 import dominion.database.utils.DatabaseObjectMapper;
 import dominion.database.utils.DatabaseProperties;
 import dominion.game.user.User;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UserDAO extends BasicDAO {
 
@@ -51,6 +55,7 @@ public class UserDAO extends BasicDAO {
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, 1);
             ResultSet rs = ps.executeQuery();
+            
             if (rs.next()) {
                 DatabaseObjectMapper.fillObjectFromResultSet(player, rs, player.getClass());
             }
@@ -115,7 +120,24 @@ public class UserDAO extends BasicDAO {
         String sql = DatabaseProperties.getProperty("dominion.saveUserProfile");
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             int index = 0;
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            String imageUrl = new StringBuffer().append(image.hashCode()).toString();
+            
+            ps.setString(++index, imageUrl);
+            ps.setString(++index, username);
+            ps.setString(++index, password);
+            ps.setString(++index, description);
+            ps.setInt(++index, 1);
+            
+            ps.execute();
+            
+            File outFileImage = new File(imageUrl);
+            
+            Toolkit tk = java.awt.Toolkit.getDefaultToolkit().getDefaultToolkit();
+            try {
+            	ImageIO.write(SwingFXUtils.fromFXImage(image, null), ".png", outFileImage);
+            } catch (Exception e) {
+            	log.log(Level.WARNING, "Image not saved to disk", e);
+            }
         }
         catch (Exception e) {
             log.log(Level.WARNING, "Error saving user profile", e);
