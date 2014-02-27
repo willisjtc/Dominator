@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.xalero.dominion.controller.terminal.*?>
+<?import dominion.application.displays.*?>
+<?import dominion.application.displays.KingdomCardsDisplay ?>
+<?import dominion.application.displays.PlayerOptionsDisplay ?>
+<?import dominion.application.displays.PlayerTurnsDisplay ?>
+<?import dominion.application.displays.SupplyPilesDisplay ?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+          <children>
+            <KingdomCardsDisplay fx:id="kingdomCardsDisplay" />
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS">
+              <children>
+                <TextArea fx:id="gameOutput" prefHeight="-1.0" prefWidth="-1.0" wrapText="true" VBox.vgrow="ALWAYS">
+                  <VBox.margin>
+                    <Insets left="10.0" right="10.0" top="10.0" />
+                  </VBox.margin>
+                </TextArea>
+                <TextField fx:id="gameInput" onKeyReleased="#keyReleased" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="NEVER">
+                  <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  </VBox.margin>
+                </TextField>
+              </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+            <VBox>
+              <children>
+                <SupplyPilesDisplay fx:id="supplyPilesDisplay" VBox.vgrow="ALWAYS" />
+                <PlayerTurnsDisplay fx:id="playerTurnsDisplay" VBox.vgrow="ALWAYS" />
+              </children>
+            </VBox>
+          </children>
+        </HBox>
+        <Separator orientation="HORIZONTAL" prefWidth="200.0" />
+        <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="NEVER">
+          <children>
+            <PlayersCardsController fx:id="playersCardsController" maxHeight="-1.0" HBox.hgrow="ALWAYS">
+              <HBox.margin>
+                <Insets fx:id="x1" />
+              </HBox.margin>
+            </PlayersCardsController>
+            <Separator maxHeight="-1.0" maxWidth="-1.0" orientation="VERTICAL" prefHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+            <PlayerOptionsDisplay fx:id="playerOptionsDisplay" maxHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+            <Separator maxHeight="-1.0" maxWidth="-1.0" orientation="VERTICAL" prefHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+            <DiscardPileController fx:id="discardPileController" maxHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</fx:root>

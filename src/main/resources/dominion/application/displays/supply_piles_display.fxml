@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <GridPane id="supplyPileContainer" fx:id="supplyPileHolder" hgap="10.0" prefWidth="139.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label fx:id="title" text="The Supply Pile" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
+          <font>
+            <Font name="System Bold" size="15.0" />
+          </font>
+        </Label>
+        <Label id="gold" fx:id="goldLabel" text="Gold:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label fx:id="silverLabel" text="Silver:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label fx:id="copperLabel" text="Copper:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label fx:id="provinceLabel" text="Province:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label fx:id="duchyLabel" text="Duchy:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label fx:id="estateLabel" text="Estate:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+        <Label fx:id="goldCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label fx:id="silverCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label fx:id="copperCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Label fx:id="provinceCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Label fx:id="duchyCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label fx:id="estateCountLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="-1.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="-1.0" prefWidth="-1.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+</fx:root>

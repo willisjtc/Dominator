@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<fx:root type="javafx.scene.layout.AnchorPane" id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <GridPane alignment="TOP_LEFT" gridLinesVisible="false" vgap="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Label text="Buys:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+          <GridPane.margin>
+            <Insets />
+          </GridPane.margin>
+        </Label>
+        <Label text="Actions:" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+          <GridPane.margin>
+            <Insets right="10.0" />
+          </GridPane.margin>
+        </Label>
+        <Label text="Money:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Label text="Score:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Label fx:id="buyCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+          <GridPane.margin>
+            <Insets left="10.0" fx:id="x1" />
+          </GridPane.margin>
+        </Label>
+        <Label fx:id="actionCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.margin="$x1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+        <Label fx:id="moneyCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+          <GridPane.margin>
+            <Insets left="10.0" fx:id="x1" />
+          </GridPane.margin>
+        </Label>
+        <Label fx:id="scoreCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+          <GridPane.margin>
+            <Insets left="10.0" fx:id="x1" />
+          </GridPane.margin>
+        </Label>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints fillWidth="true" halignment="LEFT" hgrow="NEVER" maxWidth="-1.0" prefWidth="-1.0" />
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="-1.0" minWidth="30.0" prefWidth="-1.0" />
+      </columnConstraints>
+      <padding>
+        <Insets left="10.0" fx:id="x1" />
+      </padding>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+  </children>
+</fx:root>

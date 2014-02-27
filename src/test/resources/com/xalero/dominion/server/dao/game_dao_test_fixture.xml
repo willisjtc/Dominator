@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <dominion_user id="1"
+        		   username="test_username"
+        		   password="test_password"
+        		   description="test_descr"
+        		   date_created="2014-02-16 21:05:58.406"  />
+    
+</dataset>

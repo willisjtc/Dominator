@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root type="javafx.scene.control.MenuBar" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <menus>
+    <Menu mnemonicParsing="false" style="" text="File" fx:id="file">
+      <items>
+        <Menu mnemonicParsing="false" text="New" fx:id="newMenu">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#onUser" text="User" fx:id="user" />
+          </items>
+        </Menu>
+        <MenuItem mnemonicParsing="false" onAction="#onLogout" text="Logout" fx:id="logout" />
+        <MenuItem mnemonicParsing="false" onAction="#onClose" text="Close" fx:id="close" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Edit" fx:id="edit">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#onDelete" text="Delete" fx:id="delete" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" onAction="#selectServer" text="Server" fx:id="server" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="View" fx:id="view">
+      <items>
+        <MenuItem mnemonicParsing="false" text="Action 1" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Help" fx:id="help">
+      <items>
+        <MenuItem mnemonicParsing="false" text="About" />
+      </items>
+    </Menu>
+  </menus>
+</fx:root>

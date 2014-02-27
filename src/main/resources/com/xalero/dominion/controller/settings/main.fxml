@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<?import com.xalero.dominion.controller.settings.MenubarController ?>
+<?import com.xalero.dominion.controller.settings.LoginController?>
+
+<fx:root type="com.xalero.dominion.controller.settings.MainController" xmlns:fx="http://javafx.com/fxml" prefWidth="1110.0" prefHeight="600.0">
+  <center>
+    <SplitPane fx:id="splitPane" dividerPositions="0.36789297658862874" focusTraversable="true" prefHeight="160.0" prefWidth="300.0">
+      <items>
+        <LoginController fx:id="loginController" />
+      </items>
+    </SplitPane>
+  </center>
+  <top>
+    <MenubarController fx:id="menubarController" />
+  </top>
+</fx:root>
