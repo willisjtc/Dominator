@@ -50,13 +50,14 @@ public enum UserManager {
         Random rand = new Random();
 
         while (true) {
-            int random = rand.nextInt(defaultNames.size());
+            int random = rand.nextInt(defaultNames.entrySet().size());
             int iteration = 0;
             for (Entry<String, Boolean> entry : defaultNames.entrySet()) {
                 if (random == iteration && entry.getValue() == false) {
                     defaultNames.put(entry.getKey(), Boolean.TRUE);
                     return entry.getKey();
                 }
+                iteration++;
             }
         }
     }
