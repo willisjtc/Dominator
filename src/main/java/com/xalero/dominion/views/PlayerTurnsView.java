@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dominion.application.displays;
+package com.xalero.dominion.views;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,9 +26,9 @@ import javafx.scene.text.FontWeight;
  *
  * @author jonathan
  */
-public class PlayerTurnsDisplay extends AnchorPane implements IObserver {
+public class PlayerTurnsView extends AnchorPane implements IObserver {
     
-    private final static Logger logger = LogManager.getLogManager().getLogger(PlayerTurnsDisplay.class.getName());
+    private final static Logger logger = LogManager.getLogManager().getLogger(PlayerTurnsView.class.getName());
     
     @FXML
     private GridPane playersTurnDisplay;
@@ -37,8 +37,8 @@ public class PlayerTurnsDisplay extends AnchorPane implements IObserver {
     
     private DominionModel dominionModel;
     
-    public PlayerTurnsDisplay() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_turns_display.fxml"));
+    public PlayerTurnsView() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_turns_view.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         

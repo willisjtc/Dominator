@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dominion.application.displays;
+package com.xalero.dominion.views;
 
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -22,9 +22,9 @@ import javafx.scene.layout.GridPane;
  *
  * @author jonathan
  */
-public class SupplyPilesDisplay extends AnchorPane implements IObserver {
+public class SupplyPilesView extends AnchorPane implements IObserver {
     
-    private static final Logger logger = LogManager.getLogManager().getLogger(SupplyPilesDisplay.class.getName());
+    private static final Logger logger = LogManager.getLogManager().getLogger(SupplyPilesView.class.getName());
     
     @FXML private GridPane supplyPileHolder;
     
@@ -50,8 +50,8 @@ public class SupplyPilesDisplay extends AnchorPane implements IObserver {
     
     private DominionModel model;
     
-    public SupplyPilesDisplay() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("supply_piles_display.fxml"));
+    public SupplyPilesView() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("supply_piles_view.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         

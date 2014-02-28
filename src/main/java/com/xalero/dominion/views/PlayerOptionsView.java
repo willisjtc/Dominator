@@ -1,22 +1,21 @@
-package dominion.application.displays;
+package com.xalero.dominion.views;
 
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.manager.PlayerManager;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.Player;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
-public class PlayerOptionsDisplay extends AnchorPane implements IObserver {
+import com.xalero.dominion.IObserver;
+import com.xalero.dominion.model.DominionModel;
+import com.xalero.dominion.model.Player;
 
-	private Logger log = LogManager.getLogManager().getLogger(PlayerOptionsDisplay.class.getName());
+public class PlayerOptionsView extends AnchorPane implements IObserver {
+
+	private Logger log = LogManager.getLogManager().getLogger(PlayerOptionsView.class.getName());
 	
 	@FXML
 	private Label buyCount;
@@ -31,8 +30,8 @@ public class PlayerOptionsDisplay extends AnchorPane implements IObserver {
 	private long playerId;
 	
 	
-	public PlayerOptionsDisplay() {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_options_display.fxml"));
+	public PlayerOptionsView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_options_view.fxml"));
 		fxmlLoader.setRoot(this);
 		fxmlLoader.setController(this);
 		

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dominion.application.displays;
+package com.xalero.dominion.views;
 
 import com.sun.javafx.tk.FontMetrics;
 import com.sun.javafx.tk.Toolkit;
@@ -23,9 +23,9 @@ import javafx.scene.text.Font;
  *
  * @author jonathan
  */
-public class KingdomCardsDisplay extends AnchorPane implements IObserver {
+public class KingdomCardsView extends AnchorPane implements IObserver {
     
-    private static final Logger logger = LogManager.getLogManager().getLogger(KingdomCardsDisplay.class.getName());
+    private static final Logger logger = LogManager.getLogManager().getLogger(KingdomCardsView.class.getName());
     
     @FXML private GridPane kingdomCardHolder;
     
@@ -55,8 +55,8 @@ public class KingdomCardsDisplay extends AnchorPane implements IObserver {
     private DominionModel model;
     
     
-    public KingdomCardsDisplay() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("kingdom_cards_display.fxml"));
+    public KingdomCardsView() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("kingdom_cards_view.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         

@@ -20,11 +20,11 @@ import com.xalero.dominion.command.CommandHandler;
 import com.xalero.dominion.model.DominionModel;
 import com.xalero.dominion.model.GameSettings;
 import com.xalero.dominion.model.SimplePlayerInfo;
+import com.xalero.dominion.views.KingdomCardsView;
+import com.xalero.dominion.views.PlayerOptionsView;
+import com.xalero.dominion.views.PlayerTurnsView;
+import com.xalero.dominion.views.SupplyPilesView;
 
-import dominion.application.displays.KingdomCardsDisplay;
-import dominion.application.displays.PlayerOptionsDisplay;
-import dominion.application.displays.PlayerTurnsDisplay;
-import dominion.application.displays.SupplyPilesDisplay;
 
 /**
  *
@@ -39,15 +39,15 @@ public class TerminalController extends AnchorPane implements IObserver {
     @FXML
     private TextField gameInput;
     @FXML
-    private KingdomCardsDisplay kingdomCardsDisplay;
+    private KingdomCardsView kingdomCardsView;
     @FXML
-    private SupplyPilesDisplay supplyPilesDisplay;
+    private SupplyPilesView supplyPilesView;
     @FXML 
-    private PlayerTurnsDisplay playerTurnsDisplay;
+    private PlayerTurnsView playerTurnsView;
     @FXML
     private PlayersCardsController playersCardsController;
     @FXML
-    private PlayerOptionsDisplay playerOptionsDisplay;
+    private PlayerOptionsView playerOptionsView;
     @FXML
     private DiscardPileController discardPileController;
     
@@ -77,11 +77,11 @@ public class TerminalController extends AnchorPane implements IObserver {
         
         commandHandler = new CommandHandler(gameOutput, dominionModel);
         
-        kingdomCardsDisplay.initController(dominionModel);
-        supplyPilesDisplay.initController(dominionModel);
-        playerTurnsDisplay.initController(dominionModel);
+        kingdomCardsView.initController(dominionModel);
+        supplyPilesView.initController(dominionModel);
+        playerTurnsView.initController(dominionModel);
         playersCardsController.initController(dominionModel, playerId);
-        playerOptionsDisplay.initController(dominionModel, playerId);
+        playerOptionsView.initController(dominionModel, playerId);
         discardPileController.initController(dominionModel);    
         
         gameOutput.setFocusTraversable(false);

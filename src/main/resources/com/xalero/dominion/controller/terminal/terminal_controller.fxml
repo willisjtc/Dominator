@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.xalero.dominion.controller.terminal.*?>
-<?import dominion.application.displays.*?>
-<?import dominion.application.displays.KingdomCardsDisplay ?>
-<?import dominion.application.displays.PlayerOptionsDisplay ?>
-<?import dominion.application.displays.PlayerTurnsDisplay ?>
-<?import dominion.application.displays.SupplyPilesDisplay ?>
+<?import com.xalero.dominion.views.KingdomCardsView ?>
+<?import com.xalero.dominion.views.PlayerOptionsView ?>
+<?import com.xalero.dominion.views.PlayerTurnsView ?>
+<?import com.xalero.dominion.views.SupplyPilesView ?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
@@ -20,7 +19,7 @@
       <children>
         <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
           <children>
-            <KingdomCardsDisplay fx:id="kingdomCardsDisplay" />
+            <KingdomCardsView fx:id="kingdomCardsView" />
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox alignment="TOP_CENTER" prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS">
               <children>
@@ -39,8 +38,8 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox>
               <children>
-                <SupplyPilesDisplay fx:id="supplyPilesDisplay" VBox.vgrow="ALWAYS" />
-                <PlayerTurnsDisplay fx:id="playerTurnsDisplay" VBox.vgrow="ALWAYS" />
+                <SupplyPilesView fx:id="supplyPilesView" VBox.vgrow="ALWAYS" />
+                <PlayerTurnsView fx:id="playerTurnsView" VBox.vgrow="ALWAYS" />
               </children>
             </VBox>
           </children>
@@ -54,7 +53,7 @@
               </HBox.margin>
             </PlayersCardsController>
             <Separator maxHeight="-1.0" maxWidth="-1.0" orientation="VERTICAL" prefHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
-            <PlayerOptionsDisplay fx:id="playerOptionsDisplay" maxHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
+            <PlayerOptionsView fx:id="playerOptionsView" maxHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
             <Separator maxHeight="-1.0" maxWidth="-1.0" orientation="VERTICAL" prefHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
             <DiscardPileController fx:id="discardPileController" maxHeight="-1.0" HBox.hgrow="NEVER" HBox.margin="$x1" />
           </children>
