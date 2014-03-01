@@ -26,6 +26,7 @@ public class VictoryCards {
     
     public Card getProvince() {
         if (provinceCount > 0) {
+        	provinceCount--;
             return CardFactory.province;
         }
         return null;
@@ -33,6 +34,7 @@ public class VictoryCards {
 
     public Card getDuchy() {
         if (duchyCount > 0) {
+        	duchyCount--;
             return CardFactory.duchy;
         }
         return null;
@@ -40,6 +42,7 @@ public class VictoryCards {
 
     public Card getEstate() {
         if (estateCount > 0) {
+        	estateCount--;
             return CardFactory.estate;
         }
         return null;
