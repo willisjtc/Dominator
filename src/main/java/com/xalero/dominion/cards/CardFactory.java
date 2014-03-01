@@ -349,7 +349,25 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.draw(4);
+			player.addBuy();
+			for (Player p : dominionModel.getPlayers()) {
+				if (p.getUniqueIdentifier() != playerId) {
+					p.drawCard();
+				}
+			}
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Council Room");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -417,7 +435,21 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.addActions(2);
+			player.addMoney(2);
+			player.addBuy();
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Festival");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -451,7 +483,20 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.addAction();
+			player.draw(2);
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Laboratory");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -533,7 +578,8 @@ public class CardFactory {
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
 			
-			return new Result(true, "Played Market");
+			result.setMessage("Played a  Market");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -673,7 +719,26 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			if (!player.hasCardInHand(copper)) {
+				result.setSuccess(false);
+				result.setMessage("Moneylender requires a copper in your hand");
+				return result;
+			}
+			
+			player.removeAction();
+			player.addMoney(3);
+			dominionModel.addToTrash(copper);
+			player.removeCardFromHand(copper);
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played copper");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -741,7 +806,19 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.draw(3);
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Smithy");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -923,7 +1000,24 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.draw(2);
+			for (Player p : dominionModel.getPlayers()) {
+				if (p.getUniqueIdentifier() != playerId) {
+					p.addToDiscard(dominionModel.drawCurse());
+				}
+			}
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Witch");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -957,7 +1051,20 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.addBuy();
+			player.addMoney(2);
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Woodcutter");
+			return result;
 		}
 		@Override
 		public String toString() {
