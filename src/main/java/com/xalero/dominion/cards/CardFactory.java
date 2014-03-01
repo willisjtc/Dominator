@@ -7,7 +7,6 @@ import com.xalero.dominion.cards.treasure.TreasureCard;
 import com.xalero.dominion.cards.victory.VictoryCard;
 import com.xalero.dominion.model.DominionConstants;
 import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.Phase;
 import com.xalero.dominion.model.Player;
 import com.xalero.dominion.utils.Result;
 
@@ -521,15 +520,18 @@ public class CardFactory {
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
-			if (player.getPhase().equals(Phase.BUY)) {
-				return new Result(false, "Cannot play action card during buy phase.");
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
 			}
+			
 			player.removeAction();
 			player.addAction();
 			player.drawCard();
 			player.addBuy();
 			player.addMoney();
 			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
 			
 			return new Result(true, "Played Market");
 		}
@@ -876,8 +878,9 @@ public class CardFactory {
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
-			if (player.getPhase().equals(Phase.BUY)){
-				return new Result(false, "Cannot play action card during buy phase.");
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
 			}
 			
 			player.removeAction();
