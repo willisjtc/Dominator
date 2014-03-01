@@ -58,22 +58,38 @@ public class Player {
 		this.uniqueIdentifier = playerInfo.getIdentifier();
 	}
 	
+	/**
+	 * Gets an id that uniquely identifies this player with 
+	 * the game.
+	 * @return a long representing the player's unique id
+	 */
 	public long getUniqueIdentifier() {
 		return uniqueIdentifier;
 	}
 	
+	/**
+	 * Sets the player's phase to Action
+	 */
 	public void turnStarted() {
 		buys = 1;
 		actions = 1;
 		phase = Phase.ACTION;
 	}
 	
+	/**
+	 * @return the phase the player is currently in
+	 */
 	public Phase getPhase() {
 		return phase;
 	}
 	
+	/**
+	 * ends the player's turn, sets the buys and
+	 * actions, and draws the player's hand
+	 */
 	public void turnEnded() {
-		actions = 1;
+		buys = 0;
+		actions = 0;
 		money = 0;
 		discardHand();
 		draw(5);
@@ -124,10 +140,16 @@ public class Player {
 		actions--;
 	}
 	
+	/**
+	 * @return the amount of actions the player has the left
+	 */
 	public int getActionCount() {
 		return actions;
 	}
 
+	/**
+	 * @return the amount of money the player has left
+	 */
 	public int getMoneyCount() {
 		return money;
 	}
@@ -163,8 +185,16 @@ public class Player {
 	 * @return A Result object for whether or not the purchase was successful
 	 */
 	public Result buyCard(Card card) {
+		Result result = new Result(true, "");
+		if (card == null) {
+			result.setSuccess(false);
+			result.setMessage("No more of that card");
+			return result;
+		}
 		if (!canBuyCard(card).isSuccess()) {
-			return new Result(false, "Player can't buy card");
+			result.setSuccess(false);
+			result.setMessage("Player can't buy card");
+			return result;
 		}
 		
 		phase = Phase.BUY;
@@ -182,7 +212,7 @@ public class Player {
 		addToDiscard(card);
 		
 		buys -= 1;
-		return new Result(true, "Successfully bought the card");
+		return result;
 	}
 	
 	/**
@@ -280,6 +310,53 @@ public class Player {
 	} 
 	
 	/**
+	 * Given a card this method determines if the card
+	 * is in the player's hand.
+	 * @param card The card that will be checked against the
+	 * player's hand
+	 * @return true if the card is in the player's hand and false
+	 * otherwise.
+	 */
+	public boolean hasCardInHand(Card card) {
+		for (Card c : hand) {
+			if (c.equals(card)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks to see if a player can play a given action card.
+	 * Checks by seeing if the player is in his buy phase, has
+	 * any actions left, and if the card is in the player's hand.
+	 * @param card The action card that the player may or may not 
+	 * be able to play.
+	 * @return a result object
+	 */
+	public Result canPlayAction(Card card) {
+		Result result = new Result(true, "");
+		if (!card.isAction()) {
+			result.setSuccess(false);
+			result.setMessage("Card is not an action card.");
+		}
+		if (getPhase().equals(Phase.BUY)) {
+			result.setSuccess(false);
+			result.setMessage("Cannot play action card during buy phase. ");;
+		}
+		if (getActionCount() == 0) {
+			result.setSuccess(false);
+			result.setMessage(result.getMessage() + "No more actions to play. ");
+		}
+		
+		if (!hasCardInHand(card)) {
+			result.setSuccess(false);
+			result.setMessage(result.getMessage() + "Card isn't in your hand. ");
+		}
+		return result;
+	}
+	
+	/**
 	 * @return the current score of the player.
 	 */
 	public int getScore() {
@@ -317,10 +394,17 @@ public class Player {
 		deck.remove(0);
 	}
 	
+	/**
+	 * Adds one value to the player's money.
+	 */
 	public void addMoney() {
 		money += 1;
 	}
 	
+	/**
+	 * Adds the value of the treasure card to the player's money.
+	 * @param card A treasure card.
+	 */
 	private void addMoney(Card card) {
 		if (card.isTreasure()) {
 			try {
