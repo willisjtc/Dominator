@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -306,6 +305,11 @@ public class DominionModel implements IObservable {
 		return false;
 	}
 	
+	/**
+	 * Used to get a kingdom card that is in the game
+	 * @param card
+	 * @return
+	 */
 	private KingdomCard getKingdomCard(Card card) {
 		for (int i = 0; i < kingdomCards.size(); i++) {
 			if (kingdomCards.get(i).equals(card)) {
@@ -316,6 +320,14 @@ public class DominionModel implements IObservable {
 		return null;
 	}
 
+	/**
+	 * Buys a card for the player if the player is able to do so. Some
+	 * preventions include a player can't buy the card or it isn't the
+	 * player's turn.
+	 * @param playerId The id of the player that is buying a card
+	 * @param card The card the player wants to buy
+	 * @return a result object 
+	 */
 	public Result buyCard(long playerId, Card card) {
 		Result result = new Result(false, "You can't buy that card");
 		if (!gameStarted) {
@@ -347,10 +359,20 @@ public class DominionModel implements IObservable {
 		return result;
 	}
 	
+	/**
+	 * Retrieves the discard pile of the player
+	 * @param playerIndex the index of the player 
+	 * @return an unmodifiable collection of the player's discard pile
+	 */
 	public Collection<Card> getDiscardPile(int playerIndex) {
 		return Collections.unmodifiableCollection(players.get(playerIndex).getDiscardPile());
 	}
 
+	/**
+	 * Ends a player's turn
+	 * @param playerId the id of the player
+	 * @return a result object.
+	 */
 	public Result endTurn(long playerId) {
 		
 		// check for ending turn
@@ -367,6 +389,11 @@ public class DominionModel implements IObservable {
 		return new Result(true, resultMessage.toString());
 	}
 
+	/**
+	 * Retrieves the player by the player's id
+	 * @param playerId the long representing the player id
+	 * @return a player object or null if htere is
+	 */
 	public Player getPlayerById(long playerId) {
 		for (Player player : players) {
 			if (playerId == player.getUniqueIdentifier()) {
