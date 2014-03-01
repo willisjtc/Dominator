@@ -79,7 +79,7 @@ public class SupplyPilesView extends AnchorPane implements IObserver {
         estateCountLabel.setText("" + model.getVictoryCards().getEstateCount());
         
         if (model.kingdomCardInGame(CardFactory.witch)) {
-            witchLabel = new Label("Witch:");
+            witchLabel = new Label("Curses:");
             witchCountLabel = new Label("" + model.getCurses().size());
             
             supplyPileHolder.add(witchLabel, colCount - 1, rowCount);
