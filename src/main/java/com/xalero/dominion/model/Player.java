@@ -259,7 +259,6 @@ public class Player {
 	}
 	
 	/**
-	 * 
 	 * Removes a card from the player's hand and adds it to the 
 	 * player's discard pile.
 	 * 
@@ -268,8 +267,20 @@ public class Player {
 	public void addToDiscardFromHand(Card card) {
 		hand.remove(card);
 		discardPile.add(card);
+		removeMoney(card);
 	}
 
+	/**
+	 * Removes a card from the player's hand. This is used
+	 * in the rare instances that a card needs to go to the
+	 * trash and the player doesn't have access to the trash.
+	 * @param card The card to be removed
+	 */
+	public void removeCardFromHand(Card card) {
+		hand.remove(card);
+		removeMoney(card);
+	}
+	
 	/**
 	 * @return Whether the player is a computer or a human
 	 */
@@ -400,6 +411,16 @@ public class Player {
 	public void addMoney() {
 		money += 1;
 	}
+
+	/**
+	 * Adds a certai amount of money to the player's money.
+	 * 
+	 * @param value the value of money to be added to the player's
+	 * money
+	 */
+	public void addMoney(int value) {
+		money += value;
+	}
 	
 	/**
 	 * Adds the value of the treasure card to the player's money.
@@ -415,6 +436,21 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Removes an amount of money from a player's hand according to the
+	 * value of the card
+	 * @param card a card that is being subtracted from the player's money
+	 */
+	private void removeMoney(Card card) {
+		if (card.isTreasure()) {
+			try {
+				money -= card.getValue();
+			} catch (Exception e) {
+				log.log(Level.WARNING, "Card does not have a getValue() method", e);
+			}
+		}
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

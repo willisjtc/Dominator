@@ -261,6 +261,15 @@ public class DominionModel implements IObservable {
 	}
 
 	/**
+	 * Draws a curse card to give to a player.
+	 * 
+	 * @return A curse card.
+	 */
+	public Card drawCurse() {
+		return curses.remove(0);
+	}
+	
+	/**
 	 * @return a collection of the trashed cards in the game.
 	 */
 	public Collection<Card> getTrashCards() {
