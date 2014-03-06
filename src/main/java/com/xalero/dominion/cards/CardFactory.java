@@ -178,7 +178,28 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+            Player player = dominionModel.getPlayerById(playerId);
+            Result result = player.canPlayAction(this);
+            if (!result.isSuccess()) {
+                return result;
+            }
+
+            player.removeAction();
+
+            int countNewCards = 0;
+            while(countNewCards < 2){
+                Card card = player.drawCard();
+                if(!card.isTreasure())
+                    player.addToDiscardFromHand(card);
+
+                countNewCards++;
+            }
+
+            player.addToDiscardFromHand(this);
+            dominionModel.notifyObservers();
+
+            result.setMessage("Played a Adventurer! Schmauzow!!");
+            return result;
 		}
 		@Override
 		public String toString() {

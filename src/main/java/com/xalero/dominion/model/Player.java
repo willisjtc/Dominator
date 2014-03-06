@@ -380,7 +380,8 @@ public class Player {
 	 * @param numCards
 	 *            - the number of cards to draw.
 	 */
-	public void draw(int numCards) {
+	public Collection<Card> draw(int numCards) {
+        List<Card> cards = new ArrayList<>();
 		for (int i = 0; i < numCards; i++) {
 			if (deck.isEmpty()) {
 				CardUtils.shuffle(deck, discardPile);
@@ -389,13 +390,15 @@ public class Player {
 			addMoney(card);
 			hand.add(card);
 			deck.remove(0);
+            cards.add(card);
 		}
+        return cards;
 	}
 	
 	/**
 	 * Draw one card from the player's deck into the player's hand
 	 */
-	public void drawCard() {
+	public Card drawCard() {
 		if (deck.isEmpty()) {
 			CardUtils.shuffle(deck, discardPile);
 		}
@@ -403,6 +406,7 @@ public class Player {
 		addMoney(card);
 		hand.add(card);
 		deck.remove(0);
+        return card;
 	}
 	
 	/**
