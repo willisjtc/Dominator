@@ -263,7 +263,7 @@ public class CardFactory {
                 if (p.getUniqueIdentifier() != playerId) {
                     for(Card c : p.getHand()){
                         if(c.isVictory()){
-                            p.addToDeck(c);
+                            p.addToDeck(c, 0);
                             p.getHand().remove(c);
                             break;
                         }
