@@ -186,6 +186,21 @@ public class CardFactory {
 
             player.removeAction();
 
+            int treasureCardCount = 0;
+            for(Card deckCard : player.getDeck())
+            {
+                if(deckCard.isTreasure())
+                    treasureCardCount++;
+            }
+            for(Card discardCard : player.getDiscardPile())
+            {
+                if(discardCard.isTreasure())
+                    treasureCardCount++;
+            }
+
+            if(treasureCardCount < 2)
+                return result;
+
             int countNewCards = 0;
             while(countNewCards < 2){
                 Card card = player.drawCard();
@@ -233,7 +248,34 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+            Player player = dominionModel.getPlayerById(playerId);
+            Result result = player.canPlayAction(this);
+            if (!result.isSuccess()) {
+                return result;
+            }
+
+            player.removeAction();
+
+            Card freeSilverYay = dominionModel.getTreasures().getSilver();
+            player.addToDeck(freeSilverYay, 0);
+
+            for (Player p : dominionModel.getPlayers()) {
+                if (p.getUniqueIdentifier() != playerId) {
+                    for(Card c : p.getHand()){
+                        if(c.isVictory()){
+                            p.addToDeck(c);
+                            p.getHand().remove(c);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            player.addToDiscardFromHand(this);
+            dominionModel.notifyObservers();
+
+            result.setMessage("Played a Bureaucrat! Action....ATTACK! Schmauzow!!");
+            return result;
 		}
 		@Override 
 		public String toString() {

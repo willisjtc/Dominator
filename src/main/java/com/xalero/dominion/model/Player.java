@@ -249,6 +249,16 @@ public class Player {
 		deck.add(card);
 	}
 
+    /**
+     * Adds a card to the deck.
+     *
+     * @param card
+     *            - the card added.
+     */
+    public void addToDeck(Card card, int index) {
+        deck.add(index, card);
+    }
+
 	/**
 	 * Adds a card to the discard pile.
 	 * 
