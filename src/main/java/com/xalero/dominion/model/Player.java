@@ -71,8 +71,14 @@ public class Player {
 	 * Sets the player's phase to Action
 	 */
 	public void turnStarted() {
-		buys = 1;
-		actions = 1;
+		// for debugging
+		buys = 100;
+		actions = 100;
+		money = 100;
+		
+		// Correct numbers
+//		buys = 1;
+//		actions = 1;
 		phase = Phase.ACTION;
 	}
 	
@@ -275,9 +281,11 @@ public class Player {
 	 * @param card The card being discarded from the player's hand
 	 */
 	public void addToDiscardFromHand(Card card) {
-		hand.remove(card);
-		discardPile.add(card);
-		removeMoney(card);
+		boolean cardRemoved = hand.remove(card);
+		if (cardRemoved) {
+			discardPile.add(card);
+			removeMoney(card);
+		}
 	}
 
 	/**
