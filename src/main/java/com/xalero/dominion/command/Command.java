@@ -23,6 +23,9 @@ public abstract class Command {
 	}
 	
 	protected Collection<String> parseParameters(String parameters) {
+		if (parameters == null) {
+			return null;
+		}
 		List<String> params = new ArrayList<String>();
 		try (Scanner scanner = new Scanner(parameters)) {
 			while (scanner.hasNext()) {
