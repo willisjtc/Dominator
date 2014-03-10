@@ -16,8 +16,6 @@ public class Dominion extends Application {
 	public void start(Stage primaryStage) {
 		
 		try {
-			DominionEmbeddedServer.INSTANCE.startServer(8080);
-			
 			mainController = new MainController();
 			
 			Scene scene = new Scene(mainController);
