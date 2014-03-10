@@ -252,7 +252,35 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+            Player player = dominionModel.getPlayerById(playerId);
+            Result result = player.canPlayAction(this);
+            if (!result.isSuccess()) {
+                return result;
+            }
+
+            player.removeAction();
+
+            Card freeSilverYay = dominionModel.getTreasures().getSilver();
+            player.addToDeck(freeSilverYay, 0);
+
+            for (Player p : dominionModel.getPlayers()) {
+                if (p.getUniqueIdentifier() != playerId) {
+                    for(Card c : p.getHand()){
+                        if(c.isVictory()){
+                            p.addToDeck(c, 0);
+                            p.getHand().remove(c);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            player.addToDiscardFromHand(this);
+            dominionModel.notifyObservers();
+
+            result.setMessage("Played a Bureaucrat! Action....ATTACK! Schmauzow!!");
+            return result;
+
 		}
 		@Override
 		public String toString() {
