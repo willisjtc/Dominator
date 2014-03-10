@@ -32,6 +32,7 @@ public class DominionModel implements IObservable {
 	private List<Card> curses;
 	private int playerTurn;
 	private boolean gameStarted;
+	private boolean gameOver;
 	private long gameId;
 	
 	private final int START_COPPER_COUNT = 7;
@@ -51,6 +52,7 @@ public class DominionModel implements IObservable {
 		observers = new ArrayList<>();
 		playerTurn = -1;
 		gameStarted = false;
+		gameOver = false;
 
 		initSupplyPile(gameSettings.getSelectedCards(), gameSettings
 				.getPlayerInfos().size());
@@ -78,6 +80,23 @@ public class DominionModel implements IObservable {
 		return gameStarted;
 	}
 
+	/**
+	 * @return a boolean of whether the game is over
+	 * or not.
+	 */
+	public boolean gameOver() {
+		return gameOver;
+	}
+	
+	/**
+	 * Ends the game.
+	 */
+	private void endGame() {
+		setPlayerTurn(-1);
+		
+		gameOver = true;
+	}
+	
 	/**
 	 * Starts the game: determines the starting player, deals the cards...
 	 */
@@ -355,8 +374,10 @@ public class DominionModel implements IObservable {
 					result.setMessage("You just bought a " + card);
 				} else if (treasureCards.contains(card)) {
 					player.buyCard(treasureCards.getTreasure(card));
+                    result.setMessage("You just bought a " + card);
 				} else if (victoryCards.contains(card)) {
 					player.buyCard(victoryCards.getVictoryCard(card));
+                    result.setMessage("You just bought a " + card);
 				} else {
 					result.setMessage("That card doesn't exist");
 				}
@@ -378,6 +399,48 @@ public class DominionModel implements IObservable {
 	}
 
 	/**
+	 * Goes through the piles and looks for three missing piles
+	 * or one empty province pile.
+	 * 
+	 * @return true if the game is over, false otherwise.
+	 */
+	private boolean isGameOver() {
+		if (victoryCards.getProvinceCount() == 0) {
+			return true;
+		}
+		int pilesGone = 0;
+		if (treasureCards.getCopperCount() == 0) {
+			pilesGone++;
+		}
+		if (treasureCards.getSilverCount() == 0) {
+			pilesGone++;
+		}
+		if (treasureCards.getGoldCount() == 0) {
+			pilesGone++;
+		}
+		if (curses.size() == 0) {
+			pilesGone++;
+		}
+		if (victoryCards.getEstateCount() == 0) {
+			pilesGone++;
+		}
+		if (victoryCards.getDuchyCount() == 0) {
+			pilesGone++;
+		}
+		
+		for (KingdomCard kingdomCard : kingdomCards) {
+			if (kingdomCard.getCardCount() == 0) {
+				pilesGone++;
+			}
+		}
+		
+		if (pilesGone > 2) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Ends a player's turn
 	 * @param playerId the id of the player
 	 * @return a result object.
@@ -393,7 +456,14 @@ public class DominionModel implements IObservable {
 		curPlayer = players.get(playerTurn);
 		curPlayer.turnStarted();
 		
-		resultMessage.append("\nPlayer Turn: " + curPlayer.getPlayerName());
+		if (isGameOver()) {
+			resultMessage.append("Game Over!");
+			endGame();
+		} else {
+			resultMessage.append("\nPlayer Turn: " + curPlayer.getPlayerName());
+		}
+		
+		
 		notifyObservers();
 		return new Result(true, resultMessage.toString());
 	}
