@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.xalero.dominion.model;
+ package com.xalero.dominion.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +11,6 @@ import java.util.logging.Logger;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardUtils;
 import com.xalero.dominion.utils.Result;
-
-
 
 /**
  * 
@@ -34,6 +28,8 @@ public class Player {
 	private List<Card> hand;
 	private List<Card> discardPile;
 	private Phase phase;
+	
+	private boolean chancellorEffect;
 	
 	private static final Logger log = LogManager.getLogManager().getLogger(Player.class.getName());
 
@@ -53,6 +49,8 @@ public class Player {
 		this.buys = 0;
 		this.actions = 0;
 		this.money = 0;
+		
+		this.chancellorEffect = false;
 		
 		System.out.println("player constructor id: " + playerInfo.getIdentifier());
 		this.uniqueIdentifier = playerInfo.getIdentifier();
@@ -98,6 +96,10 @@ public class Player {
 		actions = 0;
 		money = 0;
 		discardHand();
+		if (chancellorEffect == true) {
+			discardDeck();
+			chancellorEffect = false;
+		}
 		draw(5);
 	}
 	
@@ -300,6 +302,16 @@ public class Player {
 	}
 	
 	/**
+	 * Sets whether or not the chancellor card's effect will
+	 * take place at the end of the turn.
+	 * 
+	 * @param value true or false
+	 */
+	public void setChancellorEffect(boolean value) {
+		chancellorEffect = value;
+	}
+	
+	/**
 	 * @return Whether the player is a computer or a human
 	 */
 	public PlayerType getPlayerType() {
@@ -335,8 +347,20 @@ public class Player {
 	public Result discardHand() {
 		boolean added = discardPile.addAll(hand);
 		hand.clear();
-		return new Result(added, "Added to had to discard");
+		return new Result(added, "Added hand to discard");
 	} 
+	
+	/**
+	 * Discards the deck into the discard pile. And example
+	 * of this method being used would be with the chancellor.
+	 * @return true if the deck was added to the discard pile
+	 * and false otherwise.
+	 */
+	public boolean discardDeck() {
+		boolean added = discardPile.addAll(deck);
+		deck.clear();
+		return added;
+	}
 	
 	/**
 	 * Given a card this method determines if the card

@@ -35,7 +35,12 @@ public class PlayCardCommand extends Command {
 					card = CardFactory.createCard(param + " " + nextParam);
 					if (card != null) {
 						parsedParameters.add(param + " " + nextParam);
+					} else {
+						parsedParameters.add(param);
+						parsedParameters.add(nextParam);
 					}
+				} else {
+					parsedParameters.add(param);
 				}
 			}
 		}
