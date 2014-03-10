@@ -7,7 +7,6 @@ import org.dbunit.dataset.DataSetException;
 import org.junit.Test;
 
 import com.xalero.dominion.utils.DominionTestBase;
-import com.xalero.dominion.utils.TestProperties;
 
 public class GameDAOTest extends DominionTestBase {
 
@@ -17,4 +16,8 @@ public class GameDAOTest extends DominionTestBase {
 		super(dataSet, driver, connectionUrl, dbUsername, dbPassword);
 	}
 
+	@Test
+	public void test() {
+		assertTrue(true);
+	}
 }
