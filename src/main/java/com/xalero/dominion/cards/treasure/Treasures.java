@@ -66,7 +66,6 @@ public class Treasures {
     	return false;
     }
 
-	
     public Card getTreasure(Card card) {
 		if (CardFactory.gold.equals(card)) {
 			return getGold();
