@@ -1,5 +1,8 @@
 package com.xalero.dominion.cards;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.image.Image;
 
 import com.xalero.dominion.cards.action.ActionCard;
@@ -14,9 +17,9 @@ public class CardFactory {
 	private static CardFactory cardFactory = new CardFactory();
 	private static final int numBaseKingdomCards = 25;
 	private static final String baseCardsPath = "dominion/application/cards/base/";
-	
+
 	// Original Dominion Cards
-	public static Card createCard(String card) throws Exception {
+	public static Card createCard(String card) {
 		// big switch statement for creating a card
 		switch (card.toLowerCase()) {
 		case "adventurer":
@@ -81,11 +84,11 @@ public class CardFactory {
 			return province;
 		case "gardens":
 			return gardens;
-		default: throw new Exception();
+		default: return null;
 		}
-		
+
 	}
-	
+
 	public static Card[] getBaseKingdomCards() {
 		Card[] baseCards = new Card[numBaseKingdomCards];
 		baseCards[0] = adventurer;
@@ -113,10 +116,10 @@ public class CardFactory {
 		baseCards[22] = woodcutter;
 		baseCards[23] = workshop;
 		baseCards[24] = gardens;
-		
+
 		return baseCards;
 	}
-		
+
 	public final static Card adventurer = cardFactory.new Adventurer();
 	public final static Card cellar = cardFactory.new Cellar();
 	public final static Card bureaucrat = cardFactory.new Bureaucrat();
@@ -143,14 +146,14 @@ public class CardFactory {
 	public final static Card workshop = cardFactory.new Workshop();
 	public final static Card copper = cardFactory.new Copper();
 	public final static Card silver = cardFactory.new Silver();
-	public final static Card gold = cardFactory.new Gold();	
+	public final static Card gold = cardFactory.new Gold();
 
 	public final static Card estate = cardFactory.new Estate();
 	public final static Card duchy = cardFactory.new Duchy();
 	public final static Card province = cardFactory.new Province();
 	public final static Card gardens = cardFactory.new Gardens();
 	public final static Card curse = cardFactory.new Curse();
-	
+
 	public class Adventurer extends ActionCard {
 		public Adventurer() {
 			super();
@@ -177,7 +180,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
             Player player = dominionModel.getPlayerById(playerId);
             Result result = player.canPlayAction(this);
             if (!result.isSuccess()) {
@@ -198,9 +201,10 @@ public class CardFactory {
                     treasureCardCount++;
             }
 
-            if(treasureCardCount < 2)
+            if(treasureCardCount < 2) {
                 return result;
-
+            }
+            
             int countNewCards = 0;
             while(countNewCards < 2){
                 Card card = player.drawCard();
@@ -247,37 +251,10 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
-            Player player = dominionModel.getPlayerById(playerId);
-            Result result = player.canPlayAction(this);
-            if (!result.isSuccess()) {
-                return result;
-            }
-
-            player.removeAction();
-
-            Card freeSilverYay = dominionModel.getTreasures().getSilver();
-            player.addToDeck(freeSilverYay, 0);
-
-            for (Player p : dominionModel.getPlayers()) {
-                if (p.getUniqueIdentifier() != playerId) {
-                    for(Card c : p.getHand()){
-                        if(c.isVictory()){
-                            p.addToDeck(c, 0);
-                            p.getHand().remove(c);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            player.addToDiscardFromHand(this);
-            dominionModel.notifyObservers();
-
-            result.setMessage("Played a Bureaucrat! Action....ATTACK! Schmauzow!!");
-            return result;
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
+			return null;
 		}
-		@Override 
+		@Override
 		public String toString() {
 			return "Bureaucrat";
 		}
@@ -309,10 +286,27 @@ public class CardFactory {
 			return 1;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
-			return null;
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			int numCardsDiscarded = 0;
+			for (String cardToCreate : parameters) {
+				Card cardCreated = createCard(cardToCreate);
+				if (cardCreated != null && player.hasCardInHand(cardCreated)) {
+					player.addToDiscardFromHand(cardCreated);
+					numCardsDiscarded++;
+				}
+			}
+			player.draw(numCardsDiscarded);
+			player.addToDiscardFromHand(this);
+			dominionModel.notifyObservers();
+			return result;
 		}
-		@Override 
+		@Override
 		public String toString() {
 			return "Cellar";
 		}
@@ -343,7 +337,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -377,7 +371,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -411,13 +405,13 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.draw(4);
 			player.addBuy();
@@ -428,7 +422,7 @@ public class CardFactory {
 			}
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a Council Room");
 			return result;
 		}
@@ -463,7 +457,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -497,20 +491,20 @@ public class CardFactory {
 			return DominionConstants.FIVE;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.addActions(2);
 			player.addMoney(2);
 			player.addBuy();
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a Festival");
 			return result;
 		}
@@ -545,19 +539,19 @@ public class CardFactory {
 			return DominionConstants.ONE;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.addAction();
 			player.draw(2);
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a Laboratory");
 			return result;
 		}
@@ -592,7 +586,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -626,13 +620,13 @@ public class CardFactory {
 			return DominionConstants.ONE;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.addAction();
 			player.drawCard();
@@ -640,7 +634,7 @@ public class CardFactory {
 			player.addMoney();
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a  Market");
 			return result;
 		}
@@ -675,7 +669,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -709,7 +703,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -747,7 +741,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -781,7 +775,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
@@ -792,14 +786,14 @@ public class CardFactory {
 				result.setMessage("Moneylender requires a copper in your hand");
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.addMoney(3);
 			dominionModel.addToTrash(copper);
 			player.removeCardFromHand(copper);
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played copper");
 			return result;
 		}
@@ -834,7 +828,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -868,18 +862,18 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.draw(3);
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a Smithy");
 			return result;
 		}
@@ -914,7 +908,7 @@ public class CardFactory {
 			return DominionConstants.ONE;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -948,7 +942,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -982,7 +976,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
@@ -1016,19 +1010,19 @@ public class CardFactory {
 			return DominionConstants.TWO;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.addActions(2);
 			player.drawCard();
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			return new Result(true, "Played Village");
 		}
 		@Override
@@ -1062,13 +1056,13 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.draw(2);
 			for (Player p : dominionModel.getPlayers()) {
@@ -1078,7 +1072,7 @@ public class CardFactory {
 			}
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a Witch");
 			return result;
 		}
@@ -1113,19 +1107,19 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			Player player = dominionModel.getPlayerById(playerId);
 			Result result = player.canPlayAction(this);
 			if (!result.isSuccess()) {
 				return result;
 			}
-			
+
 			player.removeAction();
 			player.addBuy();
 			player.addMoney(2);
 			player.addToDiscardFromHand(this);
 			dominionModel.notifyObservers();
-			
+
 			result.setMessage("Played a Woodcutter");
 			return result;
 		}
@@ -1160,7 +1154,7 @@ public class CardFactory {
 			return 0;
 		}
 		@Override
-		public Result playCard(DominionModel dominionModel, long playerId) {
+		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
 		@Override
