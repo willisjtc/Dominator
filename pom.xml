@@ -63,7 +63,7 @@
 			<artifactId>javafx</artifactId>
 			<version>${javafx.minVersion}</version>
 			<scope>system</scope>
-			<systemPath>/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home/jre/lib/jfxrt.jar</systemPath>
+			<systemPath>${basedir}/jfxrt.jar</systemPath>
 		</dependency>
 	</dependencies>
 
