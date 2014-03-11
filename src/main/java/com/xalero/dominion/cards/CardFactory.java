@@ -429,7 +429,6 @@ public class CardFactory {
 			}
 			
 			player.removeAction();
-			
 			player.addToDiscardFromHand(this);
 			
 			if (parameters != null) {
@@ -531,7 +530,27 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.removeCardFromHand(this);
+			dominionModel.addToTrash(this);
+			
+			if (parameters != null && parameters.size() > 0) {
+				Card cardToFeast = createCard(parameters.get(0));
+				if (cardToFeast != null) {
+					player.addToDiscard(cardToFeast);
+				}
+			}
+			
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Feast");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -777,7 +796,44 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.addToDiscardFromHand(this);
+			
+			if (parameters != null && parameters.size() > 1) {
+				Card treasureToTrash = createCard(parameters.get(0));
+				Card treasureToGrab = createCard(parameters.get(1));
+				if (treasureToTrash == null ||
+					!treasureToTrash.isTreasure()) {
+					result.setSuccess(false);
+					result.setMessage("Invalid treasure to trash");
+					return result;
+				} 
+				if (treasureToGrab == null ||
+					!treasureToGrab.isTreasure()) {
+					result.setSuccess(false);
+					result.setMessage("Invalid treasure to gain");
+					return result;
+				}
+				if (treasureToGrab.getCost() - treasureToTrash.getCost() > 3) {
+					result.setSuccess(false);
+					result.setMessage("Cannot gain a treasure costing more than three of the trashing treasure");
+					return result;
+				}
+				player.removeCardFromHand(treasureToTrash);
+				dominionModel.addToTrash(treasureToTrash);
+				player.addToHand(treasureToGrab);
+			}
+			
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Just played a Mine");
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -902,7 +958,49 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			
+			if (parameters != null && parameters.size() > 1) {
+				Card cardToTrash = createCard(parameters.get(0));
+				Card cardToGrab = createCard(parameters.get(1));
+				if (cardToTrash == null) {
+					result.setSuccess(false);
+					result.setMessage("Invalid card to trash");
+					return result;
+				} 
+				if (cardToGrab == null) {
+					result.setSuccess(false);
+					result.setMessage("Invalid card to gain");
+					return result;
+				}
+				if (cardToGrab.getCost() - cardToTrash.getCost() > 2) {
+					result.setSuccess(false);
+					result.setMessage("Cannot gain a card costing more than two of the trashing card");
+				}
+				player.removeCardFromHand(cardToTrash);
+				if (dominionModel.kingdomCardInGame(cardToGrab)) {
+					cardToGrab = dominionModel.getKingdomCard(cardToGrab).drawCard();
+					player.addToDiscard(cardToGrab);
+				} else if (cardToGrab.isTreasure()) {
+					player.addToDiscard(dominionModel.getTreasures().getTreasure(cardToGrab));
+				} else if (cardToGrab.isVictory()) {
+					player.addToDiscard(dominionModel.getVictoryCards().getVictoryCard(cardToGrab));
+				} else if (cardToGrab.equals(curse)) {
+					cardToGrab = dominionModel.getCurse();
+					player.addToDiscard(cardToGrab);
+				}
+			}
+			
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Just played a Remodel");
+			return result;
 		}
 		@Override
 		public String toString() {

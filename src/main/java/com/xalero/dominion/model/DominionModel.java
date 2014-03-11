@@ -338,16 +338,23 @@ public class DominionModel implements IObservable {
 	 * @param card
 	 * @return
 	 */
-	private KingdomCard getKingdomCard(Card card) {
+	public KingdomCard getKingdomCard(Card card) {
 		for (int i = 0; i < kingdomCards.size(); i++) {
 			if (kingdomCards.get(i).equals(card)) {
 				return kingdomCards.get(i);
 			}
 		}
-
 		return null;
 	}
-
+	
+	public Card getCurse() {
+		Card curse = null;
+		if (curses.size() > 0) {
+			curse = curses.remove(0);
+		}
+		return curse;
+	}
+	
 	/**
 	 * Buys a card for the player if the player is able to do so. Some
 	 * preventions include a player can't buy the card or it isn't the

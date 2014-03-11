@@ -248,6 +248,16 @@ public class Player {
 	}
 
 	/**
+	 * Adds a card to the player's hand. This is used for cards
+	 * like the Mine.
+	 * @param card The card to be added to the hand.
+	 */
+	public void addToHand(Card card) {
+		hand.add(card);
+		addMoney(card);
+	}
+	
+	/**
 	 * Adds a card to the deck.
 	 * 
 	 * @param card
@@ -291,9 +301,9 @@ public class Player {
 	}
 
 	/**
-	 * Removes a card from the player's hand. This is used
-	 * in the rare instances that a card needs to go to the
-	 * trash and the player doesn't have access to the trash.
+	 * Removes a card from the player's hand. This card is used when
+	 * wanting to trash the card. The player object doesn't have access
+	 * to the trash.
 	 * @param card The card to be removed
 	 */
 	public void removeCardFromHand(Card card) {
