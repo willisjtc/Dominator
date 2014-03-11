@@ -324,14 +324,16 @@ public class CardFactory {
 			player.addToDiscardFromHand(this);
 			
 			int numCardsDiscarded = 0;
-			for (String cardToCreate : parameters) {
-				Card cardCreated = createCard(cardToCreate);
-				if (cardCreated != null && player.hasCardInHand(cardCreated)) {
-					player.addToDiscardFromHand(cardCreated);
-					numCardsDiscarded++;
+			if (parameters != null) {
+				for (String cardToCreate : parameters) {
+					Card cardCreated = createCard(cardToCreate);
+					if (cardCreated != null && player.hasCardInHand(cardCreated)) {
+						player.addToDiscardFromHand(cardCreated);
+						numCardsDiscarded++;
+					}
 				}
+				player.draw(numCardsDiscarded);
 			}
-			player.draw(numCardsDiscarded);
 			dominionModel.notifyObservers();
 			
 			result.setMessage("Played a Cellar");
@@ -420,7 +422,30 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			
+			player.addToDiscardFromHand(this);
+			
+			if (parameters != null) {
+				for (String cardToCreate : parameters) {
+					Card cardCreated = createCard(cardToCreate);
+					if (cardCreated != null && player.hasCardInHand(cardCreated)) {
+						player.removeCardFromHand(cardCreated);
+						dominionModel.addToTrash(cardCreated);
+					}
+				}
+			}
+			
+			dominionModel.notifyObservers();
+			
+			result.setMessage("Played a Chapel");
+			return result;
 		}
 		@Override
 		public String toString() {
