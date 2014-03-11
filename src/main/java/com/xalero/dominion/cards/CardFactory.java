@@ -432,7 +432,7 @@ public class CardFactory {
 			player.addToDiscardFromHand(this);
 			
 			if (parameters != null) {
-				for (int i = 0; i < 4 || i < parameters.size(); i++) {
+				for (int i = 0; i < 4 && i < parameters.size(); i++) {
 					Card cardCreated = createCard(parameters.get(i));
 					if (cardCreated != null && player.hasCardInHand(cardCreated)) {
 						player.removeCardFromHand(cardCreated);
