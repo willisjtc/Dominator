@@ -432,8 +432,8 @@ public class CardFactory {
 			player.addToDiscardFromHand(this);
 			
 			if (parameters != null) {
-				for (String cardToCreate : parameters) {
-					Card cardCreated = createCard(cardToCreate);
+				for (int i = 0; i < 4 || i < parameters.size(); i++) {
+					Card cardCreated = createCard(parameters.get(i));
 					if (cardCreated != null && player.hasCardInHand(cardCreated)) {
 						player.removeCardFromHand(cardCreated);
 						dominionModel.addToTrash(cardCreated);
@@ -545,6 +545,10 @@ public class CardFactory {
 				if (cardToFeast != null) {
 					player.addToDiscard(cardToFeast);
 				}
+			} else {
+				result.setSuccess(false);
+				result.setMessage("Invalid card to gain");
+				return result;
 			}
 			
 			dominionModel.notifyObservers();
