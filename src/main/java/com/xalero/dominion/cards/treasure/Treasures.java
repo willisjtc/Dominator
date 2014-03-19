@@ -2,7 +2,7 @@ package com.xalero.dominion.cards.treasure;
 
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardFactory;
-import com.xalero.dominion.model.DominionConstants;
+import com.xalero.dominion.server.model.DominionConstants;
 
 
 public class Treasures {

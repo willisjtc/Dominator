@@ -2,7 +2,7 @@ package com.xalero.dominion.cards.action;
 
 import java.util.List;
 
-import com.xalero.dominion.model.DominionModel;
+import com.xalero.dominion.server.model.DominionModel;
 import com.xalero.dominion.utils.Result;
 
 public interface ActionBase {

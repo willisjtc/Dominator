@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.GameSettings;
+import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.GameSettings;
 import com.xalero.dominion.server.services.GameService;
 
 public class CreateGameServlet extends HttpServlet {

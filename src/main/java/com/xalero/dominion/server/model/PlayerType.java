@@ -1,4 +1,4 @@
-package com.xalero.dominion.model;
+package com.xalero.dominion.server.model;
 
 public enum PlayerType {
 	NONE (0, "None"),

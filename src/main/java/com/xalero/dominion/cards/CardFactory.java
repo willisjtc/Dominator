@@ -1,6 +1,5 @@
 package com.xalero.dominion.cards;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.image.Image;
@@ -8,9 +7,9 @@ import javafx.scene.image.Image;
 import com.xalero.dominion.cards.action.ActionCard;
 import com.xalero.dominion.cards.treasure.TreasureCard;
 import com.xalero.dominion.cards.victory.VictoryCard;
-import com.xalero.dominion.model.DominionConstants;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.Player;
+import com.xalero.dominion.server.model.DominionConstants;
+import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.Player;
 import com.xalero.dominion.utils.Result;
 
 public class CardFactory {
@@ -215,7 +214,7 @@ public class CardFactory {
             }
 
             player.addToDiscardFromHand(this);
-            dominionModel.notifyObservers();
+            dominionModel.notifyObservers(null);
 
             result.setMessage("Played a Adventurer! Schmauzow!!");
             return result;
@@ -276,7 +275,7 @@ public class CardFactory {
             }
 
             player.addToDiscardFromHand(this);
-            dominionModel.notifyObservers();
+            dominionModel.notifyObservers(null);
 
             result.setMessage("Played a Bureaucrat! Action....ATTACK! Schmauzow!!");
             return result;
@@ -334,7 +333,7 @@ public class CardFactory {
 				}
 				player.draw(numCardsDiscarded);
 			}
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 			
 			result.setMessage("Played a Cellar");
 			return result;
@@ -385,7 +384,7 @@ public class CardFactory {
 
 			player.addMoney(2);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Chancellor");
 			return result;
@@ -441,7 +440,7 @@ public class CardFactory {
 				}
 			}
 			
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 			
 			result.setMessage("Played a Chapel");
 			return result;
@@ -493,7 +492,7 @@ public class CardFactory {
 				}
 			}
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Council Room");
 			return result;
@@ -551,7 +550,7 @@ public class CardFactory {
 				return result;
 			}
 			
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 			
 			result.setMessage("Played a Feast");
 			return result;
@@ -599,7 +598,7 @@ public class CardFactory {
 			player.addMoney(2);
 			player.addBuy();
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Festival");
 			return result;
@@ -646,7 +645,7 @@ public class CardFactory {
 			player.addAction();
 			player.draw(2);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Laboratory");
 			return result;
@@ -729,7 +728,7 @@ public class CardFactory {
 			player.addBuy();
 			player.addMoney();
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a  Market");
 			return result;
@@ -768,6 +767,12 @@ public class CardFactory {
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
 			return null;
 		}
+		
+		@Override
+		public boolean isInteractive() {
+			return true;
+		}
+		
 		@Override
 		public String toString() {
 			return "Militia";
@@ -834,7 +839,7 @@ public class CardFactory {
 				player.addToHand(treasureToGrab);
 			}
 			
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 			
 			result.setMessage("Just played a Mine");
 			return result;
@@ -925,7 +930,7 @@ public class CardFactory {
 			dominionModel.addToTrash(copper);
 			player.removeCardFromHand(copper);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played copper");
 			return result;
@@ -969,6 +974,7 @@ public class CardFactory {
 			}
 			
 			player.removeAction();
+			player.addToDiscardFromHand(this);
 			
 			if (parameters != null && parameters.size() > 1) {
 				Card cardToTrash = createCard(parameters.get(0));
@@ -977,7 +983,7 @@ public class CardFactory {
 					result.setSuccess(false);
 					result.setMessage("Invalid card to trash");
 					return result;
-				} 
+				}
 				if (cardToGrab == null) {
 					result.setSuccess(false);
 					result.setMessage("Invalid card to gain");
@@ -1001,7 +1007,7 @@ public class CardFactory {
 				}
 			}
 			
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 			
 			result.setMessage("Just played a Remodel");
 			return result;
@@ -1047,7 +1053,7 @@ public class CardFactory {
 			player.removeAction();
 			player.draw(3);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Smithy");
 			return result;
@@ -1084,8 +1090,25 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.addToDiscardFromHand(this);
+			player.drawCard();
+			
+			dominionModel.setInteractiveCardInPlay(this);
+			// display player's top card, keep or discard card
+			// display other player's top card, keep or discard
+			
 			return null;
 		}
+		@Override
+		public boolean isInteractive() {
+			return true;
+		}	
 		@Override
 		public String toString() {
 			return "Spy";
@@ -1121,6 +1144,10 @@ public class CardFactory {
 			return null;
 		}
 		@Override
+		public boolean isInteractive() {
+			return true;
+		}	
+		@Override
 		public String toString() {
 			return "Thief";
 		}
@@ -1152,7 +1179,27 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.addToDiscardFromHand(this);
+			
+			if (parameters != null && parameters.size() > 0) {
+				Card  cardToPlayTwice = createCard(parameters.get(0));
+				if (cardToPlayTwice != null && cardToPlayTwice.isAction()) {
+					((ActionCard)cardToPlayTwice).playCard(parameters, dominionModel, playerId);
+					parameters.remove(0);
+					((ActionCard)cardToPlayTwice).playCard(parameters, dominionModel, playerId);
+				}
+			}
+			
+			result.setMessage("Just played a Throne Room");
+			
+			return result;
 		}
 		@Override
 		public String toString() {
@@ -1196,7 +1243,7 @@ public class CardFactory {
 			player.addActions(2);
 			player.drawCard();
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			return new Result(true, "Played Village");
 		}
@@ -1246,7 +1293,7 @@ public class CardFactory {
 				}
 			}
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Witch");
 			return result;
@@ -1293,7 +1340,7 @@ public class CardFactory {
 			player.addBuy();
 			player.addMoney(2);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers();
+			dominionModel.notifyObservers(null);
 
 			result.setMessage("Played a Woodcutter");
 			return result;
@@ -1330,7 +1377,28 @@ public class CardFactory {
 		}
 		@Override
 		public Result playCard(List<String> parameters, DominionModel dominionModel, long playerId) {
-			return null;
+			Player player = dominionModel.getPlayerById(playerId);
+			Result result = player.canPlayAction(this);
+			if (!result.isSuccess()) {
+				return result;
+			}
+			
+			player.removeAction();
+			player.addToDiscardFromHand(this);
+			
+			if (parameters != null && parameters.size() > 0) {
+				Card cardToGain = createCard(parameters.get(0));
+				if (cardToGain != null && cardToGain.getCost() <= 4) {
+					player.addToDiscard(cardToGain);
+				} else {
+					result.setSuccess(false);
+					result.setMessage("Invalid card to gain");
+				}
+			}
+			
+			dominionModel.notifyObservers(null);
+			result.setMessage("Played a Workshop");
+			return result;
 		}
 		@Override
 		public String toString() {

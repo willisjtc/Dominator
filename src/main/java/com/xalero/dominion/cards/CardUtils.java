@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.xalero.dominion.model.DominionConstants;
+import com.xalero.dominion.server.model.DominionConstants;
 
 
 public class CardUtils {

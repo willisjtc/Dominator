@@ -1,6 +1,6 @@
 package com.xalero.dominion.controller.settings;
 
-import com.xalero.dominion.model.GameSettings;
+import com.xalero.dominion.server.model.GameSettings;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

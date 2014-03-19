@@ -6,7 +6,7 @@ import java.util.List;
 import com.xalero.dominion.IObserver;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardFactory;
-import com.xalero.dominion.model.GameSettings;
+import com.xalero.dominion.server.model.GameSettings;
 
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -168,7 +168,7 @@ public class BaseTab extends Tab implements IObserver {
 	}
 
 	@Override
-	public void update() {
+	public void update(String event) {
 		resetMiniImages();
 	}
 }

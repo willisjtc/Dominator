@@ -3,7 +3,7 @@ package com.xalero.dominion.controller.settings;
 import com.xalero.dominion.IObserver;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardUtils;
-import com.xalero.dominion.model.GameSettings;
+import com.xalero.dominion.server.model.GameSettings;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -197,7 +197,7 @@ public class CardOverviewTab extends Tab implements IObserver {
     }
 
     @Override
-    public void update() {
+    public void update(String event) {
         customCardList.setItems(FXCollections.observableArrayList(gameSettings.getCustomCards()));
     }
 }

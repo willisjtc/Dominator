@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import javafx.scene.control.TextArea;
 
-import com.xalero.dominion.model.DominionModel;
+import com.xalero.dominion.server.model.DominionModel;
 import com.xalero.dominion.utils.Result;
 
 

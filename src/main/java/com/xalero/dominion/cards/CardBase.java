@@ -7,4 +7,5 @@ public interface CardBase {
 	public boolean isReaction();
 	public boolean isTreasure();
 	public boolean isVictory();
+	public boolean isInteractive();
 }

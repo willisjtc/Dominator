@@ -1,4 +1,4 @@
-package com.xalero.dominion.model;
+package com.xalero.dominion.server.model;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -145,7 +145,7 @@ public enum GameSettings implements IObservable {
     @Override
     public void notifyObservers() {
         for (IObserver observer : observers) {
-            observer.update();
+            observer.update(null);
         }
     }
 }

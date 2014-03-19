@@ -63,6 +63,11 @@ public abstract class Card implements CardBase, VictoryBase, TreasureBase {
 		return false;
 	}
 	
+	@Override
+	public boolean isInteractive() {
+		return false;
+	}
+	
 	public Image getCardImage() {
 		return cardImage;
 	}

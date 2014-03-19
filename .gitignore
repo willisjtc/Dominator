@@ -49,3 +49,5 @@ hs_err_pid1876.log
 .idea/libraries/Maven__org_eclipse_jetty_jetty_util_9_1_1_v20140108.xml
 .idea/libraries/Maven__org_hsqldb_hsqldb_2_3_1.xml
 .idea/libraries/Maven__org_slf4j_slf4j_api_1_7_6.xml
+nb-configuration.xml
+hs_err_pid32863.log

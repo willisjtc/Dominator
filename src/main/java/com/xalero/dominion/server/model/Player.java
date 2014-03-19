@@ -1,4 +1,4 @@
- package com.xalero.dominion.model;
+ package com.xalero.dominion.server.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +22,7 @@ public class Player {
 	private int buys;
 	private int actions;
 	private int money;
+	private int index;
 	private String displayName;
 	private PlayerType playerType;
 	private List<Card> deck;
@@ -37,7 +38,7 @@ public class Player {
 	 * @param playerInfo Player information to transfer from the
 	 * controller to the model.
 	 */
-	public Player(SimplePlayerInfo playerInfo) {
+	public Player(SimplePlayerInfo playerInfo, int index) {
 		this.displayName = playerInfo.getDisplayName();
 		this.playerType = playerInfo.getPlayerType();
 
@@ -49,6 +50,7 @@ public class Player {
 		this.buys = 0;
 		this.actions = 0;
 		this.money = 0;
+		this.index = index;
 		
 		this.chancellorEffect = false;
 		
@@ -63,6 +65,14 @@ public class Player {
 	 */
 	public long getUniqueIdentifier() {
 		return uniqueIdentifier;
+	}
+	
+	/**
+	 * The player turn number.
+	 * @return
+	 */
+	public int getIndex() {
+		return index;
 	}
 	
 	/**

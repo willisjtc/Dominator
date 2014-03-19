@@ -2,7 +2,7 @@ package com.xalero.dominion.controller.settings;
 
 import com.xalero.dominion.manager.IViewManager;
 import com.xalero.dominion.manager.UserManager;
-import com.xalero.dominion.model.User;
+import com.xalero.dominion.server.model.User;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

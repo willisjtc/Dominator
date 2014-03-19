@@ -9,11 +9,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.Player;
+import com.xalero.dominion.IUniqueObserver;
+import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.Player;
 
-public class PlayerOptionsView extends AnchorPane implements IObserver {
+public class PlayerOptionsView extends AnchorPane implements IUniqueObserver {
 
 	private Logger log = LogManager.getLogManager().getLogger(PlayerOptionsView.class.getName());
 	
@@ -42,12 +42,7 @@ public class PlayerOptionsView extends AnchorPane implements IObserver {
 		}
 	}
 	
-	public void initController(DominionModel dominionModel, long playerId) {
-		this.dominionModel = dominionModel;
-		this.dominionModel.registerObserver(this);
-		
-		this.playerId = playerId;
-		
+	public void initController() {
 		initView();
 	}
 	
@@ -59,11 +54,16 @@ public class PlayerOptionsView extends AnchorPane implements IObserver {
 	}
 	
 	@Override
-	public void update() {
+	public void update(String event) {
 		Player curPlayer = dominionModel.getPlayerById(playerId);
 		buyCount.setText("" + curPlayer.getBuyCount());
 		actionCount.setText("" + curPlayer.getActionCount());
 		moneyCount.setText("" + curPlayer.getMoneyCount());
 		scoreCount.setText("" + curPlayer.getScore());
+	}
+
+	@Override
+	public Long getUniqueId() {
+		return playerId;
 	}
 }

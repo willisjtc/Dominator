@@ -3,8 +3,8 @@ package com.xalero.dominion.cards.victory;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardFactory;
 
-import static com.xalero.dominion.model.DominionConstants.LARGE_GAME_VICTORY_CARD_COUNT;
-import static com.xalero.dominion.model.DominionConstants.SMALL_GAME_VICTORY_CARD_COUNT;
+import static com.xalero.dominion.server.model.DominionConstants.LARGE_GAME_VICTORY_CARD_COUNT;
+import static com.xalero.dominion.server.model.DominionConstants.SMALL_GAME_VICTORY_CARD_COUNT;
 
 public class VictoryCards {
     

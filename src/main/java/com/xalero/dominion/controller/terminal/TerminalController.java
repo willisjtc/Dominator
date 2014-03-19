@@ -11,11 +11,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
-import com.xalero.dominion.IObserver;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.xalero.dominion.IUniqueObserver;
+import com.xalero.dominion.client.model.SimpleModel;
 import com.xalero.dominion.command.CommandHandler;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.GameSettings;
-import com.xalero.dominion.model.SimplePlayerInfo;
+import com.xalero.dominion.events.ProtocolEvent;
+import com.xalero.dominion.server.model.DominionModel;
 import com.xalero.dominion.views.KingdomCardsView;
 import com.xalero.dominion.views.PlayerOptionsView;
 import com.xalero.dominion.views.PlayerTurnsView;
@@ -26,7 +28,7 @@ import com.xalero.dominion.views.SupplyPilesView;
  *
  * @author jonathan
  */
-public class TerminalController extends AnchorPane implements IObserver {
+public class TerminalController extends AnchorPane implements IUniqueObserver {
     
     private static final Logger log = Logger.getLogger(TerminalController.class.getCanonicalName());
     
@@ -50,9 +52,7 @@ public class TerminalController extends AnchorPane implements IObserver {
     private CommandHandler commandHandler;
     private long playerId;
     
-    private final DominionModel dominionModel;
-    
-    public TerminalController(GameSettings gameSettings) {
+    public TerminalController(DominionModel dominionModel, Long playerId) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("terminal_controller.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -66,19 +66,18 @@ public class TerminalController extends AnchorPane implements IObserver {
         gameOutput.setEditable(false);
         gameOutput.appendText("Welcome to the Game");
         
-        playerId = gameSettings.getCurrentPlayerId();
+        this.playerId = playerId;
         
-        dominionModel = new DominionModel(gameSettings);
-        dominionModel.registerObserver(this);
+        dominionModel.registerObserver(this, playerId);
         
         commandHandler = new CommandHandler(gameOutput, dominionModel);
         
-        kingdomCardsView.initController(dominionModel);
-        supplyPilesView.initController(dominionModel);
-        playerTurnsView.initController(dominionModel);
-        playersCardsController.initController(dominionModel, playerId);
-        playerOptionsView.initController(dominionModel, playerId);
-        discardPileController.initController(dominionModel);    
+        kingdomCardsView.initController();
+        supplyPilesView.initController();
+        playerTurnsView.initController();
+        playersCardsController.initController();
+        playerOptionsView.initController();
+        discardPileController.initController();    
         
         gameOutput.setFocusTraversable(false);
         gameInput.setFocusTraversable(true);
@@ -102,7 +101,21 @@ public class TerminalController extends AnchorPane implements IObserver {
     }
 
     @Override
-    public void update() {
-        
+    public void update(String event) {
+        Gson gson = new GsonBuilder().create();
+        ProtocolEvent e = gson.fromJson(event, ProtocolEvent.class);
+        switch (e.getEvent()) {
+        case DISPLAY :
+        	break;
+        case DOMINION_MODEL :
+        	SimpleModel simpleModel = gson.fromJson(e.getValue(), SimpleModel.class);
+        	System.out.println(simpleModel);
+        	break;
+        }
+    }
+    
+    @Override
+    public Long getUniqueId() {
+    	return playerId;
     }
 }

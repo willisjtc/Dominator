@@ -8,21 +8,21 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.cards.Card;
-import com.xalero.dominion.model.DominionModel;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
+import com.xalero.dominion.IUniqueObserver;
+import com.xalero.dominion.cards.Card;
+import com.xalero.dominion.server.model.DominionModel;
+
 /**
  *
  * @author jonathan
  */
-public class PlayersCardsController extends AnchorPane implements IObserver {
+public class PlayersCardsController extends AnchorPane implements IUniqueObserver {
     
     private static final Logger logger = LogManager.getLogManager().getLogger(PlayersCardsController.class.getName());
     
@@ -45,12 +45,7 @@ public class PlayersCardsController extends AnchorPane implements IObserver {
         }
     }
     
-    public void initController(DominionModel model, long playerId) {
-        this.model = model;
-        this.model.registerObserver(this);
-        
-        this.playerId = playerId;
-        
+    public void initController() {
         initView();
     }
     
@@ -59,17 +54,22 @@ public class PlayersCardsController extends AnchorPane implements IObserver {
     }
     
     private void displayCards() {
-        playersCardsContainer.getChildren().clear();
-        for (Card card : model.getPlayerById(playerId).getHand()) {
-            ImageView imageView = new ImageView(card.getCardImage());
-            imageView.setPreserveRatio(true);
-            imageView.setFitHeight(70);
-            playersCardsContainer.getChildren().add(imageView);
-        }   
+//        playersCardsContainer.getChildren().clear();
+//        for (Card card : model.getPlayerById(playerId).getHand()) {
+//            ImageView imageView = new ImageView(card.getCardImage());
+//            imageView.setPreserveRatio(true);
+//            imageView.setFitHeight(70);
+//            playersCardsContainer.getChildren().add(imageView);
+//        }   
     }
 
     @Override
-    public void update() {
+    public void update(String event) {
         displayCards();
+    }
+
+    @Override
+    public Long getUniqueId() {
+    	return null;
     }
 }

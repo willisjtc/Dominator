@@ -3,10 +3,10 @@ package com.xalero.dominion.controller.settings;
 import com.xalero.dominion.IObserver;
 import com.xalero.dominion.RemoveRowHandler;
 import com.xalero.dominion.manager.UserManager;
-import com.xalero.dominion.model.GameSettings;
-import com.xalero.dominion.model.IdGenerator;
-import com.xalero.dominion.model.PlayerType;
-import com.xalero.dominion.model.SimplePlayerInfo;
+import com.xalero.dominion.server.model.GameSettings;
+import com.xalero.dominion.server.model.IdGenerator;
+import com.xalero.dominion.server.model.PlayerType;
+import com.xalero.dominion.server.model.SimplePlayerInfo;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,7 +73,7 @@ public class PlayersTab extends Tab implements IObserver {
     }
 
     @Override
-    public void update() {
+    public void update(String event) {
         updatePlayerTable();
     }
 

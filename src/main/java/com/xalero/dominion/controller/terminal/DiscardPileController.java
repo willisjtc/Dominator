@@ -4,9 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.model.DominionModel;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -14,11 +11,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import com.xalero.dominion.IUniqueObserver;
+import com.xalero.dominion.server.model.DominionModel;
+
 /**
  *
  * @author jonathan
  */
-public class DiscardPileController extends AnchorPane implements IObserver {
+public class DiscardPileController extends AnchorPane implements IUniqueObserver {
     
     private static Logger log = LogManager.getLogManager().getLogger(DiscardPileController.class.getName());
     
@@ -45,10 +45,7 @@ public class DiscardPileController extends AnchorPane implements IObserver {
         }
     }
     
-    public void initController(DominionModel model) {
-        this.model = model;
-        this.model.registerObserver(this);
-        
+    public void initController() {
         initView();
     }
     
@@ -58,6 +55,11 @@ public class DiscardPileController extends AnchorPane implements IObserver {
     }
 
     @Override
-    public void update() {
+    public void update(String event) {
+    }
+    
+    @Override
+    public Long getUniqueId() {
+    	return null;
     }
 }

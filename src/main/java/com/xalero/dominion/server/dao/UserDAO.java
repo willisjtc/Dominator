@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
 
-import com.xalero.dominion.model.User;
+import com.xalero.dominion.server.model.User;
 import com.xalero.dominion.utils.DatabaseObjectMapper;
 import com.xalero.dominion.utils.DatabaseProperties;
 

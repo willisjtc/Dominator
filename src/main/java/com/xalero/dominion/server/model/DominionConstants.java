@@ -1,4 +1,4 @@
-package com.xalero.dominion.model;
+package com.xalero.dominion.server.model;
 
 public class DominionConstants {
 	public static final int COLONY_POINTS = 10;

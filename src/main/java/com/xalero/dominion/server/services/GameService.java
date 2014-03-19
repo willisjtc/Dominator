@@ -6,9 +6,9 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.GameSettings;
 import com.xalero.dominion.server.dao.GameDAO;
+import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.GameSettings;
 
 public enum GameService {
 	INSTANCE;

@@ -9,7 +9,7 @@ import javafx.scene.control.TextArea;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardFactory;
 import com.xalero.dominion.cards.action.ActionBase;
-import com.xalero.dominion.model.DominionModel;
+import com.xalero.dominion.server.model.DominionModel;
 import com.xalero.dominion.utils.Result;
 
 public class PlayCardCommand extends Command {

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import com.xalero.dominion.manager.UserManager;
-import com.xalero.dominion.model.User;
+import com.xalero.dominion.server.model.User;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

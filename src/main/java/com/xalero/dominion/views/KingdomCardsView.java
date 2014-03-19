@@ -4,26 +4,28 @@
  */
 package com.xalero.dominion.views;
 
-import com.sun.javafx.tk.FontMetrics;
-import com.sun.javafx.tk.Toolkit;
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.cards.action.KingdomCard;
-import com.xalero.dominion.model.DominionModel;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
-
-import java.util.logging.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+
+import com.sun.javafx.tk.FontMetrics;
+import com.sun.javafx.tk.Toolkit;
+import com.xalero.dominion.IUniqueObserver;
+import com.xalero.dominion.cards.action.KingdomCard;
+import com.xalero.dominion.server.model.DominionModel;
 
 /**
  *
  * @author jonathan
  */
-public class KingdomCardsView extends AnchorPane implements IObserver {
+public class KingdomCardsView extends AnchorPane implements IUniqueObserver {
     
     private static final Logger logger = LogManager.getLogManager().getLogger(KingdomCardsView.class.getName());
     
@@ -67,53 +69,50 @@ public class KingdomCardsView extends AnchorPane implements IObserver {
         }
     }
     
-    public void initController(DominionModel model) {
-        this.model = model;
-        this.model.registerObserver(this);
-        
+    public void initController() {
         initView();
     }
     
     private void initView() {
         FontMetrics fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(Font.getDefault());
-        double minLength = 0;
-        for (KingdomCard card : model.getKingdomCards()) {
-            double cardNameLength = fontMetrics.computeStringWidth(card.toString());
-            if (cardNameLength > minLength) {
-                minLength = cardNameLength;
-            }
-        }
-        
-        KingdomCard[] kingdomCards = model.getKingdomCards().toArray(new KingdomCard[0]);
-        
-        
-        kingdomCard1.setText(kingdomCards[0].toString() + ": ");
-        kingdomCard2.setText(kingdomCards[1].toString() + ": ");
-        kingdomCard3.setText(kingdomCards[2].toString() + ": ");
-        kingdomCard4.setText(kingdomCards[3].toString() + ": ");
-        kingdomCard5.setText(kingdomCards[4].toString() + ": ");
-        kingdomCard6.setText(kingdomCards[5].toString() + ": ");
-        kingdomCard7.setText(kingdomCards[6].toString() + ": ");
-        kingdomCard8.setText(kingdomCards[7].toString() + ": ");
-        kingdomCard9.setText(kingdomCards[8].toString() + ": ");
-        kingdomCard10.setText(kingdomCards[9].toString() + ": ");
-        
-        kingdomCardCount1.setText("" + kingdomCards[0].getCardCount());
-        kingdomCardCount2.setText("" + kingdomCards[1].getCardCount());
-        kingdomCardCount3.setText("" + kingdomCards[2].getCardCount());
-        kingdomCardCount4.setText("" + kingdomCards[3].getCardCount());
-        kingdomCardCount5.setText("" + kingdomCards[4].getCardCount());
-        kingdomCardCount6.setText("" + kingdomCards[5].getCardCount());
-        kingdomCardCount7.setText("" + kingdomCards[6].getCardCount());
-        kingdomCardCount8.setText("" + kingdomCards[7].getCardCount());
-        kingdomCardCount9.setText("" + kingdomCards[8].getCardCount());
-        kingdomCardCount10.setText("" + kingdomCards[9].getCardCount());
-        
-        kingdomCardHolder.setPrefWidth(minLength * 2);
+//        double minLength = 0;
+//        for (KingdomCard card : model.getKingdomCards()) {
+//            double cardNameLength = fontMetrics.computeStringWidth(card.toString());
+//            if (cardNameLength > minLength) {
+//                minLength = cardNameLength;
+//            }
+//        }
+//        
+//        KingdomCard[] kingdomCards = model.getKingdomCards().toArray(new KingdomCard[0]);
+//        
+//        
+//        kingdomCard1.setText(kingdomCards[0].toString() + ": ");
+//        kingdomCard2.setText(kingdomCards[1].toString() + ": ");
+//        kingdomCard3.setText(kingdomCards[2].toString() + ": ");
+//        kingdomCard4.setText(kingdomCards[3].toString() + ": ");
+//        kingdomCard5.setText(kingdomCards[4].toString() + ": ");
+//        kingdomCard6.setText(kingdomCards[5].toString() + ": ");
+//        kingdomCard7.setText(kingdomCards[6].toString() + ": ");
+//        kingdomCard8.setText(kingdomCards[7].toString() + ": ");
+//        kingdomCard9.setText(kingdomCards[8].toString() + ": ");
+//        kingdomCard10.setText(kingdomCards[9].toString() + ": ");
+//        
+//        kingdomCardCount1.setText("" + kingdomCards[0].getCardCount());
+//        kingdomCardCount2.setText("" + kingdomCards[1].getCardCount());
+//        kingdomCardCount3.setText("" + kingdomCards[2].getCardCount());
+//        kingdomCardCount4.setText("" + kingdomCards[3].getCardCount());
+//        kingdomCardCount5.setText("" + kingdomCards[4].getCardCount());
+//        kingdomCardCount6.setText("" + kingdomCards[5].getCardCount());
+//        kingdomCardCount7.setText("" + kingdomCards[6].getCardCount());
+//        kingdomCardCount8.setText("" + kingdomCards[7].getCardCount());
+//        kingdomCardCount9.setText("" + kingdomCards[8].getCardCount());
+//        kingdomCardCount10.setText("" + kingdomCards[9].getCardCount());
+//        
+//        kingdomCardHolder.setPrefWidth(minLength * 2);
     }
     
     @Override 
-    public void update() {
+    public void update(String event) {
         KingdomCard[] kingdomCards = model.getKingdomCards().toArray(new KingdomCard[0]);
         
         kingdomCardCount1.setText("" + kingdomCards[0].getCardCount());
@@ -126,5 +125,10 @@ public class KingdomCardsView extends AnchorPane implements IObserver {
         kingdomCardCount8.setText("" + kingdomCards[7].getCardCount());
         kingdomCardCount9.setText("" + kingdomCards[8].getCardCount());
         kingdomCardCount10.setText("" + kingdomCards[9].getCardCount());
+    }
+
+    @Override
+    public Long getUniqueId() {
+    	return null;
     }
 }

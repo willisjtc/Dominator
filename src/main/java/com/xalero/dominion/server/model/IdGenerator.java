@@ -1,4 +1,4 @@
-package com.xalero.dominion.model;
+package com.xalero.dominion.server.model;
 
 import java.util.Random;
 

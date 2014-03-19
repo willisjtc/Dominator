@@ -3,12 +3,6 @@ package com.xalero.dominion.controller.settings;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.cards.Card;
-import com.xalero.dominion.controller.terminal.TerminalController;
-import com.xalero.dominion.model.GameSettings;
-import com.xalero.dominion.model.SimplePlayerInfo;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +11,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import com.xalero.dominion.IObserver;
+import com.xalero.dominion.cards.Card;
+import com.xalero.dominion.controller.terminal.TerminalController;
+import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.GameSettings;
+import com.xalero.dominion.server.model.SimplePlayerInfo;
 
 public class MainOverviewTab extends Tab implements IObserver {
 
@@ -107,14 +108,17 @@ public class MainOverviewTab extends Tab implements IObserver {
     @FXML
     private void playGame() {
         final Stage stage = new Stage();
-        Scene scene = new Scene(new TerminalController(gameSettings));
+        DominionModel dominionModel = new DominionModel(gameSettings);
+        TerminalController playerTerminal = new TerminalController(dominionModel, gameSettings.getCurrentPlayerId());
+        Scene scene = new Scene(playerTerminal);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
+        // eventually create AI Controllers
     }
 
     @Override
-    public void update() {
+    public void update(String event) {
         resetOverviewImages();
         updatePlayerTable();
     }

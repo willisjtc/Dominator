@@ -1,47 +1,58 @@
-package com.xalero.dominion.model;
+package com.xalero.dominion.server.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import com.xalero.dominion.IObservable;
-import com.xalero.dominion.IObserver;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.xalero.dominion.IUniqueObservable;
+import com.xalero.dominion.IUniqueObserver;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardFactory;
 import com.xalero.dominion.cards.action.KingdomCard;
 import com.xalero.dominion.cards.treasure.Treasures;
 import com.xalero.dominion.cards.victory.VictoryCards;
+import com.xalero.dominion.client.model.SimpleModel;
+import com.xalero.dominion.events.EventKey;
+import com.xalero.dominion.events.ProtocolEvent;
 import com.xalero.dominion.manager.UserManager;
 import com.xalero.dominion.utils.Result;
 
+public class DominionModel implements IUniqueObservable {
 
-public class DominionModel implements IObservable {
+	private static final Logger log = LogManager.getLogManager().getLogger(
+			DominionModel.class.getName());
 
-	private static final Logger log = LogManager.getLogManager().getLogger(DominionModel.class.getName());
-	
-	private final List<IObserver> observers;
+	private final Map<Long, IUniqueObserver> observers;
 	private Treasures treasureCards;
 	private VictoryCards victoryCards;
 	private List<KingdomCard> kingdomCards;
 	private List<Card> trash;
 	private List<Player> players;
 	private List<Card> curses;
+	private boolean[] playersRespondedToCard;
+	private Card interactiveCard;
+	private boolean interactiveCardInPlay;
 	private int playerTurn;
 	private boolean gameStarted;
 	private boolean gameOver;
 	private long gameId;
-	
+
 	private final int START_COPPER_COUNT = 7;
 	private final int START_ESTATE_COUNT = 3;
 
 	private final int TWO_PLAYER_CURSE_COUNT = 10;
 	private final int THREE_PLAYER_CURSE_COUNT = 20;
 	private final int FOUR_PLAYER_CURSE_COUNT = 30;
-	
+
 	/**
 	 * @param gameSettings
 	 *            - The settings object contains all of the necessary
@@ -49,19 +60,20 @@ public class DominionModel implements IObservable {
 	 */
 	public DominionModel(GameSettings gameSettings) {
 
-		observers = new ArrayList<>();
+		observers = new HashMap<>();
 		playerTurn = -1;
 		gameStarted = false;
 		gameOver = false;
+		interactiveCardInPlay = false;
 
 		initSupplyPile(gameSettings.getSelectedCards(), gameSettings
 				.getPlayerInfos().size());
 		initKingdomCards(gameSettings.getSelectedCards(), gameSettings
 				.getPlayerInfos().size());
 		initPlayers(gameSettings.getPlayerInfos());
-	
+		initPlayerResponsiveList();
 	}
-	
+
 	/**
 	 * @return a long representing a unique identifier for the game
 	 */
@@ -72,7 +84,7 @@ public class DominionModel implements IObservable {
 	public void setGameId(long gameId) {
 		this.gameId = gameId;
 	}
-	
+
 	/**
 	 * @return Whether or not the game has started.
 	 */
@@ -81,22 +93,21 @@ public class DominionModel implements IObservable {
 	}
 
 	/**
-	 * @return a boolean of whether the game is over
-	 * or not.
+	 * @return a boolean of whether the game is over or not.
 	 */
 	public boolean gameOver() {
 		return gameOver;
 	}
-	
+
 	/**
 	 * Ends the game.
 	 */
 	private void endGame() {
 		setPlayerTurn(-1);
-		
+
 		gameOver = true;
 	}
-	
+
 	/**
 	 * Starts the game: determines the starting player, deals the cards...
 	 */
@@ -108,13 +119,13 @@ public class DominionModel implements IObservable {
 			return result;
 		}
 
-//		Random random = new Random();
-//		setPlayerTurn(random.nextInt(players.size()));
+		// Random random = new Random();
+		// setPlayerTurn(random.nextInt(players.size()));
 		setPlayerTurn(0); // for testing
 		players.get(playerTurn).turnStarted();
 
 		dealCards();
-		
+
 		gameStarted = true;
 		result.setMessage("Game started!");
 		return result;
@@ -134,8 +145,9 @@ public class DominionModel implements IObservable {
 			}
 			player.shuffleDeck();
 			player.draw(5);
+//			notifyObserver(player.getUniqueIdentifier())
 		}
-		notifyObservers();
+		notifyObservers(null);
 	}
 
 	/**
@@ -209,13 +221,23 @@ public class DominionModel implements IObservable {
 	 *            - The types of players (HUMAN, COMPUTER)
 	 */
 	private void initPlayers(Collection<SimplePlayerInfo> playerInfos) {
-		players = new LinkedList<>();
+		players = new ArrayList<>();
+		int index = 0;
 		for (SimplePlayerInfo playerInfo : playerInfos) {
-			System.out.println("initPlayers ids: " + playerInfo.getIdentifier());
+			System.out
+					.println("initPlayers ids: " + playerInfo.getIdentifier());
 			if (playerInfo.getPlayerType().equals(PlayerType.COMPUTER)) {
 				playerInfo.setDisplayName(UserManager.INSTANCE.getRandomName());
 			}
-			players.add(new Player(playerInfo));
+			players.add(new Player(playerInfo, index));
+			index++;
+		}
+	}
+
+	private void initPlayerResponsiveList() {
+		playersRespondedToCard = new boolean[players.size()];
+		for (int i = 0; i < playersRespondedToCard.length; i++) {
+			playersRespondedToCard[i] = false;
 		}
 	}
 
@@ -256,12 +278,13 @@ public class DominionModel implements IObservable {
 	 * @return The player whose turn it is
 	 */
 	public Player getCurrentPlayer() {
-		if (playerTurn < 0 || players.size() == 0 || playerTurn >= players.size()) {
+		if (playerTurn < 0 || players.size() == 0
+				|| playerTurn >= players.size()) {
 			return null;
 		}
 		return players.get(playerTurn);
 	}
-	
+
 	/**
 	 * Trashes a card from the game.
 	 * 
@@ -287,7 +310,7 @@ public class DominionModel implements IObservable {
 	public Card drawCurse() {
 		return curses.remove(0);
 	}
-	
+
 	/**
 	 * @return a collection of the trashed cards in the game.
 	 */
@@ -325,16 +348,16 @@ public class DominionModel implements IObservable {
 	 */
 	public boolean kingdomCardInGame(Card card) {
 		for (KingdomCard kingdomCard : kingdomCards) {
-			if (kingdomCard.equals(card)
-					&& kingdomCard.getCardCount() > 0) {
+			if (kingdomCard.equals(card) && kingdomCard.getCardCount() > 0) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Used to get a kingdom card that is in the game
+	 * 
 	 * @param card
 	 * @return
 	 */
@@ -346,7 +369,7 @@ public class DominionModel implements IObservable {
 		}
 		return null;
 	}
-	
+
 	public Card getCurse() {
 		Card curse = null;
 		if (curses.size() > 0) {
@@ -354,14 +377,17 @@ public class DominionModel implements IObservable {
 		}
 		return curse;
 	}
-	
+
 	/**
 	 * Buys a card for the player if the player is able to do so. Some
-	 * preventions include a player can't buy the card or it isn't the
-	 * player's turn.
-	 * @param playerId The id of the player that is buying a card
-	 * @param card The card the player wants to buy
-	 * @return a result object 
+	 * preventions include a player can't buy the card or it isn't the player's
+	 * turn.
+	 * 
+	 * @param playerId
+	 *            The id of the player that is buying a card
+	 * @param card
+	 *            The card the player wants to buy
+	 * @return a result object
 	 */
 	public Result buyCard(long playerId, Card card) {
 		Result result = new Result(false, "You can't buy that card");
@@ -369,45 +395,48 @@ public class DominionModel implements IObservable {
 			result.setMessage("Game has not yet started");
 			return result;
 		}
-		
+
 		Player player = getPlayerById(playerId);
-		
-//		if (players.get(playerTurn).equals(player)) {
-			result = player.canBuyCard(card);
-			if (result.isSuccess()) {
-				if (kingdomCardInGame(card)) {
-					KingdomCard kingdomCard = getKingdomCard(card);
-					player.buyCard(kingdomCard.drawCard());
-					result.setMessage("You just bought a " + card);
-				} else if (treasureCards.contains(card)) {
-					player.buyCard(treasureCards.getTreasure(card));
-                    result.setMessage("You just bought a " + card);
-				} else if (victoryCards.contains(card)) {
-					player.buyCard(victoryCards.getVictoryCard(card));
-                    result.setMessage("You just bought a " + card);
-				} else {
-					result.setMessage("That card doesn't exist");
-				}
+
+		// if (players.get(playerTurn).equals(player)) {
+		result = player.canBuyCard(card);
+		if (result.isSuccess()) {
+			if (kingdomCardInGame(card)) {
+				KingdomCard kingdomCard = getKingdomCard(card);
+				player.buyCard(kingdomCard.drawCard());
+				result.setMessage("You just bought a " + card);
+			} else if (treasureCards.contains(card)) {
+				player.buyCard(treasureCards.getTreasure(card));
+				result.setMessage("You just bought a " + card);
+			} else if (victoryCards.contains(card)) {
+				player.buyCard(victoryCards.getVictoryCard(card));
+				result.setMessage("You just bought a " + card);
+			} else {
+				result.setMessage("That card doesn't exist");
 			}
-//		} else {
-//			result.setMessage("not your turn");
-//			
-		notifyObservers();
+		}
+		// } else {
+		// result.setMessage("not your turn");
+		//
+		notifyObservers(null);
 		return result;
-	}
-	
-	/**
-	 * Retrieves the discard pile of the player
-	 * @param playerIndex the index of the player 
-	 * @return an unmodifiable collection of the player's discard pile
-	 */
-	public Collection<Card> getDiscardPile(int playerIndex) {
-		return Collections.unmodifiableCollection(players.get(playerIndex).getDiscardPile());
 	}
 
 	/**
-	 * Goes through the piles and looks for three missing piles
-	 * or one empty province pile.
+	 * Retrieves the discard pile of the player
+	 * 
+	 * @param playerIndex
+	 *            the index of the player
+	 * @return an unmodifiable collection of the player's discard pile
+	 */
+	public Collection<Card> getDiscardPile(int playerIndex) {
+		return Collections.unmodifiableCollection(players.get(playerIndex)
+				.getDiscardPile());
+	}
+
+	/**
+	 * Goes through the piles and looks for three missing piles or one empty
+	 * province pile.
 	 * 
 	 * @return true if the game is over, false otherwise.
 	 */
@@ -434,50 +463,55 @@ public class DominionModel implements IObservable {
 		if (victoryCards.getDuchyCount() == 0) {
 			pilesGone++;
 		}
-		
+
 		for (KingdomCard kingdomCard : kingdomCards) {
 			if (kingdomCard.getCardCount() == 0) {
 				pilesGone++;
 			}
 		}
-		
+
 		if (pilesGone > 2) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Ends a player's turn
-	 * @param playerId the id of the player
+	 * 
+	 * @param playerId
+	 *            the id of the player
 	 * @return a result object.
 	 */
 	public Result endTurn(long playerId) {
-		
+
 		// check for ending turn
 		Player curPlayer = players.get(playerTurn);
-		curPlayer.turnEnded();
 		
-		StringBuilder resultMessage = new StringBuilder(curPlayer.getPlayerName() + " has ended their turn.");
+		curPlayer.turnEnded();
+
+		StringBuilder resultMessage = new StringBuilder(
+				curPlayer.getPlayerName() + " has ended their turn.");
 		playerTurn = ++playerTurn % players.size();
 		curPlayer = players.get(playerTurn);
 		curPlayer.turnStarted();
-		
+
 		if (isGameOver()) {
 			resultMessage.append("Game Over!");
 			endGame();
 		} else {
 			resultMessage.append("\nPlayer Turn: " + curPlayer.getPlayerName());
 		}
-		
-		
-		notifyObservers();
+
+		notifyObservers(null);
 		return new Result(true, resultMessage.toString());
 	}
 
 	/**
 	 * Retrieves the player by the player's id
-	 * @param playerId the long representing the player id
+	 * 
+	 * @param playerId
+	 *            the long representing the player id
 	 * @return a player object or null if htere is
 	 */
 	public Player getPlayerById(long playerId) {
@@ -489,21 +523,36 @@ public class DominionModel implements IObservable {
 		return null;
 	}
 
-	@Override
-	public void registerObserver(IObserver obs) {
-		observers.add(obs);
+
+	public void setInteractiveCardInPlay(Card card) {
+		interactiveCard = card;
+		interactiveCardInPlay = true;
 	}
 
 	@Override
-	public void removeObserver(IObserver obs) {
-		observers.remove(obs);
+	public void registerObserver(IUniqueObserver obs, Long uniqueId) {
+		observers.put(uniqueId, obs);
 	}
 
 	@Override
-	public void notifyObservers() {
-		for (IObserver obs : observers) {
-			obs.update();
+	public void removeObserver(IUniqueObserver obs) {
+		observers.remove(obs.getUniqueId());
+	}
+
+	@Override
+	public void notifyObservers(String event) {
+		SimpleModel simpleModel = new SimpleModel(this);
+		Gson gson = new GsonBuilder().create();
+		String simpleJsonModel = gson.toJson(simpleModel);
+		ProtocolEvent modelEvent = new ProtocolEvent(EventKey.DOMINION_MODEL, simpleJsonModel);
+		String jsonModelEvent = gson.toJson(modelEvent);
+		for (Entry<Long, IUniqueObserver> obs : observers.entrySet()) {
+			obs.getValue().update(jsonModelEvent);
 		}
 	}
-	
+
+	@Override
+	public void notifyObserver(Long uniqueId, String event) {
+		observers.get(uniqueId).update(event);
+	}
 }

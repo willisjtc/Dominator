@@ -10,8 +10,8 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.xalero.dominion.model.User;
 import com.xalero.dominion.server.dao.UserDAO;
+import com.xalero.dominion.server.model.User;
 
 /**
  * Singleton UserManager.

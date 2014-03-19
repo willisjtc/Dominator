@@ -2,8 +2,8 @@ package com.xalero.dominion.cards.action;
 
 import com.xalero.dominion.cards.Card;
 
-import static com.xalero.dominion.model.DominionConstants.LARGE_GAME_VICTORY_CARD_COUNT;
-import static com.xalero.dominion.model.DominionConstants.SMALL_GAME_VICTORY_CARD_COUNT;
+import static com.xalero.dominion.server.model.DominionConstants.LARGE_GAME_VICTORY_CARD_COUNT;
+import static com.xalero.dominion.server.model.DominionConstants.SMALL_GAME_VICTORY_CARD_COUNT;
 
 public class KingdomCard {
 	private Card kingdomCard;

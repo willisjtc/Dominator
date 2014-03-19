@@ -10,10 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import com.xalero.dominion.IObserver;
-import com.xalero.dominion.model.DominionModel;
-import com.xalero.dominion.model.Player;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -22,11 +18,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import com.xalero.dominion.IUniqueObserver;
+import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.Player;
+
 /**
  *
  * @author jonathan
  */
-public class PlayerTurnsView extends AnchorPane implements IObserver {
+public class PlayerTurnsView extends AnchorPane implements IUniqueObserver {
     
     private final static Logger logger = LogManager.getLogManager().getLogger(PlayerTurnsView.class.getName());
     
@@ -49,12 +49,7 @@ public class PlayerTurnsView extends AnchorPane implements IObserver {
         }
     }
     
-    public void initController(DominionModel dominionModel) {
-        this.dominionModel = dominionModel;
-        this.dominionModel.registerObserver(this);
-        
-        players = new LinkedList<>(dominionModel.getPlayers());
-        
+    public void initController() {
         initView();
     }
     
@@ -65,23 +60,27 @@ public class PlayerTurnsView extends AnchorPane implements IObserver {
     
     private void updatePlayerDisplay() {
         playersTurnDisplay.setPrefWidth(USE_COMPUTED_SIZE);
-        if (playersTurnDisplay.getChildren().size() == players.size() + 1) {
-            playersTurnDisplay.getChildren().remove(1, playersTurnDisplay.getChildren().size());
-        }
-        for (int i = 0; i < players.size(); i++) {
-            Label playerLabel = new Label("Player: " + players.get(i).getPlayerName());
-            if (dominionModel.getPlayerTurn() == i) {
-                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, 13));
-            } else {
-                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.NORMAL, 12));
-            }
-            playersTurnDisplay.add(playerLabel, 0, i + 1);
-        }
+//        if (playersTurnDisplay.getChildren().size() == players.size() + 1) {
+//            playersTurnDisplay.getChildren().remove(1, playersTurnDisplay.getChildren().size());
+//        }
+//        for (int i = 0; i < players.size(); i++) {
+//            Label playerLabel = new Label("Player: " + players.get(i).getPlayerName());
+//            if (dominionModel.getPlayerTurn() == i) {
+//                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, 13));
+//            } else {
+//                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.NORMAL, 12));
+//            }
+//            playersTurnDisplay.add(playerLabel, 0, i + 1);
+//        }
     }
 
     @Override
-    public void update() {
+    public void update(String event) {
         updatePlayerDisplay();
     }
     
+    @Override
+    public Long getUniqueId() {
+    	return null;
+    }
 }
