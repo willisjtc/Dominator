@@ -1,5 +1,6 @@
 package com.xalero.dominion.controller.terminal;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -11,14 +12,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
-import com.xalero.dominion.IUniqueObserver;
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.cards.Card;
+import com.xalero.dominion.client.model.SimpleSpecificPlayer;
 
 /**
  *
  * @author jonathan
  */
-public class DiscardPileController extends AnchorPane implements IUniqueObserver {
+public class DiscardPileController extends AnchorPane {
     
     private static Logger log = LogManager.getLogManager().getLogger(DiscardPileController.class.getName());
     
@@ -30,8 +31,6 @@ public class DiscardPileController extends AnchorPane implements IUniqueObserver
     private Button nextCard;
     @FXML
     private Label discardCount;
-    
-    private DominionModel model;
     
     public DiscardPileController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("discard_pile_controller.fxml"));
@@ -54,12 +53,6 @@ public class DiscardPileController extends AnchorPane implements IUniqueObserver
 //        discardImage.setFitWidth(0);
     }
 
-    @Override
-    public void update(String event) {
-    }
-    
-    @Override
-    public Long getUniqueId() {
-    	return null;
+    public void update(SimpleSpecificPlayer specificPlayer) {
     }
 }

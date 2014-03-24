@@ -1,14 +1,10 @@
 package com.xalero.dominion.ai;
 
-import java.util.List;
+import com.xalero.dominion.server.model.DominionEventHandler;
 
-import com.xalero.dominion.cards.Card;
 
 public interface IDominionAI {
 
-	public void setSupplyPile();
-	public void setCurses();
-	public void setKingdomCards();
-	public void setTreasures();
-	public void setHand(List<Card> hand);
+	public void setDominionEventHandler(DominionEventHandler dominionEventHandler);
+	public void update(String event);
 }

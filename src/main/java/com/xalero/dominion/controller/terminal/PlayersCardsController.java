@@ -1,9 +1,10 @@
 /*
- * To change this template, choose Tools | Templates
+s * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.xalero.dominion.controller.terminal;
 
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -14,24 +15,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
-import com.xalero.dominion.IUniqueObserver;
 import com.xalero.dominion.cards.Card;
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.cards.CardFactory;
+import com.xalero.dominion.client.model.SimpleSpecificPlayer;
 
 /**
  *
  * @author jonathan
  */
-public class PlayersCardsController extends AnchorPane implements IUniqueObserver {
+public class PlayersCardsController extends AnchorPane {
     
     private static final Logger logger = LogManager.getLogManager().getLogger(PlayersCardsController.class.getName());
     
     @FXML
     private HBox playersCardsContainer;
-    
-    private DominionModel model;
-    
-    private long playerId;
     
     public PlayersCardsController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("players_cards_controller.fxml"));
@@ -45,31 +42,26 @@ public class PlayersCardsController extends AnchorPane implements IUniqueObserve
         }
     }
     
-    public void initController() {
-        initView();
+    public void initController(Collection<String> hand) {
+        initView(hand);
     }
     
-    private void initView() {
-        displayCards();
+    private void initView(Collection<String> hand) {
+        displayCards(hand);
     }
     
-    private void displayCards() {
-//        playersCardsContainer.getChildren().clear();
-//        for (Card card : model.getPlayerById(playerId).getHand()) {
-//            ImageView imageView = new ImageView(card.getCardImage());
-//            imageView.setPreserveRatio(true);
-//            imageView.setFitHeight(70);
-//            playersCardsContainer.getChildren().add(imageView);
-//        }   
+    private void displayCards(Collection<String> hand) {
+        playersCardsContainer.getChildren().clear();
+        for (String card : hand) {
+        	Card cardInstance = CardFactory.createCard(card);
+            ImageView imageView = new ImageView(cardInstance.getCardImage());
+            imageView.setPreserveRatio(true);
+            imageView.setFitHeight(70);
+            playersCardsContainer.getChildren().add(imageView);
+        }   
     }
 
-    @Override
-    public void update(String event) {
-        displayCards();
-    }
-
-    @Override
-    public Long getUniqueId() {
-    	return null;
+    public void update(SimpleSpecificPlayer specificPlayer) {
+        displayCards(specificPlayer.getHand());
     }
 }

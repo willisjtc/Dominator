@@ -4,7 +4,6 @@
  */
 package com.xalero.dominion.views;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -18,24 +17,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import com.xalero.dominion.IUniqueObserver;
-import com.xalero.dominion.server.model.DominionModel;
-import com.xalero.dominion.server.model.Player;
+import com.xalero.dominion.client.model.SimplePlayer;
 
 /**
  *
  * @author jonathan
  */
-public class PlayerTurnsView extends AnchorPane implements IUniqueObserver {
+public class PlayerTurnsView extends AnchorPane {
     
     private final static Logger logger = LogManager.getLogManager().getLogger(PlayerTurnsView.class.getName());
     
     @FXML
     private GridPane playersTurnDisplay;
-    
-    private List<Player> players;
-    
-    private DominionModel dominionModel;
     
     public PlayerTurnsView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("player_turns_view.fxml"));
@@ -54,33 +47,27 @@ public class PlayerTurnsView extends AnchorPane implements IUniqueObserver {
     }
     
     private void initView() {
-        updatePlayerDisplay();
+//        updatePlayerDisplay();
         
     }
     
-    private void updatePlayerDisplay() {
+    private void updatePlayerDisplay(List<SimplePlayer> players, int playerTurn) {
         playersTurnDisplay.setPrefWidth(USE_COMPUTED_SIZE);
-//        if (playersTurnDisplay.getChildren().size() == players.size() + 1) {
-//            playersTurnDisplay.getChildren().remove(1, playersTurnDisplay.getChildren().size());
-//        }
-//        for (int i = 0; i < players.size(); i++) {
-//            Label playerLabel = new Label("Player: " + players.get(i).getPlayerName());
-//            if (dominionModel.getPlayerTurn() == i) {
-//                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, 13));
-//            } else {
-//                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.NORMAL, 12));
-//            }
-//            playersTurnDisplay.add(playerLabel, 0, i + 1);
-//        }
+        if (playersTurnDisplay.getChildren().size() == players.size() + 1) {
+            playersTurnDisplay.getChildren().remove(1, playersTurnDisplay.getChildren().size());
+        }
+        for (int i = 0; i < players.size(); i++) {
+            Label playerLabel = new Label("Player: " + players.get(i).getName());
+            if (players.get(i).getTurnNumber() == playerTurn) {
+                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.BOLD, 13));
+            } else {
+                playerLabel.setFont(Font.font(Font.getDefault().getName(), FontWeight.NORMAL, 12));
+            }
+            playersTurnDisplay.add(playerLabel, 0, i + 1);
+        }
     }
 
-    @Override
-    public void update(String event) {
-        updatePlayerDisplay();
-    }
-    
-    @Override
-    public Long getUniqueId() {
-    	return null;
+    public void update(List<SimplePlayer> players, int playerTurn) {
+        updatePlayerDisplay(players, playerTurn);
     }
 }

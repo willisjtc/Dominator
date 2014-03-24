@@ -15,9 +15,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xalero.dominion.IUniqueObserver;
 import com.xalero.dominion.client.model.SimpleModel;
+import com.xalero.dominion.client.model.SimpleSpecificPlayer;
 import com.xalero.dominion.command.CommandHandler;
-import com.xalero.dominion.events.ProtocolEvent;
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.events.DominionEvent;
+import com.xalero.dominion.events.DominionMessage;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.views.KingdomCardsView;
 import com.xalero.dominion.views.PlayerOptionsView;
 import com.xalero.dominion.views.PlayerTurnsView;
@@ -52,7 +54,7 @@ public class TerminalController extends AnchorPane implements IUniqueObserver {
     private CommandHandler commandHandler;
     private long playerId;
     
-    public TerminalController(DominionModel dominionModel, Long playerId) {
+    public TerminalController(DominionEventHandler dominionEventReceiver, Long playerId) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("terminal_controller.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -68,14 +70,23 @@ public class TerminalController extends AnchorPane implements IUniqueObserver {
         
         this.playerId = playerId;
         
-        dominionModel.registerObserver(this, playerId);
-        
-        commandHandler = new CommandHandler(gameOutput, dominionModel);
-        
-        kingdomCardsView.initController();
-        supplyPilesView.initController();
+        initView(dominionEventReceiver);
+    }
+    
+    public void initView(DominionEventHandler dominionEventHandler) {
+//      dominionModel.registerObserver(this, playerId);
+//      dominionModel.getPlayerById(playerId);
+      
+    	commandHandler = new CommandHandler(gameOutput, dominionEventHandler, playerId);
+      
+    	Gson gson = new GsonBuilder().create();
+    	
+    	DominionMessage message = new DominionMessage(DominionEvent.KINGDOM_CARD_LIST, "");
+    	kingdomCardsView.initController(dominionEventHandler.receiveEvent(gson.toJson(message)));
+    	message = new DominionMessage(DominionEvent.CURSES, "");
+    	supplyPilesView.initController(Integer.parseInt(dominionEventHandler.receiveEvent(gson.toJson(message))));
+    	
         playerTurnsView.initController();
-        playersCardsController.initController();
         playerOptionsView.initController();
         discardPileController.initController();    
         
@@ -103,14 +114,25 @@ public class TerminalController extends AnchorPane implements IUniqueObserver {
     @Override
     public void update(String event) {
         Gson gson = new GsonBuilder().create();
-        ProtocolEvent e = gson.fromJson(event, ProtocolEvent.class);
+        DominionMessage e = gson.fromJson(event, DominionMessage.class);
         switch (e.getEvent()) {
         case DISPLAY :
+        	gameOutput.appendText("\n" + e.getValue());
         	break;
         case DOMINION_MODEL :
         	SimpleModel simpleModel = gson.fromJson(e.getValue(), SimpleModel.class);
-        	System.out.println(simpleModel);
+        	kingdomCardsView.update(simpleModel.getKingdomCards());
+        	supplyPilesView.update(simpleModel.getSimpleTreasures(), simpleModel.getSimpleVictoryCards(), simpleModel.getCurses());
+        	playerTurnsView.update(simpleModel.getSimplePlayers(), simpleModel.getPlayerTurn());
         	break;
+        case PLAYER_MODEL :
+        	SimpleSpecificPlayer specificPlayer = gson.fromJson(e.getValue(), SimpleSpecificPlayer.class);
+        	playersCardsController.update(specificPlayer);
+        	playerOptionsView.update(specificPlayer);
+        	discardPileController.update(specificPlayer);
+        	break;
+    	default :
+    		break;
         }
     }
     

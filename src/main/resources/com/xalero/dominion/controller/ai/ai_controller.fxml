@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.xalero.dominion.controller.terminal.*?>
-<?import com.xalero.dominion.views.KingdomCardsView ?>
 <?import com.xalero.dominion.views.PlayerOptionsView ?>
 <?import com.xalero.dominion.views.PlayerTurnsView ?>
 <?import com.xalero.dominion.views.SupplyPilesView ?>

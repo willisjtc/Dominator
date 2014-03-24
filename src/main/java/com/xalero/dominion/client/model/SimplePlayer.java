@@ -3,18 +3,22 @@ package com.xalero.dominion.client.model;
 import com.xalero.dominion.server.model.Player;
 
 public class SimplePlayer {
-	private int index;
-	private String name;
-	private int numCardsInHand;
+	protected int turnNumber;
+	protected String name;
+	protected int numCardsInHand;
+	protected int actionCount;
+	protected int buyCount;
 	
 	public SimplePlayer(Player player) {
-		index = player.getIndex();
+		turnNumber = player.getIndex();
 		name = player.getPlayerName();
 		numCardsInHand = player.getHand().size();
+		actionCount = player.getActionCount();
+		buyCount = player.getBuyCount();
 	}
 
-	public int getIndex() {
-		return index;
+	public int getTurnNumber() {
+		return turnNumber;
 	}
 
 	public String getName() {
@@ -23,5 +27,13 @@ public class SimplePlayer {
 
 	public int getNumCardsInHand() {
 		return numCardsInHand;
+	}
+	
+	public int getActionCount() {
+		return actionCount;
+	}
+	
+	public int getBuyCount() {
+		return buyCount;
 	}
 }

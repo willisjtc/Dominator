@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import javafx.scene.control.TextArea;
 
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.utils.Result;
 
 
@@ -35,5 +35,5 @@ public abstract class Command {
 		return params;
 	}
 	
-	abstract protected Result execute(TextArea gameOutput, DominionModel dominionModel, long playerId);
+	abstract protected Result execute(TextArea gameOutput, DominionEventHandler dominionEventHandler, long playerId);
 }

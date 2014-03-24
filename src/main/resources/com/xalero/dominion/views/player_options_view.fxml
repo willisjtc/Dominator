@@ -22,7 +22,6 @@
           </GridPane.margin>
         </Label>
         <Label text="Money:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Label text="Score:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
         <Label fx:id="buyCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
           <GridPane.margin>
             <Insets left="10.0" fx:id="x1" />
@@ -30,11 +29,6 @@
         </Label>
         <Label fx:id="actionCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.margin="$x1" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
         <Label fx:id="moneyCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-          <GridPane.margin>
-            <Insets left="10.0" fx:id="x1" />
-          </GridPane.margin>
-        </Label>
-        <Label fx:id="scoreCount" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
           <GridPane.margin>
             <Insets left="10.0" fx:id="x1" />
           </GridPane.margin>

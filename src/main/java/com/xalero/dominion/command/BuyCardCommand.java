@@ -2,8 +2,12 @@ package com.xalero.dominion.command;
 
 import javafx.scene.control.TextArea;
 
-import com.xalero.dominion.cards.CardFactory;
-import com.xalero.dominion.server.model.DominionModel;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.xalero.dominion.dto.BuyCardDTO;
+import com.xalero.dominion.events.DominionEvent;
+import com.xalero.dominion.events.DominionMessage;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.utils.Result;
 
 
@@ -14,7 +18,7 @@ public class BuyCardCommand extends Command {
 	}
 
 	@Override
-	protected Result execute(TextArea gameOutput, DominionModel dominionModel, long playerId) {
+	protected Result execute(TextArea gameOutput, DominionEventHandler dominionEventHandler, long playerId) {
 		Result result = new Result(false, "");
 		try {
 			String cardToBuy = parameters.get(0);
@@ -26,8 +30,14 @@ public class BuyCardCommand extends Command {
 				}
 				break;
 			}
-			result = dominionModel.buyCard(playerId, CardFactory.createCard(cardToBuy));
-			gameOutput.appendText("\n" + result.getMessage());
+			
+			Gson gson = new GsonBuilder().create();
+			
+			BuyCardDTO buyDto = new BuyCardDTO(cardToBuy, playerId);
+			DominionMessage message = new DominionMessage(DominionEvent.BUY_CARD, gson.toJson(buyDto));
+			String resultStr = dominionEventHandler.receiveEvent(gson.toJson(message));
+			
+			result = gson.fromJson(resultStr, Result.class);
 		} catch (Exception e) {
 			gameOutput.appendText("\nSorry, that card doesn't exist");
 		}

@@ -4,6 +4,9 @@
  */
 package com.xalero.dominion.views;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -15,17 +18,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.sun.javafx.tk.FontMetrics;
 import com.sun.javafx.tk.Toolkit;
-import com.xalero.dominion.IUniqueObserver;
-import com.xalero.dominion.cards.action.KingdomCard;
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.client.model.SimpleKingdomCard;
 
 /**
  *
  * @author jonathan
  */
-public class KingdomCardsView extends AnchorPane implements IUniqueObserver {
+public class KingdomCardsView extends AnchorPane {
     
     private static final Logger logger = LogManager.getLogManager().getLogger(KingdomCardsView.class.getName());
     
@@ -54,9 +58,6 @@ public class KingdomCardsView extends AnchorPane implements IUniqueObserver {
     @FXML private Label kingdomCardCount9;
     @FXML private Label kingdomCardCount10;
     
-    private DominionModel model;
-    
-    
     public KingdomCardsView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("kingdom_cards_view.fxml"));
         fxmlLoader.setRoot(this);
@@ -69,66 +70,47 @@ public class KingdomCardsView extends AnchorPane implements IUniqueObserver {
         }
     }
     
-    public void initController() {
-        initView();
+    public void initController(String cards) {
+    	Gson gson = new GsonBuilder().create();
+    	Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+    	List<String> kingdomCards = gson.fromJson(cards, listType);
+        initView(kingdomCards);
     }
     
-    private void initView() {
+    private void initView(List<String> kingdomCards) {
         FontMetrics fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(Font.getDefault());
-//        double minLength = 0;
-//        for (KingdomCard card : model.getKingdomCards()) {
-//            double cardNameLength = fontMetrics.computeStringWidth(card.toString());
-//            if (cardNameLength > minLength) {
-//                minLength = cardNameLength;
-//            }
-//        }
-//        
-//        KingdomCard[] kingdomCards = model.getKingdomCards().toArray(new KingdomCard[0]);
-//        
-//        
-//        kingdomCard1.setText(kingdomCards[0].toString() + ": ");
-//        kingdomCard2.setText(kingdomCards[1].toString() + ": ");
-//        kingdomCard3.setText(kingdomCards[2].toString() + ": ");
-//        kingdomCard4.setText(kingdomCards[3].toString() + ": ");
-//        kingdomCard5.setText(kingdomCards[4].toString() + ": ");
-//        kingdomCard6.setText(kingdomCards[5].toString() + ": ");
-//        kingdomCard7.setText(kingdomCards[6].toString() + ": ");
-//        kingdomCard8.setText(kingdomCards[7].toString() + ": ");
-//        kingdomCard9.setText(kingdomCards[8].toString() + ": ");
-//        kingdomCard10.setText(kingdomCards[9].toString() + ": ");
-//        
-//        kingdomCardCount1.setText("" + kingdomCards[0].getCardCount());
-//        kingdomCardCount2.setText("" + kingdomCards[1].getCardCount());
-//        kingdomCardCount3.setText("" + kingdomCards[2].getCardCount());
-//        kingdomCardCount4.setText("" + kingdomCards[3].getCardCount());
-//        kingdomCardCount5.setText("" + kingdomCards[4].getCardCount());
-//        kingdomCardCount6.setText("" + kingdomCards[5].getCardCount());
-//        kingdomCardCount7.setText("" + kingdomCards[6].getCardCount());
-//        kingdomCardCount8.setText("" + kingdomCards[7].getCardCount());
-//        kingdomCardCount9.setText("" + kingdomCards[8].getCardCount());
-//        kingdomCardCount10.setText("" + kingdomCards[9].getCardCount());
-//        
-//        kingdomCardHolder.setPrefWidth(minLength * 2);
+        double minLength = 0;
+        for (String card : kingdomCards) {
+            double cardNameLength = fontMetrics.computeStringWidth(card);
+            if (cardNameLength > minLength) {
+                minLength = cardNameLength;
+            }
+        }
+        
+        kingdomCard1.setText(kingdomCards.get(0) + ": ");
+        kingdomCard2.setText(kingdomCards.get(1).toString() + ": ");
+        kingdomCard3.setText(kingdomCards.get(2).toString() + ": ");
+        kingdomCard4.setText(kingdomCards.get(3).toString() + ": ");
+        kingdomCard5.setText(kingdomCards.get(4).toString() + ": ");
+        kingdomCard6.setText(kingdomCards.get(5).toString() + ": ");
+        kingdomCard7.setText(kingdomCards.get(6).toString() + ": ");
+        kingdomCard8.setText(kingdomCards.get(7).toString() + ": ");
+        kingdomCard9.setText(kingdomCards.get(8).toString() + ": ");
+        kingdomCard10.setText(kingdomCards.get(9).toString() + ": ");
+        
+        kingdomCardHolder.setPrefWidth(minLength * 2);
     }
     
-    @Override 
-    public void update(String event) {
-        KingdomCard[] kingdomCards = model.getKingdomCards().toArray(new KingdomCard[0]);
-        
-        kingdomCardCount1.setText("" + kingdomCards[0].getCardCount());
-        kingdomCardCount2.setText("" + kingdomCards[1].getCardCount());
-        kingdomCardCount3.setText("" + kingdomCards[2].getCardCount());
-        kingdomCardCount4.setText("" + kingdomCards[3].getCardCount());
-        kingdomCardCount5.setText("" + kingdomCards[4].getCardCount());
-        kingdomCardCount6.setText("" + kingdomCards[5].getCardCount());
-        kingdomCardCount7.setText("" + kingdomCards[6].getCardCount());
-        kingdomCardCount8.setText("" + kingdomCards[7].getCardCount());
-        kingdomCardCount9.setText("" + kingdomCards[8].getCardCount());
-        kingdomCardCount10.setText("" + kingdomCards[9].getCardCount());
-    }
-
-    @Override
-    public Long getUniqueId() {
-    	return null;
+    public void update(List<SimpleKingdomCard> kingdomCards) {
+        kingdomCardCount1.setText("" + kingdomCards.get(0).getCount());
+        kingdomCardCount2.setText("" + kingdomCards.get(1).getCount());
+        kingdomCardCount3.setText("" + kingdomCards.get(2).getCount());
+        kingdomCardCount4.setText("" + kingdomCards.get(3).getCount());
+        kingdomCardCount5.setText("" + kingdomCards.get(4).getCount());
+        kingdomCardCount6.setText("" + kingdomCards.get(5).getCount());
+        kingdomCardCount7.setText("" + kingdomCards.get(6).getCount());
+        kingdomCardCount8.setText("" + kingdomCards.get(7).getCount());
+        kingdomCardCount9.setText("" + kingdomCards.get(8).getCount());
+        kingdomCardCount10.setText("" + kingdomCards.get(9).getCount());
     }
 }

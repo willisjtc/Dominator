@@ -2,6 +2,7 @@ package com.xalero.dominion.controller.settings;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +15,10 @@ import javafx.stage.Stage;
 
 import com.xalero.dominion.IObserver;
 import com.xalero.dominion.cards.Card;
+import com.xalero.dominion.controller.ai.AIController;
 import com.xalero.dominion.controller.terminal.TerminalController;
+import com.xalero.dominion.server.model.BuyEstateAI;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.server.model.DominionModel;
 import com.xalero.dominion.server.model.GameSettings;
 import com.xalero.dominion.server.model.SimplePlayerInfo;
@@ -107,10 +111,29 @@ public class MainOverviewTab extends Tab implements IObserver {
     
     @FXML
     private void playGame() {
-        final Stage stage = new Stage();
+        Stage stage = null;
         DominionModel dominionModel = new DominionModel(gameSettings);
-        TerminalController playerTerminal = new TerminalController(dominionModel, gameSettings.getCurrentPlayerId());
-        Scene scene = new Scene(playerTerminal);
+        DominionEventHandler dominionEventHandling = new DominionEventHandler(dominionModel);
+        
+        
+        TerminalController playerTerminal = new TerminalController(dominionEventHandling, gameSettings.getCurrentPlayerId());
+        dominionModel.registerObserver(playerTerminal, playerTerminal.getUniqueId());
+        
+        Scene scene = null;
+        
+        Map<Long, Integer> compIds = dominionModel.getComputerPlayerIds();
+        for (Map.Entry<Long, Integer> aiPlayer : compIds.entrySet()) {
+        	AIController aiController = new AIController(dominionEventHandling, aiPlayer.getKey(), new BuyEstateAI(aiPlayer.getKey(), aiPlayer.getValue()));
+        	dominionModel.registerObserver(aiController, aiController.getUniqueId());
+        	stage = new Stage();
+        	scene = new Scene(aiController);
+        	stage.setScene(scene);
+        	stage.centerOnScreen();
+        	stage.show();
+        }
+
+        stage = new Stage();
+        scene = new Scene(playerTerminal);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();

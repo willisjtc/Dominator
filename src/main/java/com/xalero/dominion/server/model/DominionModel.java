@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -21,8 +22,9 @@ import com.xalero.dominion.cards.action.KingdomCard;
 import com.xalero.dominion.cards.treasure.Treasures;
 import com.xalero.dominion.cards.victory.VictoryCards;
 import com.xalero.dominion.client.model.SimpleModel;
-import com.xalero.dominion.events.EventKey;
-import com.xalero.dominion.events.ProtocolEvent;
+import com.xalero.dominion.client.model.SimpleSpecificPlayer;
+import com.xalero.dominion.events.DominionEvent;
+import com.xalero.dominion.events.DominionMessage;
 import com.xalero.dominion.manager.UserManager;
 import com.xalero.dominion.utils.Result;
 
@@ -72,6 +74,20 @@ public class DominionModel implements IUniqueObservable {
 				.getPlayerInfos().size());
 		initPlayers(gameSettings.getPlayerInfos());
 		initPlayerResponsiveList();
+		
+		startGame();
+	}
+	
+	public Map<Long, Integer> getComputerPlayerIds() {
+		Map<Long, Integer> compIds = new TreeMap<>();
+		int turnNumber = 0;
+		for (Player player : players) {
+			if (player.getPlayerType().equals(PlayerType.COMPUTER)) {
+				compIds.put(player.getUniqueIdentifier(), turnNumber);
+			}
+			turnNumber++;
+		}
+		return compIds;
 	}
 
 	/**
@@ -112,13 +128,8 @@ public class DominionModel implements IUniqueObservable {
 	 * Starts the game: determines the starting player, deals the cards...
 	 */
 	public Result startGame() {
-		Result result = new Result(false, "");
-		if (gameStarted) {
-			result.setSuccess(true);
-			result.setMessage("Game started already");
-			return result;
-		}
-
+		Result result = new Result(true, "");
+		
 		// Random random = new Random();
 		// setPlayerTurn(random.nextInt(players.size()));
 		setPlayerTurn(0); // for testing
@@ -128,6 +139,10 @@ public class DominionModel implements IUniqueObservable {
 
 		gameStarted = true;
 		result.setMessage("Game started!");
+		notifyObservers();
+		
+		DominionMessage message = new DominionMessage(DominionEvent.DISPLAY, "Game started!");
+		notifyObservers(new Gson().toJson(message));
 		return result;
 	}
 
@@ -147,7 +162,7 @@ public class DominionModel implements IUniqueObservable {
 			player.draw(5);
 //			notifyObserver(player.getUniqueIdentifier())
 		}
-		notifyObservers(null);
+		notifyObservers();
 	}
 
 	/**
@@ -157,17 +172,17 @@ public class DominionModel implements IUniqueObservable {
 	 * trash. Depending on whether the witch is in the game, curses will be be
 	 * added to the supply pile.
 	 * 
-	 * @param cards
+	 * @param selectedCards
 	 *            - The cards chosen for the game.
 	 * @param playerCount
 	 *            - the number of players in the game.
 	 */
-	private void initSupplyPile(Collection<Card> cards, int playerCount) {
+	private void initSupplyPile(Collection<Card> selectedCards, int playerCount) {
 		victoryCards = new VictoryCards(playerCount);
 		treasureCards = new Treasures();
 		trash = new LinkedList<>();
 
-		initCurses(cards, playerCount);
+		initCurses(selectedCards, playerCount);
 	}
 
 	/**
@@ -185,17 +200,18 @@ public class DominionModel implements IUniqueObservable {
 			if (card.equals(CardFactory.witch)) {
 				if (playerCount == 2) {
 					for (int i = 0; i < TWO_PLAYER_CURSE_COUNT; i++) {
-						curses.add(CardFactory.witch);
+						curses.add(CardFactory.curse);
 					}
 				} else if (playerCount == 3) {
 					for (int i = 0; i < THREE_PLAYER_CURSE_COUNT; i++) {
-						curses.add(CardFactory.witch);
+						curses.add(CardFactory.curse);
 					}
 				} else {
 					for (int i = 0; i < FOUR_PLAYER_CURSE_COUNT; i++) {
-						curses.add(CardFactory.witch);
+						curses.add(CardFactory.curse);
 					}
 				}
+				break;
 			}
 		}
 	}
@@ -308,7 +324,11 @@ public class DominionModel implements IUniqueObservable {
 	 * @return A curse card.
 	 */
 	public Card drawCurse() {
-		return curses.remove(0);
+		Card curse = null;
+		if (curses.size() > 0) {
+			curse = curses.remove(0);
+		}
+		return curse;
 	}
 
 	/**
@@ -369,15 +389,12 @@ public class DominionModel implements IUniqueObservable {
 		}
 		return null;
 	}
-
-	public Card getCurse() {
-		Card curse = null;
-		if (curses.size() > 0) {
-			curse = curses.remove(0);
-		}
-		return curse;
+	
+	public Result buyCard(long playerId, String cardName) {
+		Card card = CardFactory.createCard(cardName);
+		return buyCard(playerId, card);
 	}
-
+	
 	/**
 	 * Buys a card for the player if the player is able to do so. Some
 	 * preventions include a player can't buy the card or it isn't the player's
@@ -418,7 +435,6 @@ public class DominionModel implements IUniqueObservable {
 		// } else {
 		// result.setMessage("not your turn");
 		//
-		notifyObservers(null);
 		return result;
 	}
 
@@ -503,7 +519,6 @@ public class DominionModel implements IUniqueObservable {
 			resultMessage.append("\nPlayer Turn: " + curPlayer.getPlayerName());
 		}
 
-		notifyObservers(null);
 		return new Result(true, resultMessage.toString());
 	}
 
@@ -523,7 +538,6 @@ public class DominionModel implements IUniqueObservable {
 		return null;
 	}
 
-
 	public void setInteractiveCardInPlay(Card card) {
 		interactiveCard = card;
 		interactiveCardInPlay = true;
@@ -532,6 +546,7 @@ public class DominionModel implements IUniqueObservable {
 	@Override
 	public void registerObserver(IUniqueObserver obs, Long uniqueId) {
 		observers.put(uniqueId, obs);
+		notifyObserver(uniqueId);
 	}
 
 	@Override
@@ -540,19 +555,63 @@ public class DominionModel implements IUniqueObservable {
 	}
 
 	@Override
-	public void notifyObservers(String event) {
+	public void notifyObservers() {
+		Gson gson = new GsonBuilder().create();
+		
+		DominionMessage modelMessage = new DominionMessage(DominionEvent.PLAYER_MODEL, "");
+		for (Entry<Long, IUniqueObserver> obs : observers.entrySet()) {
+			SimpleSpecificPlayer specificPlayer = new SimpleSpecificPlayer(getPlayerById(obs.getKey()));
+			modelMessage.setValue(gson.toJson(specificPlayer));
+			obs.getValue().update(gson.toJson(modelMessage));
+		}
+		
+		SimpleModel simpleModel = new SimpleModel(this);
+		String simpleJsonModel = gson.toJson(simpleModel);
+		modelMessage = new DominionMessage(DominionEvent.DOMINION_MODEL, simpleJsonModel);
+		String jsonModelEvent = gson.toJson(modelMessage);
+		for (Entry<Long, IUniqueObserver> obs : observers.entrySet()) {
+			obs.getValue().update(jsonModelEvent);
+		}
+	}
+	
+	public void notifyObserver(long playerId) {
 		SimpleModel simpleModel = new SimpleModel(this);
 		Gson gson = new GsonBuilder().create();
 		String simpleJsonModel = gson.toJson(simpleModel);
-		ProtocolEvent modelEvent = new ProtocolEvent(EventKey.DOMINION_MODEL, simpleJsonModel);
+		DominionMessage modelEvent = new DominionMessage(DominionEvent.DOMINION_MODEL, simpleJsonModel);
 		String jsonModelEvent = gson.toJson(modelEvent);
+		observers.get(playerId).update(jsonModelEvent);
+		
+		modelEvent = new DominionMessage(DominionEvent.PLAYER_MODEL, "");
+		SimpleSpecificPlayer specificPlayer = new SimpleSpecificPlayer(getPlayerById(playerId));
+		modelEvent.setValue(gson.toJson(specificPlayer));
+		observers.get(playerId).update(gson.toJson(modelEvent));
+	}
+	
+	public void notifyObservers(String event) {
 		for (Entry<Long, IUniqueObserver> obs : observers.entrySet()) {
-			obs.getValue().update(jsonModelEvent);
+			obs.getValue().update(event);
 		}
 	}
 
 	@Override
 	public void notifyObserver(Long uniqueId, String event) {
 		observers.get(uniqueId).update(event);
+	}
+	
+	public void notifyObserversCardPlayed(String cardName, Player player) {
+		DominionMessage displayEvent = new DominionMessage(DominionEvent.DISPLAY, cardName + " played by " + player.getPlayerName());
+		Gson gson = new GsonBuilder().create();
+		String jsonDisplayEvent = gson.toJson(displayEvent);
+		for (Entry<Long, IUniqueObserver> obs : observers.entrySet()) {
+			if (obs.getKey().longValue() != player.getUniqueIdentifier()) {
+				obs.getValue().update(jsonDisplayEvent);
+			}
+		}
+		
+		displayEvent.setValue("You just played a " + cardName);
+		observers.get(player.getUniqueIdentifier()).update(gson.toJson(displayEvent));
+		
+		notifyObservers();
 	}
 }

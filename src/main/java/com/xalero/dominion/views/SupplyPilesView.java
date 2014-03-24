@@ -14,15 +14,15 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
-import com.xalero.dominion.IUniqueObserver;
 import com.xalero.dominion.cards.CardFactory;
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.client.model.SimpleTreasures;
+import com.xalero.dominion.client.model.SimpleVictoryCards;
 
 /**
  *
  * @author jonathan
  */
-public class SupplyPilesView extends AnchorPane implements IUniqueObserver {
+public class SupplyPilesView extends AnchorPane {
     
     private static final Logger logger = LogManager.getLogManager().getLogger(SupplyPilesView.class.getName());
     
@@ -39,6 +39,7 @@ public class SupplyPilesView extends AnchorPane implements IUniqueObserver {
     int rowCount = 7;
     int colCount = 1;
     private Label witchLabel;
+    private boolean cursesInGame;
     
     @FXML private Label goldCountLabel;
     @FXML private Label silverCountLabel;
@@ -47,8 +48,6 @@ public class SupplyPilesView extends AnchorPane implements IUniqueObserver {
     @FXML private Label duchyCountLabel;
     @FXML private Label estateCountLabel;
     private Label witchCountLabel;
-    
-    private DominionModel model;
     
     public SupplyPilesView() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("supply_piles_view.fxml"));
@@ -62,46 +61,36 @@ public class SupplyPilesView extends AnchorPane implements IUniqueObserver {
         }
     }
     
-    public void initController() {
-        initView();
+    public void initController(int curseCount) {
+    	if (curseCount > 0) {
+    		cursesInGame = true;
+    	} else {
+    		cursesInGame = false;
+    	}
+        initView(curseCount);
     }
     
-    private void initView() {
-        
-//        goldCountLabel.setText("" + model.getTreasures().getGoldCount());
-//        silverCountLabel.setText("" + model.getTreasures().getSilverCount());
-//        copperCountLabel.setText("" + model.getTreasures().getCopperCount());
-//        provinceCountLabel.setText("" + model.getVictoryCards().getProvinceCount());
-//        duchyCountLabel.setText("" + model.getVictoryCards().getDuchyCount());
-//        estateCountLabel.setText("" + model.getVictoryCards().getEstateCount());
-//        
-//        if (model.kingdomCardInGame(CardFactory.witch)) {
-//            witchLabel = new Label("Curses:");
-//            witchCountLabel = new Label("" + model.getCurses().size());
-//            
-//            supplyPileHolder.add(witchLabel, colCount - 1, rowCount);
-//            supplyPileHolder.add(witchCountLabel, colCount, rowCount);
-//            
-//            rowCount++;
-//        }
+    private void initView(int curseCount) {
+    	witchLabel = new Label("Curses:");
+    	witchCountLabel = new Label("");
+    	if (cursesInGame) {
+    		witchCountLabel.setText("" + curseCount);	
+    	}
+    	
+    	supplyPileHolder.add(witchLabel, colCount - 1, rowCount);
+    	supplyPileHolder.add(witchCountLabel, colCount, rowCount);
     }
     
-    @Override
-    public void update(String event) {
-        goldCountLabel.setText("" + model.getTreasures().getGoldCount());
-        silverCountLabel.setText("" + model.getTreasures().getSilverCount());
-        copperCountLabel.setText("" + model.getTreasures().getCopperCount());
-        provinceCountLabel.setText("" + model.getVictoryCards().getProvinceCount());
-        duchyCountLabel.setText("" + model.getVictoryCards().getDuchyCount());
-        estateCountLabel.setText("" + model.getVictoryCards().getEstateCount());
+    public void update(SimpleTreasures treasures, SimpleVictoryCards victoryCards, int curseCount) {
+        goldCountLabel.setText("" + treasures.getGolds());
+        silverCountLabel.setText("" + treasures.getSilvers());
+        copperCountLabel.setText("" + treasures.getCoppers());
+        provinceCountLabel.setText("" + victoryCards.getProvinces());
+        duchyCountLabel.setText("" + victoryCards.getDuchies());
+        estateCountLabel.setText("" + victoryCards.getEstates());
         
-        if (model.kingdomCardInGame(CardFactory.witch)) {
-            witchCountLabel.setText("" + model.getCurses().size());
+        if (cursesInGame) {
+            witchCountLabel.setText("" + curseCount);
         }
-    }
-    
-    @Override
-    public Long getUniqueId() {
-    	return null;
     }
 }

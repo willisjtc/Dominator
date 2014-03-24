@@ -2,8 +2,12 @@ package com.xalero.dominion.command;
 
 import javafx.scene.control.TextArea;
 
-import com.xalero.dominion.cards.Card;
-import com.xalero.dominion.server.model.DominionModel;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.xalero.dominion.dto.PlayerIdDto;
+import com.xalero.dominion.events.DominionEvent;
+import com.xalero.dominion.events.DominionMessage;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.utils.Result;
 
 
@@ -15,30 +19,24 @@ public class DisplayCommand extends Command {
 
 	
 	@Override
-	protected Result execute(TextArea gameOutput, DominionModel dominionModel,
+	protected Result execute(TextArea gameOutput, DominionEventHandler dominionEventHandler,
 			long playerId) {
 		Result result = new Result(true, "");
-		
+		Gson gson = new GsonBuilder().create();
+		PlayerIdDto playerIdDto = new PlayerIdDto(playerId);
 		switch (parameters.get(0)) {
 		case "discard":
 			if (parameters.get(1) != null && parameters.get(1).equals("pile")) {
-				gameOutput.appendText("\nDiscard Pile: ");
-				for (Card card : dominionModel.getPlayerById(playerId).getDiscardPile()) {
-					gameOutput.appendText("\n\t" + card);
-				}
+				
+				DominionMessage message = new DominionMessage(DominionEvent.DISCARD_PILE, gson.toJson(playerIdDto));
+				dominionEventHandler.receiveEvent(gson.toJson(message));
 			}
 			break;
 		case "hand":
-			System.out.println("player from model: " + dominionModel.getCurrentPlayer());
-			System.out.println("player from insertion: " + dominionModel.getPlayerById(playerId));
-			gameOutput.appendText("\nHand:");
-			for (Card card : dominionModel.getPlayerById(playerId).getHand()) {
-				gameOutput.appendText("\n\t" + card);
-			}
+			DominionMessage message = new DominionMessage(DominionEvent.HAND, gson.toJson(playerIdDto));
+			dominionEventHandler.receiveEvent(gson.toJson(message));
 			break;
 		}
-		dominionModel.getPlayerById(playerId).getDiscardPile();
-		
 		return result;
 	}
 

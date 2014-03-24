@@ -28,6 +28,7 @@ public class Player {
 	private List<Card> deck;
 	private List<Card> hand;
 	private List<Card> discardPile;
+	private Card mostRecentCardPlayed;
 	private Phase phase;
 	
 	private boolean chancellorEffect;
@@ -80,13 +81,13 @@ public class Player {
 	 */
 	public void turnStarted() {
 		// for debugging
-		buys = 100;
-		actions = 100;
-		money = 100;
+//		buys = 100;
+//		actions = 100;
+//		money = 100;
 		
 		// Correct numbers
-//		buys = 1;
-//		actions = 1;
+		buys = 1;
+		actions = 1;
 		phase = Phase.ACTION;
 	}
 	
@@ -331,6 +332,14 @@ public class Player {
 		chancellorEffect = value;
 	}
 	
+	public Card getMostRecentCardPlayed() {
+		return mostRecentCardPlayed;
+	}
+
+	public void setMostRecentCardPlayed(Card mostRecentCardPlayed) {
+		this.mostRecentCardPlayed = mostRecentCardPlayed;
+	}
+
 	/**
 	 * @return Whether the player is a computer or a human
 	 */

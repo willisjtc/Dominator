@@ -2,7 +2,12 @@ package com.xalero.dominion.command;
 
 import javafx.scene.control.TextArea;
 
-import com.xalero.dominion.server.model.DominionModel;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.xalero.dominion.dto.PlayerIdDto;
+import com.xalero.dominion.events.DominionEvent;
+import com.xalero.dominion.events.DominionMessage;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.utils.Result;
 
 public class EndTurnCommand extends Command {
@@ -16,10 +21,17 @@ public class EndTurnCommand extends Command {
 	}
 	
 	@Override
-	protected Result execute(TextArea gameOutput, DominionModel dominionModel,
+	protected Result execute(TextArea gameOutput, DominionEventHandler dominionEventHandler,
 			long playerId) {
-		Result result = dominionModel.endTurn(playerId);
-		gameOutput.appendText("\n" + result.getMessage());
+		
+		Gson gson = new GsonBuilder().create();
+		
+		PlayerIdDto endTurnDto = new PlayerIdDto(playerId);
+		DominionMessage message = new DominionMessage(DominionEvent.END_TURN, gson.toJson(endTurnDto));
+		
+		String resultStr = dominionEventHandler.receiveEvent(gson.toJson(message));
+		Result result = gson.fromJson(resultStr, Result.class);
+		
 		return result;
 	}
 

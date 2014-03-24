@@ -214,7 +214,9 @@ public class CardFactory {
             }
 
             player.addToDiscardFromHand(this);
-            dominionModel.notifyObservers(null);
+            player.setMostRecentCardPlayed(this);
+            player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
             result.setMessage("Played a Adventurer! Schmauzow!!");
             return result;
@@ -275,7 +277,8 @@ public class CardFactory {
             }
 
             player.addToDiscardFromHand(this);
-            dominionModel.notifyObservers(null);
+            player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
             result.setMessage("Played a Bureaucrat! Action....ATTACK! Schmauzow!!");
             return result;
@@ -333,7 +336,8 @@ public class CardFactory {
 				}
 				player.draw(numCardsDiscarded);
 			}
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 			
 			result.setMessage("Played a Cellar");
 			return result;
@@ -384,7 +388,9 @@ public class CardFactory {
 
 			player.addMoney(2);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Chancellor");
 			return result;
@@ -440,7 +446,8 @@ public class CardFactory {
 				}
 			}
 			
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 			
 			result.setMessage("Played a Chapel");
 			return result;
@@ -492,7 +499,8 @@ public class CardFactory {
 				}
 			}
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Council Room");
 			return result;
@@ -550,7 +558,8 @@ public class CardFactory {
 				return result;
 			}
 			
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 			
 			result.setMessage("Played a Feast");
 			return result;
@@ -598,7 +607,9 @@ public class CardFactory {
 			player.addMoney(2);
 			player.addBuy();
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Festival");
 			return result;
@@ -645,7 +656,9 @@ public class CardFactory {
 			player.addAction();
 			player.draw(2);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Laboratory");
 			return result;
@@ -728,7 +741,9 @@ public class CardFactory {
 			player.addBuy();
 			player.addMoney();
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a  Market");
 			return result;
@@ -839,7 +854,8 @@ public class CardFactory {
 				player.addToHand(treasureToGrab);
 			}
 			
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 			
 			result.setMessage("Just played a Mine");
 			return result;
@@ -930,7 +946,8 @@ public class CardFactory {
 			dominionModel.addToTrash(copper);
 			player.removeCardFromHand(copper);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played copper");
 			return result;
@@ -1002,12 +1019,13 @@ public class CardFactory {
 				} else if (cardToGrab.isVictory()) {
 					player.addToDiscard(dominionModel.getVictoryCards().getVictoryCard(cardToGrab));
 				} else if (cardToGrab.equals(curse)) {
-					cardToGrab = dominionModel.getCurse();
+					cardToGrab = dominionModel.drawCurse();
 					player.addToDiscard(cardToGrab);
 				}
 			}
 			
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 			
 			result.setMessage("Just played a Remodel");
 			return result;
@@ -1053,7 +1071,9 @@ public class CardFactory {
 			player.removeAction();
 			player.draw(3);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Smithy");
 			return result;
@@ -1197,6 +1217,8 @@ public class CardFactory {
 				}
 			}
 			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 			result.setMessage("Just played a Throne Room");
 			
 			return result;
@@ -1243,7 +1265,9 @@ public class CardFactory {
 			player.addActions(2);
 			player.drawCard();
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			return new Result(true, "Played Village");
 		}
@@ -1293,7 +1317,8 @@ public class CardFactory {
 				}
 			}
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Witch");
 			return result;
@@ -1340,7 +1365,9 @@ public class CardFactory {
 			player.addBuy();
 			player.addMoney(2);
 			player.addToDiscardFromHand(this);
-			dominionModel.notifyObservers(null);
+			
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
 
 			result.setMessage("Played a Woodcutter");
 			return result;
@@ -1396,7 +1423,9 @@ public class CardFactory {
 				}
 			}
 			
-			dominionModel.notifyObservers(null);
+			player.setMostRecentCardPlayed(this);
+			dominionModel.notifyObserversCardPlayed(this.toString(), player);
+			dominionModel.notifyObservers();
 			result.setMessage("Played a Workshop");
 			return result;
 		}

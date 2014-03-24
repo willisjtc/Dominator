@@ -6,10 +6,14 @@ import java.util.Scanner;
 
 import javafx.scene.control.TextArea;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.xalero.dominion.cards.Card;
 import com.xalero.dominion.cards.CardFactory;
-import com.xalero.dominion.cards.action.ActionBase;
-import com.xalero.dominion.server.model.DominionModel;
+import com.xalero.dominion.dto.PlayCardDTO;
+import com.xalero.dominion.events.DominionEvent;
+import com.xalero.dominion.events.DominionMessage;
+import com.xalero.dominion.server.model.DominionEventHandler;
 import com.xalero.dominion.utils.Result;
 
 public class PlayCardCommand extends Command {
@@ -48,7 +52,7 @@ public class PlayCardCommand extends Command {
 	}
 	
 	@Override
-	protected Result execute(TextArea gameOutput, DominionModel dominionModel,
+	protected Result execute(TextArea gameOutput, DominionEventHandler dominionEventHandler,
 			long playerId) {
 
         Result result = new Result(false, "");
@@ -64,10 +68,15 @@ public class PlayCardCommand extends Command {
         		parameters.remove(0);
         		parameters.remove(0);
         	}
-            result = ((ActionBase) cardToPlay).playCard(parameters, dominionModel, playerId);
+        	
+        	Gson gson = new GsonBuilder().create();
+        	
+        	PlayCardDTO playCardDto = new PlayCardDTO(cardToPlay.toString(), playerId, parameters);
+        	DominionMessage protocol = new DominionMessage(DominionEvent.PLAY_CARD, gson.toJson(playCardDto));
+        	String resultStr = dominionEventHandler.receiveEvent(gson.toJson(protocol));
+            result = gson.fromJson(resultStr, Result.class);
         }
 
-        gameOutput.appendText("\n" + result.getMessage());
 		return result;
 	}
 
@@ -79,7 +88,5 @@ public class PlayCardCommand extends Command {
             cardWordLength = 2;
         }
         return card;
-    }
-    
-    
+    }  
 }

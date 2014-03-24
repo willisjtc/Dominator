@@ -14,7 +14,10 @@ public class SimpleModel {
 	
 	private List<SimpleKingdomCard> kingdomCards;
 	private List<SimplePlayer> simplePlayers;
-
+	
+	private int curses;
+	
+	private int playerTurn;
 
 	public SimpleModel(DominionModel dominionModel) {
 		simpleTreasures = new SimpleTreasures(dominionModel.getTreasures());
@@ -29,19 +32,20 @@ public class SimpleModel {
 		for (Player player : dominionModel.getPlayers()) {
 			simplePlayers.add(new SimplePlayer(player));
 		}
+		
+		curses = dominionModel.getCurses().size();
+		
+		playerTurn = dominionModel.getPlayerTurn();
 	}
-
 
 	public SimpleTreasures getSimpleTreasures() {
 		return simpleTreasures;
 	}
 
-
 	public SimpleVictoryCards getSimpleVictoryCards() {
 		return simpleVictoryCards;
 	}
-
-
+	
 	public List<SimpleKingdomCard> getKingdomCards() {
 		return kingdomCards;
 	}
@@ -49,4 +53,13 @@ public class SimpleModel {
 	public List<SimplePlayer> getSimplePlayers() {
 		return simplePlayers;
 	}
+
+	public int getCurses() {
+		return curses;
+	}
+
+	public int getPlayerTurn() {
+		return playerTurn;
+	}
+	
 }
